@@ -1,0 +1,11 @@
+/*set header container size and draw line from left to right over screen*/
+div .footer-container {
+    position:absolute;
+    bottom:0;
+    height: 45px;
+    left: 10px;
+    right: 10px;
+    border-top: 2px solid #718EBA;
+
+    padding-top:20px;
+}

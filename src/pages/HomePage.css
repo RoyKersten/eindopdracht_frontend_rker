@@ -1,0 +1,10 @@
+body {
+    /*background-color: linear-gradient*/
+    background: linear-gradient(#5D779E, #718EBA) fixed;
+}
+
+#homepage-id {
+    position: fixed;
+    top: 100px;
+    left: 35px;
+}
