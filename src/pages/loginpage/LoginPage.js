@@ -1,6 +1,6 @@
 import './LoginPage.css';
 import React from 'react';
-import loginPicture from '../images/login-page.jpg';
+import loginPicture from '../../images/login-page.jpg';
 import {useHistory} from "react-router-dom";
 
 function LoginPage() {

@@ -1,33 +1,39 @@
 /*set header container size and draw line from left to right over screen*/
 .header-container {
-    left: 10px;
-    right: 10px;
-    max-height: 65px;
+    background: linear-gradient(#5D779E, #718EBA) fixed;
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding-bottom: 90px;
     border-bottom: 2px solid #718EBA;
-    padding-bottom: 20px;
+    z-index: 999;
 }
 
 /*position and size header car logo*/
 .header-container img {
     display: block;
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 0;
     width: 252px;
     max-height: 65px;
-
 }
 
 /*position text "Autogarage Kersten*/
 .header-container #header-logo-text {
     display: block;
-    position: absolute;
-    top: 50px;
-    left: 35px;
+    color: white;
+    position: fixed;
+    top: 42px;
+    left: 30px;
+    border-top: 4px solid rgba(0, 0, 0, 0.50);
 }
 
 /*effects logo*/
 .header-container .logo {
     filter: drop-shadow(0px 0px 0px grey) grayscale(100%) brightness(50%);
-
 }
 
 

@@ -1,11 +1,12 @@
 /*set header container size and draw line from left to right over screen*/
 div .footer-container {
-    position:absolute;
-    bottom:0;
+    display: block;
+    position: fixed;
+    bottom: 0;
     height: 45px;
-    left: 10px;
-    right: 10px;
+    left: 0;
+    right: 0;
+    background-color: #718EBA;
     border-top: 2px solid #718EBA;
-
-    padding-top:20px;
+    z-index: 998;
 }

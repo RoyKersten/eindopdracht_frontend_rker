@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Header.css";
-import headerLogo from "../images/logo_car.png"
+import headerLogo from "../../images/logo_car.png"
 
 function Header() {
 

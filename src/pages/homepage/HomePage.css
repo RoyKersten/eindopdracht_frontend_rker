@@ -1,0 +1,30 @@
+/*background-color: linear-gradient*/
+body {
+    background: linear-gradient(#5D779E, #718EBA) fixed;
+}
+
+/*set height of container to align tiles in center, container starts underneath header 90px*/
+.homepage-container {
+    /*background-color: white;*/
+    margin-top: 90px;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/*set grid areas and gaps (horizontal and vertical*/
+.homepage-content-container {
+    display: grid;
+    grid-gap: 50px 100px;
+    grid-template-areas:
+            "a b c"
+            "d e f";
+
+
+}
+
+

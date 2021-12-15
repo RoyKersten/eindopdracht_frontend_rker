@@ -1,9 +1,9 @@
 import './App.css';
 import {Route, Switch, useLocation} from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import LoginPage from "./pages/loginpage/LoginPage";
+import HomePage from "./pages/homepage/HomePage";
 
 
 function App() {
@@ -11,17 +11,19 @@ function App() {
 
     return (
         /*in case login page is displayed Header should not be shown*/
-        <div>
+        <div className="page-container">
             {location.pathname !== "/" ? <Header/> : null}
-            {location.pathname !== "/" ? <Footer/> : null}
-            <Switch>
-                <Route exact path="/">
-                    <LoginPage/>
-                </Route>
-                <Route exact path="/home">
-                    <HomePage/>
-                </Route>
-            </Switch>
+            <div className="content">
+                <Switch>
+                    <Route exact path="/">
+                        <LoginPage/>
+                    </Route>
+                    <Route exact path="/home">
+                        <HomePage/>
+                    </Route>
+                </Switch>
+            </div>
+            {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
         </div>
 
     );
