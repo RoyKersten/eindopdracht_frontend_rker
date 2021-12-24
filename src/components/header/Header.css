@@ -1,39 +1,83 @@
 /*set header container size and draw line from left to right over screen*/
 .header-container {
-    background: linear-gradient(#5D779E, #718EBA) fixed;
-    display: block;
+    display: flex;
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    padding-bottom: 90px;
+    top:0;
+    width: 100%;
     border-bottom: 2px solid #718EBA;
-    z-index: 999;
+}
+
+.header-container .header-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
 }
 
 /*position and size header car logo*/
-.header-container img {
-    display: block;
-    position: fixed;
-    left: 0;
-    top: 0;
+.header-container .header-logo img {
     width: 252px;
     max-height: 65px;
 }
 
-/*position text "Autogarage Kersten*/
-.header-container #header-logo-text {
-    display: block;
-    color: white;
-    position: fixed;
-    top: 42px;
-    left: 30px;
-    border-top: 4px solid rgba(0, 0, 0, 0.50);
-}
-
 /*effects logo*/
-.header-container .logo {
-    filter: drop-shadow(0px 0px 0px grey) grayscale(100%) brightness(50%);
+.header-container .header-logo .logo {
+    filter: grayscale(50%) brightness(50%) contrast(100%) saturate(50%) opacity(75%);
 }
 
+/*position text "Autogarage Kersten*/
+.header-container .header-logo #header-logo-text {
+    margin: 0 0 0 30px;
+    max-width: max-content;
+    border-top: 4px solid rgba(40, 40, 40, 50%);
+}
+
+/*position header navigation home and menu */
+.header-container .header-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    min-height: 100%;
+}
+
+
+/*set margin-right home-button*/
+.header-container .header-nav .home-button {
+    margin-right: 20px;
+}
+
+/*set margin-right menu-button*/
+.header-container .header-nav .menu-button {
+    margin-right: 20px;
+}
+
+/*dropdown-content display none*/
+.dropdown-content {
+    display: none;
+    position: fixed;
+}
+
+/*make dropdown-content visible after hover*/
+.dropdown:hover .dropdown-content {
+    padding-left: 10px;
+    display: block;
+    background-color: white;
+    box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
+    right: 10px;
+    cursor: pointer;
+    min-width: 150px;
+    animation: fadeIn 1s linear;
+    border-top: 2px solid #718EBA;
+}
+
+/*set dropdown list items font to bold*/
+.dropdown-content li:hover {
+    font-weight: bold;
+}
+
+/*fadeIn dropdown-content when pointer is on menu icon*/
+@keyframes fadeIn {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
 

@@ -4,6 +4,7 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import LoginPage from "./pages/loginpage/LoginPage";
 import HomePage from "./pages/homepage/HomePage";
+import CustomerPage from "./pages/customer/CustomerPage";
 
 
 function App() {
@@ -11,18 +12,19 @@ function App() {
 
     return (
         /*in case login page is displayed Header should not be shown*/
-        <div className="page-container">
+        <div className="page">
             {location.pathname !== "/" ? <Header/> : null}
-            <div className="content">
-                <Switch>
-                    <Route exact path="/">
-                        <LoginPage/>
-                    </Route>
-                    <Route exact path="/home">
-                        <HomePage/>
-                    </Route>
-                </Switch>
-            </div>
+            <Switch>
+                <Route exact path="/">
+                    <LoginPage/>
+                </Route>
+                <Route exact path="/home">
+                    <HomePage/>
+                </Route>
+                <Route exact path="/customers">
+                    <CustomerPage/>
+                </Route>
+            </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
         </div>
 
