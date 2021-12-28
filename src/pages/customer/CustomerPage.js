@@ -1,18 +1,46 @@
 import './CustomerPage.css';
-import React, {useState} from 'react';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
 import Button from "../../components/button/Button";
 import displayIcon from "../../images/icons/display.png";
 import createIcon from "../../images/icons/create.png";
 import changeIcon from "../../images/icons/change.png";
 import deleteIcon from "../../images/icons/delete.png";
+import TransactionTable from "../../components/transactiontable/TransactionTable";
+
 
 function CustomerPage() {
+
+    const [customer, setCustomers] = useState([]);
+    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //endpoint used to fetch all customers from database
 
     const [formState, setFormState] = useState({
         customerId: '',
         lastname: '',
     })
+
+    //Get customer data based on endpoint, get bearer token from local storage to validate authentication and authorization
+    useEffect(() => {
+        async function getCustomers() {
+            try {
+                const {data} = await axios.get(endpoint, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                setCustomers(data);
+                console.log(customer);
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        getCustomers();
+    }, []);
+
 
     function handleFormChange(e) {
         const inputName = e.target.name;
@@ -28,6 +56,7 @@ function CustomerPage() {
         e.preventDefault();
         console.log(formState);
     }
+
 
     return (
         <div className="customer-home-container">
@@ -45,23 +74,16 @@ function CustomerPage() {
             </div>
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">
-                    <table className="customer-home-header-table">
-                        <thead className="customer-home-header-table">
-                        <tr>
-                            <th className="customer-home-table-header">ID</th>
-                            <th className="customer-home-table-header">Firstname</th>
-                            <th className="customer-home-table-header">Lastname</th>
-                            <th className="customer-home-table-header">Email Address</th>
-                            <th className="customer-home-table-header">Phone Number</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/*// <!-- Hier komen de body-kolommen-->*/}
-                        </tbody>
-                    </table>
 
+                    <TransactionTable
+                        tableContainerClassName="customer-home-container-table"
+                        headerContainerClassName="customer-home-table-header"
+                        headerClassName="customer-home-table-header"
+                        dataInput={customer}
 
+                    />
                 </div>
+
                 <div className="customer-home-buttons">
                     <Button
                         buttonName="customer-home-button"

@@ -24,8 +24,10 @@
     margin-left: 100px;
     margin-top: 20px;
     min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
+    height: 500px;
     width: 100%;
     border: 1px solid black;
+    overflow: auto;
 }
 
 /*customer home: position buttons: display, create, change and delete*/
@@ -39,14 +41,18 @@
     min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
 }
 
-/*set table width for headers in transaction window*/
+/*set table width for headers in transaction window, border-spacing 0*/
 table {
+    top: 0;
     width: 100%;
+    border-spacing: 0px;
 }
 
-/*set header position in table*/
-.customer-home-table-header {
-    min-width: auto;
+/*fix header at top of transaction window */
+th {
+    position: sticky;
+    top: 0;
+    background-color: white;
     text-align: left;
     border-bottom: 1px solid black;
 }
