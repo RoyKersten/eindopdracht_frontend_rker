@@ -1,6 +1,6 @@
 import React from 'react';
 
-function InputField({ name, inputType, label, value, changeHandler}) {
+function InputField({name, inputType, label, value, changeHandler, onKeyPress}) {
     return (
         <>
             <label htmlFor={`${name}-field`}>{label}</label>
@@ -9,7 +9,9 @@ function InputField({ name, inputType, label, value, changeHandler}) {
                 id={`${name}-field`}
                 type={inputType}
                 value={value}
-                onChange={changeHandler}
+                onChange={onKeyPress}
+                onKeyPress={onKeyPress}
+
             />
         </>
     );

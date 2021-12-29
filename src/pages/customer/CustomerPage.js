@@ -13,7 +13,10 @@ import TransactionTable from "../../components/transactiontable/TransactionTable
 function CustomerPage() {
 
     const [customer, setCustomers] = useState([]);
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //endpoint used to fetch all customers from database
+    const [sourceData, setSourceData] = useState([]);
+    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
+    const [loading, toggleLoading] = useState(false);
+    const [error, setError] = useState(false);
 
     const [formState, setFormState] = useState({
         customerId: '',
@@ -23,6 +26,9 @@ function CustomerPage() {
     //Get customer data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
         async function getCustomers() {
+            toggleLoading(true);
+            setError(false);
+
             try {
                 const {data} = await axios.get(endpoint, {
                     headers: {
@@ -30,19 +36,21 @@ function CustomerPage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
+                setSourceData(data);
                 setCustomers(data);
-                console.log(customer);
 
             } catch (e) {
                 console.error(e);
+                setError(true);
             }
+            toggleLoading(false);
         }
 
         getCustomers();
-    }, []);
+    }, [endpoint]);
 
-
-    function handleFormChange(e) {
+    //set formChange after enter key, this will trigger useEffect and data will be reloaded.
+    function onKeyPress(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -50,25 +58,44 @@ function CustomerPage() {
             ...formState,
             [inputName]: inputValue,
         })
+
+        if (e.key === 'Enter') {
+            filterData(sourceData);
+        }
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        console.log(formState);
+    //Filter data based customerId, lastname or show all customers when filters are empty
+    //Choosen for filter in frontend as backend has no endpoint to get data based on lastname
+    function filterData(data) {
+        setCustomers(sourceData);
+        if (formState.customerId !== "") {
+            setCustomers(data.filter(function (object) {
+                return object.idCustomer.toString() === formState.customerId.toString();
+            }))
+        } else if (formState.lastname !== "") {
+            setCustomers(data.filter(function (object) {
+                return object.lastName.toLowerCase() === formState.lastname.toLowerCase();
+            }))
+        } else {
+            console.log("no entry");
+        }
+        ;
     }
 
-
-    return (
+   return (
         <div className="customer-home-container">
             <div className="customer-home-filter">
-                <form onSubmit={handleSubmit}>
+                <form>
                     <section>
-                        <InputField name="customerId" label="Customer ID" inputType="text" value={formState.customerId}
-                                    changeHandler={handleFormChange}/>
+                        <InputField name="customerId" label="Customer ID" inputType="text"
+                                    onKeyPress={onKeyPress}
+
+                        />
                     </section>
                     <section>
-                        <InputField name="lastname" label="Lastname" inputType="text" value={formState.lastname}
-                                    changeHandler={handleFormChange}/>
+                        <InputField name="lastname" label="Lastname" inputType="text"
+                                    onKeyPress={onKeyPress}
+                        />
                     </section>
                 </form>
             </div>
@@ -80,8 +107,9 @@ function CustomerPage() {
                         headerContainerClassName="customer-home-table-header"
                         headerClassName="customer-home-table-header"
                         dataInput={customer}
-
                     />
+                    {loading && <p>Data Loading, please wait...</p>}
+                    {error && <p>Error occured while loading data...</p>}
                 </div>
 
                 <div className="customer-home-buttons">

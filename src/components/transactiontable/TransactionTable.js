@@ -15,10 +15,10 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
             try {
                 if (keys) {
                     setHeader(Object.keys(keys));
-                    console.log(keys);
+                    // console.log(keys);
                 }
                 setData(Object.values(values));
-                console.log(values);
+                // console.log(values);
 
             } catch (e) {
                 console.error(e);

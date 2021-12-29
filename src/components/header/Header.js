@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import "./Header.css";
 import headerLogo from "../../images/logo_car.png"
 import menu from "../../images/icons/menu.png"
