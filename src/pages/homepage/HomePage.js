@@ -17,21 +17,25 @@ function HomePage() {
                     <Button
                         buttonName="homepage-button"
                         buttonDescription="CUSTOMERS"
-                        buttonMessage="/customers"
+                        buttonType="button"
+                        pathName="/customers"
                         disabled={false}
+                        onClick="openPage()"
                         buttonIcon={account_box}
                     />
                     <Button
                         buttonName="homepage-button"
                         buttonDescription="CARS"
-                        buttonMessage="car-button-clicked"
+                        buttonType="button"
+                        pathName="car-button-clicked"
                         disabled={false}
                         buttonIcon={directions_box}
                     />
                     <Button
                         buttonName="homepage-button"
                         buttonDescription="ITEMS"
-                        buttonMessage="item-button-clicked"
+                        buttonType="button"
+                        pathName="item-button-clicked"
                         disabled={false}
                         buttonIcon={miscellaneous_box}
                     />
@@ -40,21 +44,24 @@ function HomePage() {
                     <Button
                         buttonName="homepage-button"
                         buttonDescription="SERVICE"
-                        buttonMessage="service-button-clicked"
+                        buttonType="button"
+                        pathName="service-button-clicked"
                         disabled={false}
                         buttonIcon={car_box}
                     />
                     <Button
                         buttonName="homepage-button"
                         buttonDescription="INVOICE"
-                        buttonMessage="invoice-button-clicked"
+                        buttonType="button"
+                        pathName="invoice-button-clicked"
                         disabled={false}
                         buttonIcon={euro_box}
                     />
                     <Button
                         buttonName="homepage-button"
                         buttonDescription="REPORTING"
-                        buttonMessage="reporting-button-clicked"
+                        buttonType="button"
+                        pathName="reporting-button-clicked"
                         disabled={false}
                         buttonIcon={list_box}
                     />

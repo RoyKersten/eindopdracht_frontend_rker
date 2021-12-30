@@ -1,0 +1,30 @@
+/*customer home: determine container/space between header and footer*/
+.customer-display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.customer-display-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-display-filter section {
+    display: inline-block;
+    margin: 20px;
+    height: 100%;
+}
+
+.display-input-component {
+    width: 500px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+

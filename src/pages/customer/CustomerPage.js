@@ -17,11 +17,14 @@ function CustomerPage() {
     const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [reload, setReload] = useState(false);
+    const [childData, setChildData] = useState({idCustomer:0});
 
     const [formState, setFormState] = useState({
         customerId: '',
         lastname: '',
-    })
+    });
 
     //Get customer data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
@@ -40,14 +43,33 @@ function CustomerPage() {
                 setCustomers(data);
 
             } catch (e) {
-                console.error(e);
                 setError(true);
+                console.error(error.response.status);       //logt HTTP status code e.g. 400
+                console.error(error.response.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
 
-        getCustomers();
-    }, [endpoint]);
+        getCustomers().then();
+    }, [endpoint, reload]);
+
+
+    async function deleteCustomerById() {
+         try {
+            const {data} = await axios.delete("http://localhost:8080/customers/"+childData.idCustomer, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+            setReload(!reload);
+        } catch (error) {
+             setError(true);
+             console.error(error.response.status);       //logt HTTP status code e.g. 400
+             console.error(error.response.data);         //logt de message die vanuit de backend wordt gegeven
+             setErrorMessage(error.response.data+", select a valid id");
+        }
+    }
 
     //set formChange after enter key, this will trigger useEffect and data will be reloaded.
     function onKeyPress(e) {
@@ -68,6 +90,7 @@ function CustomerPage() {
     //Choosen for filter in frontend as backend has no endpoint to get data based on lastname
     function filterData(data) {
         setCustomers(sourceData);
+
         if (formState.customerId !== "") {
             setCustomers(data.filter(function (object) {
                 return object.idCustomer.toString() === formState.customerId.toString();
@@ -82,67 +105,78 @@ function CustomerPage() {
         ;
     }
 
+
+
    return (
         <div className="customer-home-container">
             <div className="customer-home-filter">
                 <form>
                     <section>
                         <InputField name="customerId" label="Customer ID" inputType="text"
-                                    onKeyPress={onKeyPress}
-
+                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
                         />
                     </section>
                     <section>
                         <InputField name="lastname" label="Lastname" inputType="text"
-                                    onKeyPress={onKeyPress}
+                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
                         />
                     </section>
                 </form>
             </div>
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">
-
-                    <TransactionTable
+                    <TransactionTable selectObject={(childData) => setChildData(childData)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="customer-home-container-table"
                         headerContainerClassName="customer-home-table-header"
                         headerClassName="customer-home-table-header"
                         dataInput={customer}
+
                     />
-                    {loading && <p>Data Loading, please wait...</p>}
-                    {error && <p>Error occured while loading data...</p>}
+                    {loading && <p className="message">Data Loading, please wait...</p>}
+                    {error && <p className="message">{errorMessage}</p>}
                 </div>
 
                 <div className="customer-home-buttons">
                     <Button
                         buttonName="customer-home-button"
                         buttonDescription="DISPLAY"
-                        buttonMessage="/customers/display"
+                        buttonType="button"
+                        pathName="/customers/display"
+                        object={childData}
                         disabled={false}
                         buttonIcon={displayIcon}
+
                     />
                     <Button
                         buttonName="customer-home-button"
                         buttonDescription="CREATE"
-                        buttonMessage="/customers/create"
+                        buttonType="button"
+                        pathName="/customers/create"
                         disabled={false}
                         buttonIcon={createIcon}
                     />
                     <Button
                         buttonName="customer-home-button"
                         buttonDescription="CHANGE"
-                        buttonMessage="/customers/change"
+                        buttonType="button"
+                        pathName="/customers/change"
+                        object={childData}
                         disabled={false}
                         buttonIcon={changeIcon}
                     />
                     <Button
                         buttonName="customer-home-button"
                         buttonDescription="DELETE"
-                        buttonMessage="/customers/delete"
+                        buttonType="button"
+                        onClick={() => deleteCustomerById()}
+                        pathName=""
                         disabled={false}
                         buttonIcon={deleteIcon}
                     />
+
                 </div>
             </div>
+
         </div>
     );
 };

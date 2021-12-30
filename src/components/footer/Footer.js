@@ -10,7 +10,7 @@ function Footer() {
             <Button
                 buttonName="footer-back-button"
                 buttonDescription="BACK"
-                buttonMessage="/home"
+                pathName="/home"
                 disabled={false}
                 buttonIcon={backIcon}
             />

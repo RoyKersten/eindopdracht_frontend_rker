@@ -5,6 +5,9 @@ import Footer from "./components/footer/Footer";
 import LoginPage from "./pages/loginpage/LoginPage";
 import HomePage from "./pages/homepage/HomePage";
 import CustomerPage from "./pages/customer/CustomerPage";
+import DisplayCustomerPage from "./pages/customer/DisplayCustomerPage";
+import CreateCustomerPage from "./pages/customer/CreateCustomerPage";
+import ChangeCustomerPage from "./pages/customer/ChangeCustomerPage";
 
 
 function App() {
@@ -24,6 +27,17 @@ function App() {
                 <Route exact path="/customers">
                     <CustomerPage/>
                 </Route>
+                <Route exact path="/customers/display">
+                    <DisplayCustomerPage/>
+                </Route>
+                <Route exact path="/customers/create">
+                    <CreateCustomerPage/>
+                </Route>
+            <Route exact path="/customers/change">
+                <ChangeCustomerPage/>
+            </Route>
+
+
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
         </div>

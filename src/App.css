@@ -10,3 +10,10 @@ body {
 input, label {
     display:block;
 }
+
+.message {
+    border: 1px solid black;
+    box-sizing: border-box;
+    text-align: center;
+    color: red;
+}

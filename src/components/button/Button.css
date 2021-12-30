@@ -58,6 +58,39 @@
     filter: opacity(0.80);
 }
 
+/*Footer Button styling*/
+.confirm-button {
+    background-color: #C4D3EA;
+    height: 40px;
+    width: 120px;
+    cursor: pointer;
+    box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+/*Footer button styling hover */
+.confirm-button:hover {
+    filter: opacity(0.80);
+}
+
+
+.confirm-button {
+    position: fixed;
+    bottom: 105px;
+    right: 20px;
+}
+
+/*Footer button positioning*/
+.confirm-button span {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.confirm-button img {
+    margin-left: 10px;
+}
 
 
 
