@@ -51,6 +51,12 @@
     margin-right: 20px;
 }
 
+.page-name {
+    width: 100%;
+    padding: 35px 0;
+    text-align: left;
+}
+
 /*dropdown-content display none*/
 .dropdown-content {
     display: none;

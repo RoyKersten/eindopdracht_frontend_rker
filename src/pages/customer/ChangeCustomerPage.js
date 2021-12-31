@@ -12,6 +12,7 @@ function ChangeCustomerPage() {
     const location = useLocation();
     let object = location.state;        //4. pick-up the selected object from location.state and show information in inputfields
 
+    const [errorMessage, setErrorMessage] = useState( "");
     const [endpoint, setEndpoint] = useState("http://localhost:8080/customers/"+object.idCustomer);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         idCustomer: object.idCustomer,
@@ -21,7 +22,7 @@ function ChangeCustomerPage() {
         email: object.email,
     });
 
-    async function addCustomers() {
+    async function changeCustomers() {
         try {
             const {data} = await axios.put(endpoint, formState, {
                 headers: {
@@ -29,7 +30,7 @@ function ChangeCustomerPage() {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-
+            setErrorMessage("customer successfully updated!");
             console.log(formState);
         } catch (e) {
             console.error(e);
@@ -48,7 +49,7 @@ function ChangeCustomerPage() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        addCustomers().then();
+        changeCustomers().then();
     }
 
     return (
@@ -113,6 +114,7 @@ function ChangeCustomerPage() {
                         buttonIcon={confirmIcon}
                     />
                 </form>
+                {errorMessage && <p className="message-error">{errorMessage}</p>}
             </div>
         </div>
 

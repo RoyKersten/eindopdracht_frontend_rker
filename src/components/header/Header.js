@@ -8,7 +8,6 @@ import {useHistory, useLocation} from "react-router-dom";
 function Header() {
 
     const {pathname} = useLocation();
-
     const history = useHistory();
 
     function openPage(path) {
@@ -17,11 +16,17 @@ function Header() {
 
     return (
         <header className="header-container" style={{background: pathname === "/home" ? '#5D779E' : '#98AFD3'}}>
+
             <div className="header-logo">
                 <img src={headerLogo} className="logo" alt="car-logo"/>
                 <h4 id="header-logo-text" style={{color: pathname === "/home" ? '#FFFFFF' : '#000000'}}>AUTOGARAGE
                     KERSTEN</h4>
+
+
             </div>
+            <div className="page-name">{(pathname.replaceAll("/", "-")).substring(1,).toUpperCase()}</div>
+
+
             <div className="header-nav">
                 {pathname !== "/home" ?
                     <input className="home-button" type="image" alt="home" src={home}

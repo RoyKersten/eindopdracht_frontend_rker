@@ -17,9 +17,9 @@ function CustomerPage() {
     const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState( "");
     const [reload, setReload] = useState(false);
-    const [childData, setChildData] = useState({idCustomer:0});
+    const [childData, setChildData] = useState({idCustomer: 0});
 
     const [formState, setFormState] = useState({
         customerId: '',
@@ -42,10 +42,11 @@ function CustomerPage() {
                 setSourceData(data);
                 setCustomers(data);
 
-            } catch (e) {
+            } catch (error) {
                 setError(true);
-                console.error(error.response.status);       //logt HTTP status code e.g. 400
-                console.error(error.response.data);         //logt de message die vanuit de backend wordt gegeven
+                setErrorMessage(error.data);
+                console.error(error.status);       //logt HTTP status code e.g. 400
+                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -55,21 +56,24 @@ function CustomerPage() {
 
 
     async function deleteCustomerById() {
-         try {
-            const {data} = await axios.delete("http://localhost:8080/customers/"+childData.idCustomer, {
+        setError(false);
+        try {
+            const {data} = await axios.delete("http://localhost:8080/customers/" + childData.idCustomer, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
+            setErrorMessage(data);
+            console.log(data);
             setReload(!reload);
+
         } catch (error) {
-             setError(true);
-             console.error(error.response.status);       //logt HTTP status code e.g. 400
-             console.error(error.response.data);         //logt de message die vanuit de backend wordt gegeven
-             setErrorMessage(error.response.data+", select a valid id");
+            setErrorMessage(error.response.data+ ", please select a valid id");
         }
+        toggleLoading(false);
     }
+
 
     //set formChange after enter key, this will trigger useEffect and data will be reloaded.
     function onKeyPress(e) {
@@ -105,9 +109,7 @@ function CustomerPage() {
         ;
     }
 
-
-
-   return (
+    return (
         <div className="customer-home-container">
             <div className="customer-home-filter">
                 <form>
@@ -125,15 +127,13 @@ function CustomerPage() {
             </div>
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">
-                    <TransactionTable selectObject={(childData) => setChildData(childData)}                             //2 Retrieve data from child/component TransactionTable
+                    <TransactionTable
+                        selectObject={(childData) => setChildData(childData)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="customer-home-container-table"
                         headerContainerClassName="customer-home-table-header"
                         headerClassName="customer-home-table-header"
                         dataInput={customer}
-
                     />
-                    {loading && <p className="message">Data Loading, please wait...</p>}
-                    {error && <p className="message">{errorMessage}</p>}
                 </div>
 
                 <div className="customer-home-buttons">
@@ -173,10 +173,11 @@ function CustomerPage() {
                         disabled={false}
                         buttonIcon={deleteIcon}
                     />
-
                 </div>
             </div>
-
+            {loading && <p className="message-loading">Data Loading, please wait...</p>}
+            {error && <p className="message-error">Error occurred</p>}
+            {errorMessage && <p className="message-error">{errorMessage}</p>}
         </div>
     );
 };

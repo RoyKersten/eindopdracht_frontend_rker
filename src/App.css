@@ -11,9 +11,22 @@ input, label {
     display:block;
 }
 
-.message {
-    border: 1px solid black;
-    box-sizing: border-box;
+.message-error {
+    margin: 5px 5px 5px 5px;
     text-align: center;
     color: red;
+    animation: fadeIn 1s linear;
+}
+
+.message-loading {
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+    color: black;
+    animation: fadeIn 1s linear;
+}
+
+/*fadeIn dropdown-content when pointer is on menu icon*/
+@keyframes fadeIn {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
 }

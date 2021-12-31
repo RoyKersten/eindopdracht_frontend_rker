@@ -1,6 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
 import './DisplayCustomerPage.css';
-import React, {useState} from "react";
 import {useLocation} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";

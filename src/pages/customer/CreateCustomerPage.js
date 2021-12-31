@@ -7,6 +7,7 @@ import axios from "axios";
 
 function CreateCustomerPage() {
 
+    const [errorMessage, setErrorMessage] = useState( "");
     const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         firstName: '',
@@ -23,7 +24,9 @@ function CreateCustomerPage() {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-
+            if (data!==null) {
+                setErrorMessage("customer successfully created!");
+            }
             console.log(formState);
         } catch (e) {
             console.error(e);
@@ -106,6 +109,7 @@ function CreateCustomerPage() {
                         buttonIcon={confirmIcon}
                     />
                 </form>
+                {errorMessage && <p className="message-error">{errorMessage}</p>}
             </div>
         </div>
 
