@@ -42,10 +42,12 @@
 }
 
 /*set table width for headers in transaction window, border-spacing 0*/
-table {
+.customer-home-container-table {
+    overflow: hidden;
     top: 0;
+    height: 100px;
     width: 100%;
-    border-spacing: 0px;
+    border-spacing: 0;
 }
 
 /*fix header at top of transaction window */
@@ -56,4 +58,3 @@ th {
     text-align: left;
     border-bottom: 1px solid black;
 }
-

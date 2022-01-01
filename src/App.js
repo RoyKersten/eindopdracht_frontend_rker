@@ -27,17 +27,15 @@ function App() {
                 <Route exact path="/customers">
                     <CustomerPage/>
                 </Route>
-                <Route exact path="/customers/display">
+                <Route exact path="/customers/display/:id">
                     <DisplayCustomerPage/>
                 </Route>
-                <Route exact path="/customers/create">
+                <Route exact path="/customers/create/">
                     <CreateCustomerPage/>
                 </Route>
-            <Route exact path="/customers/change">
-                <ChangeCustomerPage/>
-            </Route>
-
-
+                <Route exact path="/customers/change/:id">
+                    <ChangeCustomerPage/>
+                </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
         </div>

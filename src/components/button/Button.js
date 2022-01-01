@@ -1,14 +1,14 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
 
-function Button({buttonName, disabled, pathName, buttonDescription, buttonIcon, object,onClick, buttonType}) {
+function Button({buttonName, disabled, pathName, buttonDescription, buttonIcon, onClick, buttonType}) {
 
     const history = useHistory();
 
     function openPage() {
         history.push({
             pathname: pathName,
-            state: object});                //3. after button click the selected object will be passed to state.location
+       });
     }
 
     return (

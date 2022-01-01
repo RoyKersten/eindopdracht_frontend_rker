@@ -9,6 +9,7 @@ function Header() {
 
     const {pathname} = useLocation();
     const history = useHistory();
+    let headerTitle = pathname.split("/");
 
     function openPage(path) {
         history.push(path);
@@ -24,7 +25,8 @@ function Header() {
 
 
             </div>
-            <div className="page-name">{(pathname.replaceAll("/", "-")).substring(1,).toUpperCase()}</div>
+            <div
+                className="page-name">{(headerTitle[1] + (headerTitle[2] === undefined ? '' : "-" + headerTitle[2])).toUpperCase()}</div>
 
 
             <div className="header-nav">

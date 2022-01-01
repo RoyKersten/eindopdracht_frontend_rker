@@ -1,26 +1,43 @@
 import InputField from "../../components/inputfield/InputField";
 import './ChangeCustomerPage.css';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 
 function ChangeCustomerPage() {
 
-    const location = useLocation();
-    let object = location.state;        //4. pick-up the selected object from location.state and show information in inputfields
-
-    const [errorMessage, setErrorMessage] = useState( "");
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers/"+object.idCustomer);    //initial endpoint used to fetch all customers from database
+    const {id} = useParams()
+    const [errorMessage, setErrorMessage] = useState("");
+    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers/" + id);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
-        idCustomer: object.idCustomer,
-        firstName: object.firstName,
-        lastName: object.lastName,
-        phoneNumber: object.phoneNumber,
-        email: object.email,
+        idCustomer: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        email: '',
     });
+
+    useEffect(() => {
+        async function getCustomerById() {
+            try {
+                const {data} = await axios.get(endpoint, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                setFormState(data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        getCustomerById();
+    }, [endpoint]);
+
 
     async function changeCustomers() {
         try {
@@ -51,6 +68,7 @@ function ChangeCustomerPage() {
         e.preventDefault();
         changeCustomers().then();
     }
+
 
     return (
         <div className="customer-change-container">
@@ -115,6 +133,7 @@ function ChangeCustomerPage() {
                     />
                 </form>
                 {errorMessage && <p className="message-error">{errorMessage}</p>}
+
             </div>
         </div>
 

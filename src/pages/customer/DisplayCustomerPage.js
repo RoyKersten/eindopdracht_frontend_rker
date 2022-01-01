@@ -1,14 +1,35 @@
 import InputField from "../../components/inputfield/InputField";
 import './DisplayCustomerPage.css';
-import {useLocation} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 
 function DisplayCustomerPage() {
 
-    const location = useLocation();
-    let object = location.state;        //4. pick-up the selected object from location.state and show information in inputfields
+    const {id} = useParams()
+    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers/" + id);
+    const [object, setObject] = useState({idCustomer: '', firstName: '', lastName: '', phoneNumber: '', email: ''});
+
+    useEffect(() => {
+        async function getCustomerById() {
+            try {
+                const {data} = await axios.get(endpoint, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                setObject(data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        getCustomerById();
+    }, [endpoint]);
 
     return (
         <div className="customer-display-container">

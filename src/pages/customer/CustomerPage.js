@@ -17,9 +17,9 @@ function CustomerPage() {
     const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState( "");
+    const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
-    const [childData, setChildData] = useState({idCustomer: 0});
+    const [selectedCustomer, setSelectedCustomer] = useState({idCustomer: ''});
 
     const [formState, setFormState] = useState({
         customerId: '',
@@ -58,7 +58,7 @@ function CustomerPage() {
     async function deleteCustomerById() {
         setError(false);
         try {
-            const {data} = await axios.delete("http://localhost:8080/customers/" + childData.idCustomer, {
+            const {data} = await axios.delete("http://localhost:8080/customers/" + selectedCustomer.idCustomer, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -69,7 +69,7 @@ function CustomerPage() {
             setReload(!reload);
 
         } catch (error) {
-            setErrorMessage(error.response.data+ ", please select a valid id");
+            setErrorMessage(error.response.data);
         }
         toggleLoading(false);
     }
@@ -90,8 +90,7 @@ function CustomerPage() {
         }
     }
 
-    //Filter data based customerId, lastname or show all customers when filters are empty
-    //Choosen for filter in frontend as backend has no endpoint to get data based on lastname
+    //Filter data based customerId and lastname or show all customers when filters are empty
     function filterData(data) {
         setCustomers(sourceData);
 
@@ -128,7 +127,7 @@ function CustomerPage() {
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">
                     <TransactionTable
-                        selectObject={(childData) => setChildData(childData)}                             //2 Retrieve data from child/component TransactionTable
+                        selectObject={(selectedCustomer) => setSelectedCustomer(selectedCustomer)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="customer-home-container-table"
                         headerContainerClassName="customer-home-table-header"
                         headerClassName="customer-home-table-header"
@@ -141,27 +140,24 @@ function CustomerPage() {
                         buttonName="customer-home-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
-                        pathName="/customers/display"
-                        object={childData}
-                        disabled={false}
+                        pathName={"/customers/display/" + (selectedCustomer.idCustomer)}
+                        disabled={selectedCustomer.idCustomer === ''}
                         buttonIcon={displayIcon}
-
                     />
                     <Button
                         buttonName="customer-home-button"
                         buttonDescription="CREATE"
                         buttonType="button"
                         pathName="/customers/create"
-                        disabled={false}
+                        disabled={selectedCustomer.idCustomer === ''}
                         buttonIcon={createIcon}
                     />
                     <Button
                         buttonName="customer-home-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
-                        pathName="/customers/change"
-                        object={childData}
-                        disabled={false}
+                        pathName={"/customers/change/" + (selectedCustomer.idCustomer)}
+                        disabled={selectedCustomer.idCustomer === ''}
                         buttonIcon={changeIcon}
                     />
                     <Button
@@ -170,16 +166,21 @@ function CustomerPage() {
                         buttonType="button"
                         onClick={() => deleteCustomerById()}
                         pathName=""
-                        disabled={false}
+                        disabled={selectedCustomer.idCustomer === ''}
                         buttonIcon={deleteIcon}
                     />
                 </div>
             </div>
-            {loading && <p className="message-loading">Data Loading, please wait...</p>}
-            {error && <p className="message-error">Error occurred</p>}
-            {errorMessage && <p className="message-error">{errorMessage}</p>}
+            <div className="messages">
+                {loading && <p className="message-loading-home">Data Loading, please wait...</p>}
+                {error && <p className="message-error-home">Error occurred</p>}
+                {errorMessage && <p className="message-error-home">{errorMessage}</p>}
+                {!selectedCustomer.idCustomer && <p className="message-error-home">Please select a customer</p>}
+            </div>
+
         </div>
     );
 };
 
 export default CustomerPage;
+

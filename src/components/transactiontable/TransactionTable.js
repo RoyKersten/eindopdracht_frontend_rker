@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import "./TransactionTable.css";
-import loginPage from "../../pages/loginpage/LoginPage";
+
 
 function TransactionTable({tableContainerClassName, headerContainerClassName, dataInput, selectObject}) {
 
     //1. SelectObject => after selection of row the data will be sent to parent / page CustomerPage
-
     let key = [];
     let value = [];
 
@@ -15,7 +14,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     useEffect(() => {
         async function headerData() {
             const keys = dataInput[0];
-            const values = dataInput;
+            const values = dataInput.sort((a,b) => a.idCustomer-b.idCustomer);                                          //sort values based on customer id
             try {
                 if (keys) {
                     setHeader(Object.keys(keys));
