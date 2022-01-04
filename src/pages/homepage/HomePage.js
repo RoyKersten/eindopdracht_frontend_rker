@@ -27,7 +27,8 @@ function HomePage() {
                         buttonName="homepage-button"
                         buttonDescription="CARS"
                         buttonType="button"
-                        pathName="car-button-clicked"
+                        pathName="/cars"
+                        onClick="openPage()"
                         disabled={false}
                         buttonIcon={directions_box}
                     />
@@ -35,7 +36,7 @@ function HomePage() {
                         buttonName="homepage-button"
                         buttonDescription="ITEMS"
                         buttonType="button"
-                        pathName="item-button-clicked"
+                        pathName="/items"
                         disabled={false}
                         buttonIcon={miscellaneous_box}
                     />
@@ -45,7 +46,7 @@ function HomePage() {
                         buttonName="homepage-button"
                         buttonDescription="SERVICE"
                         buttonType="button"
-                        pathName="service-button-clicked"
+                        pathName="/services"
                         disabled={false}
                         buttonIcon={car_box}
                     />
@@ -53,7 +54,7 @@ function HomePage() {
                         buttonName="homepage-button"
                         buttonDescription="INVOICE"
                         buttonType="button"
-                        pathName="invoice-button-clicked"
+                        pathName="/invoices"
                         disabled={false}
                         buttonIcon={euro_box}
                     />
@@ -61,7 +62,7 @@ function HomePage() {
                         buttonName="homepage-button"
                         buttonDescription="REPORTING"
                         buttonType="button"
-                        pathName="reporting-button-clicked"
+                        pathName="/reporting"
                         disabled={false}
                         buttonIcon={list_box}
                     />

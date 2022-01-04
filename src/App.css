@@ -12,31 +12,14 @@ input, label {
     display: block;
 }
 
-/*position error message below inputfields on create and display pages */
-.message-error {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-    margin: 5px 5px 5px 5px;
-    color: red;
-    animation: fadeIn 1s linear;
-}
 
-/*position of error message on home page below the transaction table, automatic calculation to center text below table (right 400px - left 100 px  = 300/2 =150px */
-.message-error-home {
+/*position error message below inputfields on create and display pages */
+.message-home {
     position: absolute;
     left: calc(50% - 150px);
     transform: translate(-50%, 0);
     margin: 5px 5px 5px 5px;
     color: red;
-    animation: fadeIn 1s linear;
-}
-
-/*position of message loading in transaction table while data is loading*/
-.message-loading-home {
-    margin: 5px 5px 5px 5px;
-    text-align: center;
-    color: black;
     animation: fadeIn 1s linear;
 }
 

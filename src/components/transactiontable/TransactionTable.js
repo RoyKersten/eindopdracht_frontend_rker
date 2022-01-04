@@ -7,21 +7,24 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     //1. SelectObject => after selection of row the data will be sent to parent / page CustomerPage
     let key = [];
     let value = [];
+    let hiddenHeaders = ["carPaper", "customer"]
+    let hidden = false;
 
     const [header, setHeader] = useState(key);
     const [data, setData] = useState(value);
+    const nestedObjectId = "idCustomer";
 
     useEffect(() => {
         async function headerData() {
             const keys = dataInput[0];
-            const values = dataInput.sort((a,b) => a.idCustomer-b.idCustomer);                                          //sort values based on customer id
+            const values = dataInput.sort((a, b) => a.idCar - b.idCar);                                          //sort values based on customer id
             try {
                 if (keys) {
                     setHeader(Object.keys(keys));
-                    // console.log(keys);
+
+
                 }
                 setData(Object.values(values));
-                // console.log(values);
 
             } catch (e) {
                 console.error(e);
@@ -35,20 +38,21 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     return (
         <table className={tableContainerClassName}>
             <thead className={headerContainerClassName}>
-            <tr>
+            <tr >
                 {header.map((loop, i) => (
-                    <th key={i}>{header[i]}</th>
+                    <th key={i} > {header[i]}</th>
                 ))}
             </tr>
             </thead>
             <tbody>
             {data.map((object, k) => (
-                <tr key={k} tabIndex={k} onClick={() => selectObject(object)}>
+                <tr key={k}  tabIndex={k} onClick={() => selectObject(object)}>
                     {header.map((loop, j) => (
-                        <td key={j}>{(Object.values(object)[j])}</td>
+                        <td key={j}>{Object.values(object)[j]?.[nestedObjectId] === undefined ? Object.values(object)[j] : Object.values(object)[j]?.[nestedObjectId]}</td>
                     ))}
                 </tr>
             ))}
+
             </tbody>
         </table>
     );

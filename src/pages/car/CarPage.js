@@ -1,4 +1,4 @@
-import './CustomerPage.css';
+import './CarPage.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
@@ -10,25 +10,25 @@ import deleteIcon from "../../images/icons/delete.png";
 import TransactionTable from "../../components/transactiontable/TransactionTable";
 
 
-function CustomerPage() {
+function CarPage() {
 
-    const [customer, setCustomers] = useState([]);
+    const [car, setCars] = useState([]);
     const [sourceData, setSourceData] = useState([]);
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
+    const [endpoint, setEndpoint] = useState("http://localhost:8080/cars");    //initial endpoint used to fetch all cars from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState({idCustomer: ''});
+    const [selectedCar, setSelectedCar] = useState({idCar: ''});
 
     const [formState, setFormState] = useState({
-        customerId: '',
-        lastname: '',
+        carId: '',
+        licensePlateNumber: '',
     });
 
     //Get customer data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
-        async function getCustomers() {
+        async function getCars() {
             toggleLoading(true);
             setError(false);
 
@@ -39,8 +39,10 @@ function CustomerPage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
+
+                console.log(data)
                 setSourceData(data);
-                setCustomers(data);
+                setCars(data);
 
             } catch (error) {
                 setError(true);
@@ -51,29 +53,29 @@ function CustomerPage() {
             toggleLoading(false);
         }
 
-        getCustomers().then();
+        getCars().then();
     }, [endpoint, reload]);
 
 
-    async function deleteCustomerById() {
+    async function deleteCarById() {
         let text = "customer (and connected cars) will be deleted permanently in case no inspection or repair is connected, are you sure?";
         if (window.confirm(text) ===true){
-                 setError(false);
-        try {
-            const {data} = await axios.delete("http://localhost:8080/customers/" + selectedCustomer.idCustomer, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            setErrorMessage(data);
-            console.log(data);
-            setReload(!reload);
+            setError(false);
+            try {
+                const {data} = await axios.delete("http://localhost:8080/cars/" + selectedCar.idCar, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                setErrorMessage(data);
+                console.log(data);
+                setReload(!reload);
 
-        } catch (error) {
-            setErrorMessage(error.response.data);
-        }
-        toggleLoading(false);
+            } catch (error) {
+                setErrorMessage(error.response.data);
+            }
+            toggleLoading(false);
         }
     }
 
@@ -95,15 +97,15 @@ function CustomerPage() {
 
     //Filter data based customerId and lastname or show all customers when filters are empty
     function filterData(data) {
-        setCustomers(sourceData);
+        setCars(sourceData);
 
-        if (formState.customerId !== "") {
-            setCustomers(data.filter(function (object) {
-                return object.idCustomer.toString() === formState.customerId.toString();
+        if (formState.carId !== "") {
+            setCars(data.filter(function (object) {
+                return object.idCar.toString() === formState.carId.toString();
             }))
-        } else if (formState.lastname !== "") {
-            setCustomers(data.filter(function (object) {
-                return object.lastName.toLowerCase() === formState.lastname.toLowerCase();
+        } else if (formState.licensePlateNumber !== "") {
+            setCars(data.filter(function (object) {
+                return object.licensePlateNumber.toLowerCase() === formState.licensePlateNumber.toLowerCase();
             }))
         } else {
             console.log("no entry");
@@ -112,46 +114,46 @@ function CustomerPage() {
     }
 
     return (
-        <div className="customer-home-container">
-            <div className="customer-home-filter">
+        <div className="car-home-container">
+            <div className="car-home-filter">
                 <form>
                     <section>
-                        <InputField name="customerId" label="Customer ID" inputType="text"
+                        <InputField name="carId" label="Car ID" inputType="text"
                                     onKeyPress={onKeyPress} changeHandler={onKeyPress}
                         />
                     </section>
                     <section>
-                        <InputField name="lastname" label="Lastname" inputType="text"
+                        <InputField name="licensePlateNumber" label="LicensePlateNumber" inputType="text"
                                     onKeyPress={onKeyPress} changeHandler={onKeyPress}
                         />
                     </section>
                 </form>
             </div>
-            <div className="customer-home-transaction-container">
-                <div className="customer-home-display-container">
+            <div className="car-home-transaction-container">
+                <div className="car-home-display-container">
                     <TransactionTable
-                        selectObject={(selectedCustomer) => setSelectedCustomer(selectedCustomer)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="customer-home-container-table"
-                        headerContainerClassName="customer-home-table-header"
-                        headerClassName="customer-home-table-header"
-                        dataInput={customer}
+                        selectObject={(selectedCar) => setSelectedCar(selectedCar)}                             //2 Retrieve data from child/component TransactionTable
+                        tableContainerClassName="car-home-container-table"
+                        headerContainerClassName="car-home-table-header"
+                        headerClassName="car-home-table-header"
+                        dataInput={car}
                     />
                 </div>
 
-                <div className="customer-home-buttons">
+                <div className="car-home-buttons">
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
-                        pathName={"/customers/display/" + (selectedCustomer.idCustomer)}
-                        disabled={selectedCustomer.idCustomer === ''}
+                        pathName={"/cars/display/" + (selectedCar.idCar)}
+                        disabled={selectedCar.idCar === ''}
                         buttonIcon={displayIcon}
                     />
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="CREATE"
                         buttonType="button"
-                        pathName="/customers/create"
+                        pathName="/cars/create"
                         disabled={false}
                         buttonIcon={createIcon}
                     />
@@ -159,17 +161,17 @@ function CustomerPage() {
                         buttonName="transaction-home-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
-                        pathName={"/customers/change/" + (selectedCustomer.idCustomer)}
-                        disabled={selectedCustomer.idCustomer === ''}
+                        pathName={"/cars/change/" + (selectedCar.idCar)}
+                        disabled={selectedCar.idCar === ''}
                         buttonIcon={changeIcon}
                     />
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="DELETE"
                         buttonType="button"
-                        onClick={() => deleteCustomerById()}
+                        onClick={() => deleteCarById()}
                         pathName=""
-                        disabled={selectedCustomer.idCustomer === ''}
+                        disabled={selectedCar.idCar === ''}
                         buttonIcon={deleteIcon}
                     />
                 </div>
@@ -178,12 +180,11 @@ function CustomerPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedCustomer.idCustomer && <p className="message-home">Please select a customer</p>}
+                {!selectedCar.idCar && <p className="message-home">Please select a car</p>}
             </div>
 
         </div>
     );
 };
 
-export default CustomerPage;
-
+export default CarPage;

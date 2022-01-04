@@ -8,7 +8,16 @@ import CustomerPage from "./pages/customer/CustomerPage";
 import DisplayCustomerPage from "./pages/customer/DisplayCustomerPage";
 import CreateCustomerPage from "./pages/customer/CreateCustomerPage";
 import ChangeCustomerPage from "./pages/customer/ChangeCustomerPage";
+import CarPage from "./pages/car/CarPage";
 
+
+function DisplayCarPage() {
+    return null;
+}
+
+function CreateCarPage() {
+    return null;
+}
 
 function App() {
     const location = useLocation();                                     /*rendering of page to ensure Header is displayed after login (all other pages) */
@@ -36,6 +45,20 @@ function App() {
                 <Route exact path="/customers/change/:id">
                     <ChangeCustomerPage/>
                 </Route>
+
+                <Route exact path="/cars">
+                    <CarPage/>
+                </Route>
+                {/*<Route exact path="/cars/display/:id">*/}
+                {/*    <DisplayCarPage/>*/}
+                {/*</Route>*/}
+                {/*<Route exact path="/cars/create/">*/}
+                {/*    <CreateCarPage/>*/}
+                {/*</Route>*/}
+                {/*<Route exact path="/cars/change/:id">*/}
+                {/*    <ChangeCarPage/>*/}
+                {/*</Route>*/}
+
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
         </div>

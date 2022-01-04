@@ -1,26 +1,26 @@
-/*customer home: determine container/space between header and footer*/
-.customer-home-container {
+/*car home: determine container/space between header and footer*/
+.car-home-container {
     padding-top: 90px;
     height: calc(100vh - 90px - 75px);
     width: 100%;
 }
 
-/*customer home: position filters Customer ID and Lastname*/
-.customer-home-filter section {
+/*car home: position filters Customer ID and Lastname*/
+.car-home-filter section {
     display: inline-block;
     margin-left: 100px;
     margin-top: 50px;
 }
 
-/*customer home: position transaction window and buttons: display, create, change and delete*/
-.customer-home-transaction-container {
+/*car home: position transaction window and buttons: display, create, change and delete*/
+.car-home-transaction-container {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
-/*customer home: position transaction window*/
-.customer-home-display-container {
+/*car home: position transaction window*/
+.car-home-display-container {
     margin-left: 100px;
     margin-top: 20px;
     min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
@@ -30,8 +30,8 @@
     overflow: auto;
 }
 
-/*customer home: position buttons: display, create, change and delete*/
-.customer-home-buttons {
+/*car home: position buttons: display, create, change and delete*/
+.car-home-buttons {
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
@@ -42,7 +42,7 @@
 }
 
 /*set table width for headers in transaction window, border-spacing 0*/
-.customer-home-container-table {
+.car-home-container-table {
     overflow: hidden;
     top: 0;
     width: 100%;
@@ -56,4 +56,8 @@ th {
     background-color: white;
     text-align: left;
     border-bottom: 1px solid black;
+}
+
+tr {
+    height: 15px;
 }
