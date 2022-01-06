@@ -1,8 +1,10 @@
 import React from 'react';
+import "./InputField.css";
 
 function InputField({className, name, inputType, label, value, changeHandler, onKeyPress, readOnly}) {
     return (
         <>
+         <div>
             <label htmlFor={`${name}-field`}>{label}</label>
             <input
                 className={className}
@@ -14,6 +16,7 @@ function InputField({className, name, inputType, label, value, changeHandler, on
                 onKeyPress={onKeyPress}         //used for filters
                 readOnly={readOnly}
             />
+         </div>
         </>
     );
 }

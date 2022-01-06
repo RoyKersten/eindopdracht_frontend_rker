@@ -1,9 +1,9 @@
 /*customer home: determine container/space between header and footer*/
 .customer-create-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-
     padding-top: 90px;
     height: calc(100vh - 90px - 75px);
     width: 100%;
@@ -14,8 +14,7 @@
     flex-direction: column;
 }
 
-.customer-create-filter section {
-    display: inline-block;
+.customer-create-form section {
     margin: 20px;
     height: 100%;
 }

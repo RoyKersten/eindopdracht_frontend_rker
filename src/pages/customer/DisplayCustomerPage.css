@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding-top: 90px;
     height: calc(100vh - 90px - 75px);
     width: 100%;
@@ -14,8 +13,7 @@
     flex-direction: column;
 }
 
-.customer-display-filter section {
-    display: inline-block;
+.customer-display-form section {
     margin: 20px;
     height: 100%;
 }

@@ -11,7 +11,7 @@ function ChangeCustomerPage() {
 
     const {id} = useParams()
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers/" + id);    //initial endpoint used to fetch all customers from database
+    const [endpoint, setEndpoint] = useState(`http://localhost:8080/customers/${id}`);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         idCustomer: '',
         firstName: '',
@@ -72,69 +72,69 @@ function ChangeCustomerPage() {
 
     return (
         <div className="customer-change-container">
-            <div className="customer-change-filter">
-                <form onSubmit={handleSubmit} className="customer-change-form">
-                    <section>
-                        <InputField className="change-input-component-customerId"
-                                    name="customerId"
-                                    label="Customer ID"
-                                    inputType="text"
-                                    value={formState.idCustomer}
-                                    readOnly={true}
-                        />
-                    </section>
-                    <section>
-                        <InputField className="change-input-component"
-                                    name="firstName"
-                                    label="Firstname"
-                                    inputType="text"
-                                    readOnly={false}
-                                    value={formState.firstName}
-                                    changeHandler={handleClick}
-                        />
-                    </section>
-                    <section>
-                        <InputField className="change-input-component"
-                                    name="lastName"
-                                    label="Lastname"
-                                    inputType="text"
-                                    readOnly={false}
-                                    value={formState.lastName}
-                                    changeHandler={handleClick}
-                        />
-                    </section>
-                    <section>
-                        <InputField className="change-input-component"
-                                    name="phoneNumber"
-                                    label="Telephone Number"
-                                    inputType="text"
-                                    readOnly={false}
-                                    value={formState.phoneNumber}
-                                    changeHandler={handleClick}
-                        />
-                    </section>
-                    <section>
-                        <InputField className="change-input-component"
-                                    name="email"
-                                    label="Email Address"
-                                    inputType="text"
-                                    readOnly={false}
-                                    value={formState.email}
-                                    changeHandler={handleClick}
-                        />
-                    </section>
-                    <Button
-                        buttonName="confirm-button"
-                        buttonDescription="CONFIRM"
-                        buttonType="submit"
-                        pathName=""
-                        disabled={false}
-                        buttonIcon={confirmIcon}
+            <form onSubmit={handleSubmit} className="customer-change-form">
+                <section>
+                    <InputField className="change-input-component-customerId"
+                                name="customerId"
+                                label="Customer ID"
+                                inputType="text"
+                                value={formState.idCustomer}
+                                readOnly={true}
                     />
-                </form>
-                {errorMessage && <p className="message-error">{errorMessage}</p>}
+                </section>
+                <section>
+                    <InputField className="change-input-component"
+                                name="firstName"
+                                label="Firstname"
+                                inputType="text"
+                                readOnly={false}
+                                value={formState.firstName}
+                                changeHandler={handleClick}
+                    />
+                </section>
+                <section>
+                    <InputField className="change-input-component"
+                                name="lastName"
+                                label="Lastname"
+                                inputType="text"
+                                readOnly={false}
+                                value={formState.lastName}
+                                changeHandler={handleClick}
+                    />
+                </section>
+                <section>
+                    <InputField className="change-input-component"
+                                name="phoneNumber"
+                                label="Telephone Number"
+                                inputType="text"
+                                readOnly={false}
+                                value={formState.phoneNumber}
+                                changeHandler={handleClick}
+                    />
+                </section>
+                <section>
+                    <InputField className="change-input-component"
+                                name="email"
+                                label="Email Address"
+                                inputType="text"
+                                readOnly={false}
+                                value={formState.email}
+                                changeHandler={handleClick}
+                    />
+                </section>
+                <Button
+                    buttonName="confirm-button"
+                    buttonDescription="CONFIRM"
+                    buttonType="submit"
+                    pathName=""
+                    disabled={false}
+                    buttonIcon={confirmIcon}
+                />
+                <div className="messages">
+                    {errorMessage && <p className="message-error">{errorMessage}</p>}
+                </div>
+            </form>
 
-            </div>
         </div>
 
     );

@@ -14,7 +14,7 @@ function CarPage() {
 
     const [car, setCars] = useState([]);
     const [sourceData, setSourceData] = useState([]);
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/cars");    //initial endpoint used to fetch all cars from database
+    const [endpoint, setEndpoint] = useState(`http://localhost:8080/cars`);    //initial endpoint used to fetch all cars from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");

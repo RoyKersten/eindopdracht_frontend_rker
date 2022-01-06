@@ -12,6 +12,25 @@ input, label {
     display: block;
 }
 
+/*position error message below inputfields on create and display pages */
+.message-error {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    margin: 20px 5px 5px 5px;
+    color: red;
+    animation: fadeIn 1s linear;
+}
+
+
+/*position of message loading in transaction table while data is loading*/
+.message-loading-home {
+    margin: 5px 5px 5px 5px;
+    text-align: center;
+    color: black;
+    animation: fadeIn 1s linear;
+}
+
 
 /*position error message below inputfields on create and display pages */
 .message-home {
