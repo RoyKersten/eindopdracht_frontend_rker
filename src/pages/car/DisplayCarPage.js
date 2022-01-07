@@ -5,9 +5,8 @@ import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
 import openAttachmentIcon from "../../images/icons/attachment.png";
 import uploadIcon from "../../images/icons/file_upload.png";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
-
 
 function DisplayCarPage() {
 
@@ -15,7 +14,8 @@ function DisplayCarPage() {
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/cars/${id}`);
     const [endpointCarPaper, setEndpointCarPaper] = useState(`http://localhost:8080/cars/${id}/carpaper`);
     const [message, setMessage] = useState("");
-    const [carPaper, setCarPaper] = useState(false);
+    const [carPaper, setCarPaper] = useState(undefined)
+
     const [object, setObject] = useState({
         idCar: '',
         licensePlateNumber: '',
@@ -37,40 +37,42 @@ function DisplayCarPage() {
                     },
                 });
                 setObject(data);
+                if (carPaper) {
+                    await getCarPaper();
+                    setCarPaper(false);
+                }
             } catch (e) {
                 console.error(e);
             }
         }
 
-        getCarById();
-    }, [endpoint]);
+        getCarById().then();
+    }, [endpoint, carPaper]);
 
 
-    async function getCarPaper() {
-        try {
-        const carPaper = await axios.get(endpointCarPaper, {
-            responseType: 'blob',
-            headers: {
-                // "Content-type": "multipart/form-data",
-                "Accept": "application/pdf",
-                Authorization: 'Bearer ' + localStorage.getItem('token'),
-            },
-        }).then((response) => {
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'carpaper.pdf');
-                document.body.appendChild(link);
-                link.click();
-            });
-            // setMessage("loading car papers, please wait...");
-            setCarPaper(true);
-           console.log(carPaper);
-            // setObject(carPaper);
-        } catch (e) {
-            console.error(e);
+       async function getCarPaper() {
+            try {
+                const paper = await axios.get(endpointCarPaper, {
+                    responseType: 'blob',
+                    headers: {
+                        "Content-type": "multipart/form-data",
+                         Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    }
+                })
+                    .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.target = '_blank'              //Open pdf file in a new tab
+                    link.click();
+                    window.URL.revokeObjectURL(url);    //let the browser know not to keep the reference to the file any longer.
+                });
+
+            } catch (e) {
+                console.error(e);
+                setMessage("something went wrong, carpaper could not be loaded, please try again")
+            }
         }
-    }
 
     return (
         <div className="car-display-container">
@@ -171,6 +173,7 @@ function DisplayCarPage() {
                             <Button
                                 buttonName="car-button"
                                 buttonDescription="OPEN"
+                                buttonType="button"
                                 pathName=""
                                 onClick={() => getCarPaper()}
                                 disabled={object.carPaper === null}
@@ -181,6 +184,7 @@ function DisplayCarPage() {
                             <Button
                                 buttonName="car-button"
                                 buttonDescription="UPLOAD"
+                                buttonType="button"
                                 pathName="/home"
                                 disabled={true}
                                 buttonIcon={uploadIcon}
@@ -189,7 +193,7 @@ function DisplayCarPage() {
                     </section>
                 </div>
                 <div className="messages">
-                {message && <p className="message-error">{message}</p>}
+                    {message && <p className="message-error">{message}</p>}
                 </div>
             </form>
 
