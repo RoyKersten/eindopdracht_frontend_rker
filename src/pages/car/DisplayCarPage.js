@@ -158,10 +158,10 @@ function DisplayCarPage() {
                     </section>
                     <section>
                         <InputField className="display-input-component"
-                                    name="file location"
-                                    label="File Location"
+                                    name="car-paper-check"
+                                    label="Car paper available ?"
                                     inputType="text"
-                                    value="/Users/roykersten/Documents/invoices"
+                                    value={object.carPaper===null ? "NO" : "YES"}
                                     readOnly={true}
                         />
                     </section>

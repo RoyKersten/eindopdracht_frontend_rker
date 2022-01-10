@@ -58,7 +58,7 @@ function CarPage() {
 
 
     async function deleteCarById() {
-        let text = "customer (and connected cars) will be deleted permanently in case no inspection or repair is connected, are you sure?";
+        let text = "cars will be deleted permanently in case no inspection or repair is connected, are you sure?";
         if (window.confirm(text) ===true){
             setError(false);
             try {
@@ -180,7 +180,7 @@ function CarPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedCar.idCar && <p className="message-home">Please select a car</p>}
+                {!selectedCar.idCar && !loading && <p className="message-home">Please select a car</p>}
             </div>
 
         </div>

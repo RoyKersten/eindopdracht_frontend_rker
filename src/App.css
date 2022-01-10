@@ -17,7 +17,7 @@ input, label {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    margin: 20px 5px 5px 5px;
+    bottom: 70px;
     color: red;
     animation: fadeIn 1s linear;
 }

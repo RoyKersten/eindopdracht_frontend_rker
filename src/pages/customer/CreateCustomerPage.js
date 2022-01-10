@@ -51,7 +51,7 @@ function CreateCustomerPage() {
     return (
         <div className="customer-create-container">
             <div>
-            <form onSubmit={handleSubmit} className="customer-create-form">
+            <form  className="customer-create-form" onSubmit={handleSubmit}>
                 <section>
                     <InputField className="create-input-component-customerId"
                                 name="customerId"

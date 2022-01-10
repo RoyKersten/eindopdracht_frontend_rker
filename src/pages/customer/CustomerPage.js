@@ -178,7 +178,7 @@ function CustomerPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedCustomer.idCustomer && <p className="message-home">Please select a customer</p>}
+                {!selectedCustomer.idCustomer && !loading && <p className="message-home">Please select a customer</p>}
             </div>
 
         </div>
