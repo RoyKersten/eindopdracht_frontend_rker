@@ -1,7 +1,7 @@
 import React from 'react';
 import "./InputField.css";
 
-function InputField({className, name, inputType, label, value, changeHandler, onKeyPress, readOnly, placeholder}) {
+function InputField({className, name, inputType, label, value, changeHandler, onKeyPress, readOnly, placeholder, list, onSelection}) {
     return (
         <>
          <div>
@@ -14,8 +14,10 @@ function InputField({className, name, inputType, label, value, changeHandler, on
                 value={value}
                 placeholder={placeholder}
                 onChange={changeHandler}        //used for form
+                onSelect={onSelection}
                 onKeyPress={onKeyPress}         //used for filters
                 readOnly={readOnly}
+                list={list}
             />
          </div>
         </>

@@ -92,7 +92,7 @@ function CreateCarPage() {
                 }
             });
             if (carPaper.status === 200) {
-                setMessage("carpaper successfully, you can open the uploaded file")
+                setMessage("carpaper successfully added, you can open the uploaded file")
                 setPdfAvailable(true);
             }
         } catch (e) {

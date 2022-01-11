@@ -12,6 +12,7 @@ import CarPage from "./pages/car/CarPage";
 import DisplayCarPage from "./pages/car/DisplayCarPage";
 import CreateCarPage from "./pages/car/CreateCarPage";
 import ChangeCarPage from "./pages/car/ChangeCarPage";
+import ItemPage from "./pages/item/ItemPage";
 
 function App() {
     const location = useLocation();                                     /*rendering of page to ensure Header is displayed after login (all other pages) */
@@ -52,7 +53,9 @@ function App() {
                 <Route exact path="/cars/change/:id">
                     <ChangeCarPage/>
                 </Route>
-
+                <Route exact path="/items">
+                    <ItemPage/>
+                </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
         </div>
