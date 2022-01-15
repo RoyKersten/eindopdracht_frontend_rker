@@ -57,23 +57,23 @@ function CustomerPage() {
 
     async function deleteCustomerById() {
         let text = "customer (and connected cars) will be deleted permanently in case no inspection or repair is connected, are you sure?";
-        if (window.confirm(text) ===true){
-                 setError(false);
-        try {
-            const {data} = await axios.delete("http://localhost:8080/customers/" + selectedCustomer.idCustomer, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            setErrorMessage(data);
-            console.log(data);
-            setReload(!reload);
+        if (window.confirm(text) === true) {
+            setError(false);
+            try {
+                const {data} = await axios.delete("http://localhost:8080/customers/" + selectedCustomer.idCustomer, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                setErrorMessage(data);
+                console.log(data);
+                setReload(!reload);
 
-        } catch (error) {
-            setErrorMessage(error.response.data);
-        }
-        toggleLoading(false);
+            } catch (error) {
+                setErrorMessage(error.response.data);
+            }
+            toggleLoading(false);
         }
     }
 
@@ -114,18 +114,16 @@ function CustomerPage() {
     return (
         <div className="customer-home-container">
             <div className="customer-home-filter">
-                <form>
-                    <section>
-                        <InputField name="customerId" label="Customer ID" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
-                    <section>
-                        <InputField name="lastname" label="Lastname" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
-                </form>
+                <section>
+                    <InputField name="customerId" label="Customer ID" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
+                <section>
+                    <InputField name="lastname" label="Lastname" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
             </div>
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">

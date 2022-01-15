@@ -1,25 +1,37 @@
 import React from 'react';
 import "./InputField.css";
 
-function InputField({className, name, inputType, label, value, changeHandler, onKeyPress, readOnly, placeholder, list, onSelection}) {
+function InputField({
+                        className,
+                        name,
+                        inputType,
+                        label,
+                        value,
+                        changeHandler,
+                        onKeyPress,
+                        readOnly,
+                        placeholder,
+                        list,
+                        onSelection
+                    }) {
     return (
         <>
-         <div>
-            <label htmlFor={`${name}-field`}>{label}</label>
-            <input
-                className={className}
-                name={name}
-                id={`${name}-field`}
-                type={inputType}
-                value={value}
-                placeholder={placeholder}
-                onChange={changeHandler}        //used for form
-                onSelect={onSelection}
-                onKeyPress={onKeyPress}         //used for filters
-                readOnly={readOnly}
-                list={list}
-            />
-         </div>
+            <div>
+                <label htmlFor={`${name}-field`}>{label}</label>
+                <input
+                    className={className}
+                    name={name}
+                    id={`${name}-field`}
+                    type={inputType}
+                    value={value}
+                    placeholder={placeholder}
+                    onChange={changeHandler}        //used for form
+                    onSelect={onSelection}
+                    onKeyPress={onKeyPress}         //used for filters
+                    readOnly={readOnly}
+                    list={list}
+                />
+            </div>
         </>
     );
 }

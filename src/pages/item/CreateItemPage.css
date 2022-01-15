@@ -1,0 +1,73 @@
+/*item home: determine container/space between header and footer*/
+.item-create-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.item-create-form {
+    display: inline-flex;
+}
+
+.item-create-form section {
+    margin: 20px;
+}
+
+.item-create-section1 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.item-create-section2 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.item-create-section3 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+
+.create-input-component-section1 {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.create-input-component-section2 {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.create-input-component-section2-brand {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+
+.create-input-component-section2-brand:read-only {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}
+
+
+.create-input-component-section2-idItem{
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}
+
+.create-input-component-section3 {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+}

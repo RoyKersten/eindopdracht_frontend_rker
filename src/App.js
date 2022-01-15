@@ -13,6 +13,9 @@ import DisplayCarPage from "./pages/car/DisplayCarPage";
 import CreateCarPage from "./pages/car/CreateCarPage";
 import ChangeCarPage from "./pages/car/ChangeCarPage";
 import ItemPage from "./pages/item/ItemPage";
+import DisplayItemPage from "./pages/item/DisplayItemPage";
+import CreateItemPage from "./pages/item/CreateItemPage";
+import ChangeItemPage from "./pages/item/ChangeItemPage";
 
 function App() {
     const location = useLocation();                                     /*rendering of page to ensure Header is displayed after login (all other pages) */
@@ -55,6 +58,15 @@ function App() {
                 </Route>
                 <Route exact path="/items">
                     <ItemPage/>
+                </Route>
+                <Route exact path="/items/display/:itemType/:id">
+                    <DisplayItemPage/>
+                </Route>
+                <Route exact path="/items/create/:itemType">
+                    <CreateItemPage/>
+                </Route>
+                <Route exact path="/items/change/:itemType/:id">
+                    <ChangeItemPage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}

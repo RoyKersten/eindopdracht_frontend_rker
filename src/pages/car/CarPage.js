@@ -59,7 +59,7 @@ function CarPage() {
 
     async function deleteCarById() {
         let text = "car will be deleted permanently in case no inspection or repair is connected, are you sure?";
-        if (window.confirm(text) ===true){
+        if (window.confirm(text) === true) {
             setError(false);
             try {
                 const {data} = await axios.delete("http://localhost:8080/cars/" + selectedCar.idCar, {
@@ -116,18 +116,16 @@ function CarPage() {
     return (
         <div className="car-home-container">
             <div className="car-home-filter">
-                <form>
-                    <section>
-                        <InputField name="carId" label="Car ID" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
-                    <section>
-                        <InputField name="licensePlateNumber" label="LicensePlateNumber" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
-                </form>
+                <section>
+                    <InputField name="carId" label="Car ID" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
+                <section>
+                    <InputField name="licensePlateNumber" label="LicensePlateNumber" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
             </div>
             <div className="car-home-transaction-container">
                 <div className="car-home-display-container">

@@ -1,0 +1,83 @@
+/*item home: determine container/space between header and footer*/
+.item-change-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.item-change-form {
+    display: inline-flex;
+}
+
+.item-change-form section {
+    margin: 20px;
+}
+
+.item-change-section1 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+.item-change-section2 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.item-change-section3 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+
+.change-input-component-section1 {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+
+.change-input-component-section1:read-only {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}
+
+.change-input-component-section2 {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.change-input-component-section2:read-only {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}
+
+
+.change-input-component-section3 {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.change-input-component-section2-brand {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+
+.change-input-component-section2-brand:read-only {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}

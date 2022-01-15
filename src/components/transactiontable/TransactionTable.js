@@ -7,8 +7,6 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     //1. SelectObject => after selection of row the data will be sent to parent / page CustomerPage
     let key = [];
     let value = [];
-    // let hiddenHeaders ="";
-    let objectIndex=0;
 
     const [header, setHeader] = useState(key);
     const [data, setData] = useState(value);

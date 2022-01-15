@@ -9,7 +9,6 @@ import changeIcon from "../../images/icons/change.png";
 import deleteIcon from "../../images/icons/delete.png";
 import TransactionTable from "../../components/transactiontable/TransactionTable";
 
-
 function ItemPage() {
 
     const [item, setItem] = useState([]);
@@ -64,7 +63,7 @@ function ItemPage() {
         if (window.confirm(text) === true) {
             setError(false);
             try {
-                const {data} = await axios.delete("http://localhost:8080/items/" + selectedItem.idItem, {
+                const {data} = await axios.delete(`http://localhost:8080/items/${itemType}/${selectedItem.idItem}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -120,54 +119,55 @@ function ItemPage() {
             }))
         } else if (formState.itemName !== "") {
             setItem(data.filter(function (object) {
-                return object.itemName.toLowerCase() === formState.itemName.toLowerCase();
+                return object.itemName.toLowerCase().includes(formState.itemName.toLowerCase());
             }))
-        }else if (formState.itemCategory !== "") {
-                setItem(data.filter(function (object) {
-                    return object.itemCategory === formState.itemCategory;
-                }))
+        } else if (formState.itemCategory !== "") {
+            setItem(data.filter(function (object) {
+                return object.itemCategory.toLowerCase().includes(formState.itemCategory.toLowerCase());
+            }))
         } else {
             console.log("no entry");
         }
         ;
     }
 
-
+    console.log(selectedItem);
     return (
         <div className="item-home-container">
             <div className="item-home-filter">
-                <form>
-                    <section>
-                        <InputField name="itemId" label="Item ID" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
-                    <section>
-                        <InputField name="itemType" label="Item Type" inputType="text" list="itemTypeList"
-                            // onChange={()=>setItemType() }
-                                    onSelection={onSelection}
 
-                        />
-                        <datalist id="itemTypeList">
-                            <option value="parts">parts</option>
-                            <option value="activities">activities</option>
-                        </datalist>
+                <section>
+                    <InputField name="itemId" label="Item ID" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
+                <section>
+                    <InputField name="itemType" label="Item Type" inputType="text" list="itemTypeList"
+                                placeholder="please select"
+                                onSelection={onSelection}
 
-                    </section>
 
-                    <section>
-                        <InputField name="itemName" label="Item Name" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
+                    />
+                    <datalist id="itemTypeList">
+                        <option value="parts">parts</option>
+                        <option value="activities">activities</option>
+                    </datalist>
 
-                    <section>
-                        <InputField name="itemCategory" label="Item Category" inputType="text"
-                                    onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                        />
-                    </section>
+                </section>
 
-                </form>
+                <section>
+                    <InputField name="itemName" label="Item Name" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
+
+                <section>
+                    <InputField name="itemCategory" label="Item Category" inputType="text"
+                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    />
+                </section>
+
+
             </div>
             <div className="item-home-transaction-container">
                 <div className="item-home-display-container">
@@ -185,7 +185,7 @@ function ItemPage() {
                         buttonName="transaction-home-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
-                        pathName={"/items/display/" + (selectedItem.idItem)}
+                        pathName={"/items/display/" + itemType + "/" + selectedItem.idItem}
                         disabled={selectedItem.idItem === ''}
                         buttonIcon={displayIcon}
                     />
@@ -193,7 +193,7 @@ function ItemPage() {
                         buttonName="transaction-home-button"
                         buttonDescription="CREATE"
                         buttonType="button"
-                        pathName="/items/create"
+                        pathName={"/items/create/" + itemType}
                         disabled={false}
                         buttonIcon={createIcon}
                     />
@@ -201,7 +201,7 @@ function ItemPage() {
                         buttonName="transaction-home-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
-                        pathName={"/items/change/" + (selectedItem.idItem)}
+                        pathName={"/items/change/" + itemType + "/" + selectedItem.idItem}
                         disabled={selectedItem.idItem === ''}
                         buttonIcon={changeIcon}
                     />

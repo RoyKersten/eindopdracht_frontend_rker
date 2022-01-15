@@ -1,0 +1,56 @@
+/*item home: determine container/space between header and footer*/
+.item-display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.item-display-form {
+    display: inline-flex;
+}
+
+.item-display-form section {
+    margin: 20px;
+}
+
+.item-display-section1 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+.item-display-section2 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.item-display-section3 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+
+.display-input-component-section1 {
+    width: 250px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+.display-input-component-section2 {
+    width: 500px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+.display-input-component-section3 {
+    width: 250px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
