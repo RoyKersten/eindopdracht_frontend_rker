@@ -16,6 +16,7 @@ import ItemPage from "./pages/item/ItemPage";
 import DisplayItemPage from "./pages/item/DisplayItemPage";
 import CreateItemPage from "./pages/item/CreateItemPage";
 import ChangeItemPage from "./pages/item/ChangeItemPage";
+import ServicePage from "./pages/service/ServicePage";
 
 function App() {
     const location = useLocation();                                     /*rendering of page to ensure Header is displayed after login (all other pages) */
@@ -67,6 +68,9 @@ function App() {
                 </Route>
                 <Route exact path="/items/change/:itemType/:id">
                     <ChangeItemPage/>
+                </Route>
+                <Route exact path="/services">
+                    <ServicePage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}

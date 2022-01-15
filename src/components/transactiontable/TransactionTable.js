@@ -7,10 +7,12 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     //1. SelectObject => after selection of row the data will be sent to parent / page CustomerPage
     let key = [];
     let value = [];
+    let m =0;
 
     const [header, setHeader] = useState(key);
     const [data, setData] = useState(value);
-    const [nestedObjectId, setNestedObjectId] = useState("");                      //takes ID of the nested object to display in the transaction table
+    const [index, setIndex] =useState(0);
+    const [nestedObjectId, setNestedObjectId] = useState(["",""]);                      //takes ID of the nested object to display in the transaction table
     const [hiddenHeaders, setHiddenHeaders] = useState(["",""]);                        //set which headers should be hidden from original object
 
     useEffect(() => {
@@ -42,12 +44,23 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
             switch(objectIdentified) {
                 case "customer":
                     setHiddenHeaders(["",""]);              //no headers to hide for customer
-                    setNestedObjectId("");                  //no nestedObjects for customerObject
+                    setNestedObjectId(["",""]);                  //no nestedObjects for customerObject
+
                     break;
                 case "car" :
                    setHiddenHeaders(["carPaper",""]);       //carPaper to hide for car
-                   setNestedObjectId("idCustomer");         //customer is a nested object within Car => take idCustomer to display in transaction table
+                   setNestedObjectId(["idCustomer",""]);         //customer is a nested object within Car => take idCustomer to display in transaction table
                    console.log(hiddenHeaders);
+                    break;
+                case "item" :
+                    setHiddenHeaders(["",""]);       //carPaper to hide for car
+                    setNestedObjectId(["",""]);         //customer is a nested object within Car => take idCustomer to display in transaction table
+                    console.log(hiddenHeaders);
+                    break;
+                case "service" :
+                    setHiddenHeaders(["",""]);       //carPaper to hide for car
+                    setNestedObjectId(["idCustomer","idCar"]);           //customer is a nested object within Car => take idCustomer to display in transaction table
+                    console.log(hiddenHeaders);
                     break;
                 default:
             }
@@ -69,7 +82,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
             {data.map((object, k) => (
                 <tr key={k}  tabIndex={k} onClick={() => selectObject(object)}>
                     {header.map((loop, j) => (
-                        <td key={j} hidden={(header[j]===hiddenHeaders[0]  || header[j]===hiddenHeaders[1]) ? true : false}>{Object.values(object)[j]?.[nestedObjectId] === undefined ? Object.values(object)[j] : Object.values(object)[j]?.[nestedObjectId]}</td>
+                        <td key={j} hidden={(header[j]===hiddenHeaders[0]  || header[j]===hiddenHeaders[1]) ? true : false}>{Object.values(object)[j]?.[nestedObjectId[0]] === undefined && Object.values(object)[j]?.[nestedObjectId[1]]=== undefined ? Object.values(object)[j] : Object.values(object)[j]?.[nestedObjectId[0]] || Object.values(object)[j]?.[nestedObjectId[1]]}</td>
                     ))}
                 </tr>
             ))}

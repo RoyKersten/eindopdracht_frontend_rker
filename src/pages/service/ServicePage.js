@@ -1,4 +1,4 @@
-import './ItemPage.css';
+import './ServicePage.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
@@ -9,40 +9,40 @@ import changeIcon from "../../images/icons/change.png";
 import deleteIcon from "../../images/icons/delete.png";
 import TransactionTable from "../../components/transactiontable/TransactionTable";
 
-function ItemPage() {
+function ServicePage() {
 
-    const [item, setItem] = useState([]);
-    const [itemType, setItemType] = useState("parts");
+    const serviceStatus = ["UITVOEREN", "NIET_UITVOEREN", "VOLTOOID"];
+    const [service, setService] = useState([]);
+    const [serviceType, setServiceType] = useState("inspections");
     const [sourceData, setSourceData] = useState([]);
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
-    const [selectedItem, setSelectedItem] = useState({idItem: ''});
+    const [selectedService, setSelectedService] = useState({idService: ''});
     const [formState, setFormState] = useState({
-        itemId: '',
-        itemType: '',
-        itemName: '',
-        itemCategory: '',
+        serviceId: '',
+        serviceType: '',
+        serviceStatus: '',
+        customerId: '',
     });
 
 
     //Get item data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
-        async function getItem() {
+        async function getService() {
             toggleLoading(true);
             setError(false);
-            console.log(itemType)
-
+            console.log(serviceType)
             try {
-                const {data} = await axios.get(`http://localhost:8080/items/${itemType}`, {
+                const {data} = await axios.get(`http://localhost:8080/services/${serviceType}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
                 setSourceData(data);
-                setItem(data);
+                setService(data);
 
             } catch (error) {
                 setError(true);
@@ -54,16 +54,18 @@ function ItemPage() {
         }
 
 
-        getItem().then();
-    }, [reload, itemType]);
+        getService().then();
+    }, [reload, serviceType]);
 
 
-    async function deleteItemById() {
-        let text = "item will be deleted permanently in case no inspection or repair is connected, are you sure?";
+    async function deleteServiceById() {
+        console.log(serviceType)
+        console.log(selectedService.idService)
+        let text = "service will be deleted permanently in case no invoice is connected, are you sure?";
         if (window.confirm(text) === true) {
             setError(false);
             try {
-                const {data} = await axios.delete(`http://localhost:8080/items/${itemType}/${selectedItem.idItem}`, {
+                const {data} = await axios.delete(`http://localhost:8080/services/${serviceType}/${selectedService.idService}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -97,33 +99,45 @@ function ItemPage() {
 
 
     //filter data based on itemType part or activity selection
-    function onSelection(e) {
+    function onSelectionServiceType(e) {
         if (e.target.value === "") {
         } else {
-            setItemType(e.target.value);
-            filterData(sourceData);
+            setServiceType(e.target.value);
         }
+        filterData(sourceData);
+        formState.serviceType = '';
     }
+
+    //filter data based on itemType part or activity selection
+    function onSelectionServiceStatus(e) {
+        if (e.target.value === "") {
+        } else {
+            formState.serviceStatus = e.target.value
+        }
+        filterData(sourceData);
+        formState.serviceStatus = '';       //Reset filter serviceStatus to reload available repairs or inspections
+    }
+
 
 //Filter data based customerId and lastname or show all customers when filters are empty
     function filterData(data) {
-        setItem(sourceData);
+        setService(sourceData);
 
-        if (formState.itemId !== "") {
-            setItem(data.filter(function (object) {
-                return object.idItem.toString() === formState.itemId.toString();
+        if (formState.serviceId !== "") {
+            setService(data.filter(function (object) {
+                return object.idService.toString() === formState.serviceId.toString();
             }))
-        } else if (formState.itemType !== "") {
-            setItem(data.filter(function (object) {
-                return object.itemType === formState.itemType;
+        } else if (formState.serviceType !== "") {
+            setService(data.filter(function (object) {
+                return object.serviceType === formState.serviceType;
             }))
-        } else if (formState.itemName !== "") {
-            setItem(data.filter(function (object) {
-                return object.itemName.toLowerCase().includes(formState.itemName.toLowerCase());
+        } else if (formState.serviceStatus !== "") {
+            setService(data.filter(function (object) {
+                return object.serviceStatus.toString() === formState.serviceStatus.toString();
             }))
-        } else if (formState.itemCategory !== "") {
-            setItem(data.filter(function (object) {
-                return object.itemCategory.toLowerCase().includes(formState.itemCategory.toLowerCase());
+        } else if (formState.customerId !== "") {
+            setService(data.filter(function (object) {
+                return object.customer.idCustomer.toString() === formState.customerId.toString();
             }))
         } else {
             console.log("no entry");
@@ -131,69 +145,69 @@ function ItemPage() {
         ;
     }
 
-    console.log(selectedItem);
     return (
         <div className="service-home-container">
-            <div className="item-home-filter">
+            <div className="service-home-filter">
 
                 <section>
-                    <InputField name="itemId" label="Item ID" inputType="text"
+                    <InputField name="serviceId" label="Service ID" inputType="text"
                                 onKeyPress={onKeyPress} changeHandler={onKeyPress}
                     />
                 </section>
                 <section>
-                    <InputField name="itemType" label="Item Type" inputType="text" list="itemTypeList"
+                    <InputField name="serviceType" label="Service Type" inputType="text" list="itemTypeList"
                                 placeholder="please select"
-                                onSelection={onSelection}
-
+                                onSelection={onSelectionServiceType}
 
                     />
                     <datalist id="itemTypeList">
-                        <option value="parts">parts</option>
-                        <option value="activities">activities</option>
+                        <option defaultValue="inspections">inspections</option>
+                        <option value="repairs">repairs</option>
                     </datalist>
-
                 </section>
-
                 <section>
-                    <InputField name="itemName" label="Item Name" inputType="text"
+                    <InputField name="serviceStatus" label="Service Status" inputType="text" list="serviceStatusList"
+                                placeholder="please select"
+                                onSelection={onSelectionServiceStatus}
+                    />
+                    <datalist id="serviceStatusList">
+                        {serviceStatus.map((serviceStat, i) => (
+                            <option key={i} value={serviceStat}/>
+                        ))}
+
+                    </datalist>
+                </section>
+                <section>
+                    <InputField name="customerId" label="Customer ID" inputType="text"
                                 onKeyPress={onKeyPress} changeHandler={onKeyPress}
                     />
                 </section>
-
-                <section>
-                    <InputField name="itemCategory" label="Item Category" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
-                    />
-                </section>
-
-
             </div>
-            <div className="item-home-transaction-container">
-                <div className="item-home-display-container">
+            <div className="service-home-transaction-container">
+                <div className="service-home-display-container">
                     <TransactionTable
-                        selectObject={(selectedItem) => setSelectedItem(selectedItem)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="item-home-container-table"
-                        headerContainerClassName="item-home-table-header"
-                        headerClassName="item-home-table-header"
-                        dataInput={item}
+                        selectObject={(selectedService) => setSelectedService(selectedService)}                             //2 Retrieve data from child/component TransactionTable
+                        tableContainerClassName="service-home-container-table"
+                        headerContainerClassName="service-home-table-header"
+                        headerClassName="service-home-table-header"
+                        dataInput={service}
                     />
                 </div>
 
-                <div className="item-home-buttons">
+                <div className="service-home-buttons">
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
-                        pathName={"/items/display/" + itemType + "/" + selectedItem.idItem}
-                        disabled={selectedItem.idItem === ''}
+                        pathName={"/services/display/" + serviceType + "/" + selectedService.idService}
+                        disabled={selectedService.idService === ''}
                         buttonIcon={displayIcon}
                     />
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="CREATE"
                         buttonType="button"
-                        pathName={"/items/create/" + itemType}
+                        pathName={"/services/create/" + serviceType}
                         disabled={false}
                         buttonIcon={createIcon}
                     />
@@ -201,17 +215,17 @@ function ItemPage() {
                         buttonName="transaction-home-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
-                        pathName={"/items/change/" + itemType + "/" + selectedItem.idItem}
-                        disabled={selectedItem.idItem === ''}
+                        pathName={"/services/change/" + serviceType + "/" + selectedService.idService}
+                        disabled={selectedService.idService === ''}
                         buttonIcon={changeIcon}
                     />
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="DELETE"
                         buttonType="button"
-                        onClick={() => deleteItemById()}
+                        onClick={() => deleteServiceById()}
                         pathName=""
-                        disabled={selectedItem.idItem === ''}
+                        disabled={selectedService.idService === ''}
                         buttonIcon={deleteIcon}
                     />
                 </div>
@@ -220,11 +234,12 @@ function ItemPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedItem.idItem && !loading && <p className="message-home">Please select an item</p>}
+                {!selectedService.idService && !loading &&
+                    <p className="message-home">please select service or select Service Type to switch between repairs
+                        and inspections</p>}
             </div>
-
         </div>
     );
 };
 
-export default ItemPage;
+export default ServicePage;

@@ -1,4 +1,4 @@
-/*item home: determine container/space between header and footer*/
+/*service home: determine container/space between header and footer*/
 .service-home-container {
     padding-top: 90px;
     height: calc(100vh - 90px - 75px);
@@ -6,22 +6,22 @@
 }
 
 
-/*item home: position filters Customer ID and Lastname*/
-.item-home-filter section {
+/*service home: position filters Customer ID and Lastname*/
+.service-home-filter section {
     display: inline-block;
     margin-left: 100px;
     margin-top: 50px;
 }
 
-/*customer home: position transaction window and buttons: display, create, change and delete*/
-.item-home-transaction-container {
+/*service home: position transaction window and buttons: display, create, change and delete*/
+.service-home-transaction-container {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
-/*customer home: position transaction window*/
-.item-home-display-container {
+/*service home: position transaction window*/
+.service-home-display-container {
     margin-left: 100px;
     margin-top: 20px;
     min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
@@ -31,8 +31,8 @@
     overflow: auto;
 }
 
-/*customer home: position buttons: display, create, change and delete*/
-.item-home-buttons {
+/*service home: position buttons: display, create, change and delete*/
+.service-home-buttons {
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
@@ -43,7 +43,7 @@
 }
 
 /*set table width for headers in transaction window, border-spacing 0*/
-.item-home-container-table {
+.service-home-container-table {
     overflow: hidden;
     top: 0;
     width: 100%;
