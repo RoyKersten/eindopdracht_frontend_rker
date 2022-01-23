@@ -28,7 +28,7 @@ function ServicePage() {
     });
 
 
-    //Get item data based on endpoint, get bearer token from local storage to validate authentication and authorization
+    //Get service data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
         async function getService() {
             toggleLoading(true);
@@ -155,12 +155,12 @@ function ServicePage() {
                     />
                 </section>
                 <section>
-                    <InputField name="serviceType" label="Service Type" inputType="text" list="itemTypeList"
+                    <InputField name="serviceType" label="Service Type" inputType="text" list="serviceTypeList"
                                 placeholder="please select"
                                 onSelection={onSelectionServiceType}
 
                     />
-                    <datalist id="itemTypeList">
+                    <datalist id="serviceTypeList">
                         <option defaultValue="inspections">inspections</option>
                         <option value="repairs">repairs</option>
                     </datalist>
@@ -207,7 +207,7 @@ function ServicePage() {
                         buttonName="transaction-home-button"
                         buttonDescription="CREATE"
                         buttonType="button"
-                        pathName={"/services/create/" + serviceType}
+                        pathName={"/services/create"}
                         disabled={false}
                         buttonIcon={createIcon}
                     />

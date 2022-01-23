@@ -17,6 +17,11 @@ import DisplayItemPage from "./pages/item/DisplayItemPage";
 import CreateItemPage from "./pages/item/CreateItemPage";
 import ChangeItemPage from "./pages/item/ChangeItemPage";
 import ServicePage from "./pages/service/ServicePage";
+import DisplayServicePage from "./pages/service/DisplayServicePage";
+import CreateServicePage from "./pages/service/CreateServicePage";
+import DisplayServiceLinePage from "./pages/serviceline/DisplayServiceLinePage";
+import CreateServiceLinePage from "./pages/serviceline/CreateServiceLinePage";
+
 
 function App() {
     const location = useLocation();                                     /*rendering of page to ensure Header is displayed after login (all other pages) */
@@ -71,6 +76,18 @@ function App() {
                 </Route>
                 <Route exact path="/services">
                     <ServicePage/>
+                </Route>
+                <Route exact path="/services/display/:serviceType/:id">
+                    <DisplayServicePage/>
+                </Route>
+                <Route exact path="/services/create">
+                    <CreateServicePage/>
+                </Route>
+                <Route exact path="/servicelines/display/:id">
+                    <DisplayServiceLinePage/>
+                </Route>
+                <Route exact path="/servicelines/create/:serviceType/:id">
+                    <CreateServiceLinePage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}

@@ -1,0 +1,76 @@
+/*serviceline home: determine container/space between header and footer*/
+.serviceline-create-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+
+.serviceline-create-form {
+    display: inline-flex;
+}
+
+.serviceline-create-form section {
+    margin: 20px;
+}
+
+.serviceline-create-section1 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+.serviceline-create-section2 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+/*position div2: Item ID and div3: Item Type left and right side of container of 500px wide*/
+.serviceline-create-input-section2{
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+}
+
+
+/*style inputfields 225px wide within section 1*/
+.create-serviceline-input-component-section1 {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+/*style inputfields 500px wide within section 2*/
+.create-serviceline-input-component-section2 {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+/*style inputfields 225px wide within section 1*/
+.create-serviceline-input-component-section1:read-only {
+    width: 250px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+/*style inputfields 500px wide within section 2*/
+.create-serviceline-input-component-section2:read-only {
+    width: 500px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+
+/*style inputfields Item ID and Item Type 225px wide*/
+.create-serviceline-input-component {
+    width: 225px;
+    height: 20px;
+    border: 1px solid black;
+}
+

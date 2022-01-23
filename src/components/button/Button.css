@@ -40,6 +40,18 @@
 }
 
 
+/*Customer - Home Button styling*/
+.transaction-serviceline-button {
+    background-color: #C4D3EA;
+    height: 100px;
+    width: 175px;
+    cursor: pointer;
+    box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+
 /*Footer Button styling*/
 .footer-back-button {
     background-color: #C4D3EA;
@@ -120,4 +132,34 @@
 }
 
 
+/*Footer Button styling*/
+.confirm-button-service {
+    background-color: #C4D3EA;
+    height: 40px;
+    width: 175px;
+    cursor: pointer;
+    box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
+    font-weight: bold;
+    border: 1px solid black;
+}
 
+/*Footer button styling hover */
+.confirm-button-service:hover {
+    filter: opacity(0.80);
+}
+
+
+.confirm-button-service {
+    margin-left: 100px;
+}
+
+/*Footer button positioning*/
+.confirm-button-service span {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.confirm-button-service img {
+    margin-left: 10px;
+}

@@ -5,7 +5,7 @@ import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
 import openAttachmentIcon from "../../images/icons/attachment.png";
 import uploadIcon from "../../images/icons/file_upload.png";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 function DisplayCarPage() {
@@ -96,8 +96,7 @@ function DisplayCarPage() {
                             <section>
                                 <InputField className="display-car-input-component"
                                             name="Car ID"
-                                            label="Car ID"
-                                            inputType="text"
+                                            label="Car ID"                                            inputType="text"
                                             value={object.idCar}
                                             readOnly={true}
                                 />
