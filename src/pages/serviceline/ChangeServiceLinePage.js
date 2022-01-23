@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './CreateServiceLinePage.css';
+import './ChangeServiceLinePage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -7,32 +7,12 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 
-function CreateServiceLinePage() {
+function ChangeServiceLinePage() {
 
     const {id} = useParams()
     const {serviceType} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/services/${serviceType}/${id}`);
-    const [endpointServiceLinePost, setEndpointServiceLinePost] = useState(`http://localhost:8080/servicelines`);
-    const [objectService, setObjectService] = useState({
-        idService: '',
-        '@type': '',
-        serviceStatus: '',
-        serviceDate: '',
-        customer: {idCustomer: ''},
-        car: {idCar: ''},
-        issuesFoundInspection: '',
-        issuesToRepair: ''
-    });
-
-
-    const [postServiceLine, setPostServiceLine] = useState({
-        service: {idService: '', '@type': ''},
-        item: {idItem: '', '@type': ''},
-        qty: '',
-    });
-
-
     const [objectServiceLine, setObjectServiceLine] = useState({
         idServiceLine: '',
         service: {idService: '', '@type': ''},
@@ -45,119 +25,91 @@ function CreateServiceLinePage() {
         lineSubTotal: '',
         vatAmount: '',
         lineTotal: '',
-        vatRate:''
+        vatRate: ''
     });
 
 
     useEffect(() => {
-        async function getServiceById() {
+        //Get serviceLineById
+        async function getServiceLineById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/servicelines/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                setObjectService(data);
+                setObjectServiceLine(data);
             } catch (e) {
                 console.error(e);
             }
         }
 
-
-        getServiceById();
+        getServiceLineById();
     }, [endpoint]);
 
 
-    //add serviceLine
-    async function addServiceLine() {
-        setPostServiceLine(postServiceLine.service.idService = objectService.idService);                            //Set idService in ServiceLine
-        setPostServiceLine(postServiceLine.service['@type'] = objectService['@type']);                              //Set serviceType in Serviceline
-
+    async function updateServiceLineById() {
         try {
-            console.log(postServiceLine);
-            const {data} = await axios.post(endpointServiceLinePost, postServiceLine, {
+            const {data} = await axios.put(`http://localhost:8080/servicelines/${id}`, objectServiceLine, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-            console.log(data);
-            const indexOf = data.lastIndexOf("/") + 1;                           //determine new created idCar => last numbers after last /
-            const id = (data.substring(indexOf,));                                     //capture idItem
-            console.log(id);
-            if (data !== null) {
-                setErrorMessage("serviceline successfully created!");
-            }
-
-            await getServiceLineById(id);
-
+            setErrorMessage("serviceline successfully updated!");
         } catch (e) {
             setErrorMessage(e.response.data)
-            console.error(e);
-        }
-    }
-
-    //Get serviceLineById
-    async function getServiceLineById(idServiceLine) {
-        try {
-            const {data} = await axios.get(`http://localhost:8080/servicelines/${idServiceLine}`, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            setObjectServiceLine(data);
-        } catch (e) {
-            console.error(e);
         }
     }
 
 
-    //filter data based on itemType part or activity selection
-    function onSelection(e) {
+    //set formChange after enter key, this will trigger useEffect and data will be reloaded.
+    function changeHandler(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
         if (inputName === "idItem") {
-            postServiceLine.item.idItem = inputValue;
-        } else if (inputName === "@type") {
-           postServiceLine.item['@type'] = inputValue;
-        } else if (inputName === "qty") {
-            postServiceLine.qty = inputValue;
+            setObjectServiceLine(objectServiceLine.item.idItem = inputValue)
+        } else if (inputName === '@type') {
+            setObjectServiceLine(objectServiceLine.item['@type'] = inputValue)
         }
-    }
 
+        setObjectServiceLine({
+            ...objectServiceLine,
+            [inputName]: inputValue,
+        })
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
-        addServiceLine().then();
+        updateServiceLineById().then();
     }
 
     return (
-        <div className="serviceline-create-container">
-            <form className="serviceline-create-form" onSubmit={handleSubmit}>
-                <div className="serviceline-create-section1">
+        <div className="serviceline-change-container">
+            <form className="serviceline-change-form" onSubmit={handleSubmit}>
+                <div className="serviceline-change-section1">
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="change-serviceline-input-component-section1"
                                     name="idService"
                                     label="Service ID"
                                     inputType="text"
-                                    value={objectService.idService}
+                                    value={objectServiceLine.service?.idService === undefined ? '' : objectServiceLine.service.idService}
                                     readOnly={true}
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="change-serviceline-input-component-section1"
                                     name="@type"
                                     label="Service Type"
                                     inputType="text"
-                                    value={objectService['@type']}
+                                    value={objectServiceLine.service?.['@type'] === undefined ? '' : objectServiceLine.service['@type']}
                                     readOnly={true}
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="change-serviceline-input-component-section1"
                                     name="idServiceLine"
                                     label="ServiceLine ID"
                                     inputType="text"
@@ -166,7 +118,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="change-serviceline-input-component-section1"
                                     name="serviceLineNumber"
                                     label="Service Line Number"
                                     inputType="text"
@@ -175,7 +127,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="change-serviceline-input-component-section1"
                                     name="idInvoice"
                                     label="Invoice ID"
                                     inputType="text"
@@ -186,32 +138,34 @@ function CreateServiceLinePage() {
 
 
                 </div>
-                <div className="serviceline-create-section2">
-                    <div className="serviceline-create-input-section2">
-                        <div className="serviceline-create-div2">
+                <div className="serviceline-change-section2">
+                    <div className="serviceline-change-input-section2">
+                        <div className="serviceline-change-div2">
                             <section>
-                                <InputField className="create-serviceline-input-component"
+                                <InputField className="change-serviceline-input-component"
                                             name="idItem"
                                             label="Item ID"
                                             inputType="text"
                                             readOnly={false}
+                                            value={objectServiceLine.item?.idItem === undefined ? '' : objectServiceLine.item.idItem}
                                             placeholder="please enter"
-                                            changeHandler={onSelection}
+                                            changeHandler={changeHandler}
 
                                 />
                             </section>
                         </div>
 
-                        <div className="serviceline-create-div3">
+                        <div className="serviceline-change-div3">
                             <section>
-                                <InputField className="create-serviceline-input-component"
+                                <InputField className="change-serviceline-input-component"
                                             name="@type"
                                             label="Item Type"
                                             inputType="text"
                                             list="itemTypeList"
                                             readOnly={false}
+                                            value={objectServiceLine.item?.['@type'] === undefined ? '' : objectServiceLine.item['@type']}
                                             placeholder="please select"
-                                            onSelection={onSelection}
+                                            changeHandler={changeHandler}
 
                                 />
                             </section>
@@ -225,7 +179,7 @@ function CreateServiceLinePage() {
                     </div>
 
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="change-serviceline-input-component-section2"
                                     name="itemName"
                                     label="Item Name"
                                     inputType="text"
@@ -234,16 +188,17 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="change-serviceline-input-component-section2"
                                     name="qty"
                                     label="Item Qty."
                                     inputType="text"
+                                    value={objectServiceLine.qty}
                                     readOnly={false}
-                                    changeHandler={onSelection}
+                                    changeHandler={changeHandler}
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="change-serviceline-input-component-section2"
                                     name="price"
                                     label="Item Price"
                                     inputType="text"
@@ -252,7 +207,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="change-serviceline-input-component-section2"
                                     name="lineSubTotal"
                                     label="Subtotal"
                                     inputType="text"
@@ -261,7 +216,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="change-serviceline-input-component-section2"
                                     name="vatAmount"
                                     label="VAT Amount"
                                     inputType="text"
@@ -270,7 +225,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="change-serviceline-input-component-section2"
                                     name="lineTotal"
                                     label="Total Amount"
                                     inputType="text"
@@ -279,14 +234,14 @@ function CreateServiceLinePage() {
                         />
                     </section>
                 </div>
-            <Button
-                buttonName="confirm-button"
-                buttonDescription="CONFIRM"
-                buttonType="submit"
-                pathName=""
-                disabled={false}
-                buttonIcon={confirmIcon}
-            />
+                <Button
+                    buttonName="confirm-button"
+                    buttonDescription="CONFIRM"
+                    buttonType="submit"
+                    pathName=""
+                    disabled={false}
+                    buttonIcon={confirmIcon}
+                />
             </form>
             <div className="messages">
                 {errorMessage &&
@@ -296,4 +251,4 @@ function CreateServiceLinePage() {
     );
 }
 
-export default CreateServiceLinePage;
+export default ChangeServiceLinePage;

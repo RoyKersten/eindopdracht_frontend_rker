@@ -58,26 +58,6 @@ function ChangeItemPage() {
         }
     }
 
-    //filter data based on itemType part or activity selection
-    function onSelection(e) {
-        console.log(itemType)
-        if (e.target.value === "") {
-        } else {
-            itemType = e.target.value;
-            console.log(itemType)
-            window.history.replaceState(null, null, `/items/change/${itemType}/${id}`)
-            setEndpoint(`http://localhost:8080/items/${itemType}/${id}`)
-            if (itemType === "parts") {
-                formState["@type"] = "part"
-                setTypeOfItem(false);
-            } else {
-                formState["@type"] = "activity"
-                setTypeOfItem(true);
-            }
-        }
-
-    }
-
     function handleClick(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -189,6 +169,7 @@ function ChangeItemPage() {
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
+                    buttonType="submit"
                     pathName=""
                     disabled={false}
                     buttonIcon={confirmIcon}

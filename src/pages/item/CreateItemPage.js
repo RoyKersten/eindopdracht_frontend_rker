@@ -40,6 +40,7 @@ function CreateItemPage() {
             }
 
         } catch (e) {
+            // setErrorMessage(e.response.data)
             console.error(e);
         }
     }
@@ -190,7 +191,8 @@ function CreateItemPage() {
                 />
             </form>
             <div className="messages">
-                {errorMessage && <p className="message-error">{errorMessage}</p>}
+                {errorMessage &&
+                    <p className="message-error">{errorMessage}</p>}
             </div>
         </div>
     );

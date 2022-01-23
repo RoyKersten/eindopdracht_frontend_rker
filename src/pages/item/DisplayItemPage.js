@@ -97,7 +97,6 @@ function DisplayItemPage() {
                                 readOnly={true}
                     />
                 </section>
-
                 <section>
                     <InputField className="display-input-component-section3"
                                 name="price"
@@ -107,7 +106,6 @@ function DisplayItemPage() {
                                 readOnly={true}
                     />
                 </section>
-
                 <section>
                     <InputField className="display-input-component-section3"
                                 name="status"
@@ -118,9 +116,7 @@ function DisplayItemPage() {
                     />
                 </section>
                 </div>
-
             </form>
-
             <Button
                 buttonName="confirm-button"
                 buttonDescription="CONFIRM"

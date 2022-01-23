@@ -1,4 +1,4 @@
-import './DisplayServicePage.css';
+import './ChangeServicePage.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
@@ -11,24 +11,13 @@ import TransactionTable from "../../components/transactiontable/TransactionTable
 import {useParams} from "react-router-dom";
 import confirmIcon from "../../images/icons/confirm.png";
 
-function DisplayServicePage() {
+function ChangeServicePage() {
 
     const {id} = useParams()
-    const {serviceType} = useParams();
+    let {serviceType} = useParams();
     const serviceStatus = ["UITVOEREN", "NIET_UITVOEREN", "VOLTOOID"];
-    const [object, setObject] = useState({
-        idService: '',
-        '@type': '',
-        serviceStatus: '',
-        serviceDate: '',
-        customer: {idCustomer: ''},
-        car: {idCar: ''},
-        issuesFoundInspection: '',
-        issuesToRepair: ''
-    });
-
+    let [typeOfService, setTypeOfService] = useState(false);
     const [serviceLine, setServiceLine] = useState([]);
-    const [sourceData, setSourceData] = useState([]);
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -36,12 +25,13 @@ function DisplayServicePage() {
     const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
     const [formState, setFormState] = useState({
         serviceId: '',
-        serviceType: '',
+        '@type': '',
         serviceStatus: '',
         serviceDate: '',
-        customerId: '',
-        carId: '',
-        issuesService: 'test',
+        customer: {idCustomer: ''},
+        car: {idCar: ''},
+        issuesFoundInspection: '',
+        issuesToRepair: '',
     });
 
 
@@ -50,7 +40,17 @@ function DisplayServicePage() {
         async function getService() {
             toggleLoading(true);
             setError(false);
-            console.log(serviceType)
+
+            //Set type Of Service required for textarea IssuesFoundInspection / IssuesToRepair
+            if (serviceType === "inspections") {
+                formState["@type"] = "inspection"
+                setTypeOfService(false);
+            } else {
+                formState["@type"] = "repair"
+                setTypeOfService(true);
+            }
+
+
             try {
                 const {data} = await axios.get(`http://localhost:8080/services/${serviceType}/${id}`, {
                     headers: {
@@ -58,8 +58,7 @@ function DisplayServicePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                setSourceData(data);
-                setObject(data);
+                setFormState(data);
             } catch (error) {
                 setError(true);
                 setErrorMessage(error.data);
@@ -103,25 +102,81 @@ function DisplayServicePage() {
         getServiceLine().then();
     }, [reload, serviceType]);
 
+
+    async function deleteServiceLineById() {
+        console.log(serviceType)
+        console.log(selectedServiceLine.idServiceLine)
+        let text = "serviceline will be deleted permanently in case no invoice is connected, are you sure?";
+        if (window.confirm(text) === true) {
+            setError(false);
+            try {
+                const {data} = await axios.delete(`http://localhost:8080/servicelines/${selectedServiceLine.idServiceLine}`, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                setErrorMessage(data);
+                console.log(data);
+                setReload(!reload);
+
+            } catch (error) {
+                setErrorMessage(error.response.data);
+            }
+            toggleLoading(false);
+        }
+    }
+
+    async function updateServiceById() {
+        try {
+            const {data} = await axios.put(`http://localhost:8080/services/${serviceType}/${id}`, formState, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+            setErrorMessage("service successfully updated!");
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+
+    function handleClick(e) {
+        const inputName = e.target.name;
+        const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+
+        if (inputName === "idCustomer") {
+            setFormState(formState.customer.idCustomer = inputValue);
+        } else if (inputName === "idCar") {
+            setFormState(formState.car.idCar = inputValue);
+        }
+
+        setFormState({
+            ...formState,
+            [inputName]: inputValue,
+        })
+    }
+
     return (
-        <div className="service-display-container">
-            <div className="service-display-filter">
+        <div className="service-change-container">
+            <div className="service-change-filter">
                 <section>
-                    <InputField className="service-display-input-component"
+                    <InputField className="service-change-input-component"
                                 name="idService"
                                 label="Service ID"
                                 inputType="text"
-                                value={object.idService}
+                                value={formState.idService}
                                 readOnly={true}
                     />
                 </section>
                 <section>
-                    <InputField className="service-display-input-component"
+                    <InputField className="service-change-input-component"
                                 name="@type"
                                 label="Service Type"
                                 inputType="text"
                                 list="itemTypeList"
-                                value={object['@type']}
+                                value={formState['@type']}
                                 readOnly={true}
                     />
                     <datalist id="itemTypeList">
@@ -131,84 +186,96 @@ function DisplayServicePage() {
                 </section>
                 <section>
                     <InputField
-                        className="service-display-input-component"
-                        name="serviceStatus" label="Service Status" inputType="text"
+                        className="service-change-input-component"
+                        name="serviceStatus"
+                        label="Service Status"
+                        inputType="text"
                         placeholder="please select"
-                        value={object.serviceStatus}
-                        readOnly={true}
+                        value={formState.serviceStatus}
+                        readOnly={false}
+                        changeHandler={handleClick}
+                        list="serviceStatusList"
                     />
+                    <datalist id="serviceStatusList">
+                        {serviceStatus.map((status, i) => (
+                            <option key={i} value={status}/>
+                        ))}
 
+                    </datalist>
                 </section>
-
                 <section>
                     <InputField
-                        className="service-display-input-component"
+                        className="service-change-input-component"
                         name="serviceDate"
                         label="Service Date"
                         inputType="text"
-                        value={object.serviceDate}
-                        readOnly={true}
+                        value={formState.serviceDate}
+                        readOnly={false}
+                        changeHandler={handleClick}
                     />
                 </section>
-
                 <section>
                     <InputField
-                        className="service-display-input-component"
+                        className="service-change-input-component"
                         name="idCustomer"
                         label="Customer ID"
                         inputType="text"
-                        value={object.customer?.idCustomer === undefined ? '' : object.customer.idCustomer}
-                        readOnly={true}
+                        value={formState.customer?.idCustomer === undefined ? '' : formState.customer.idCustomer}
+                        readOnly={false}
+                        changeHandler={handleClick}
                     />
                 </section>
-
-
                 <section>
                     <InputField
-                        className="service-display-input-component"
+                        className="service-change-input-component"
                         name="idCar"
                         label="Car ID"
                         inputType="text"
-                        value={object.car?.idCar === undefined ? '' : object.car.idCar}
-                        readOnly={true}
+                        value={formState.car?.idCar === undefined ? '' : formState.car.idCar}
+                        readOnly={false}
+                        changeHandler={handleClick}
                     />
                 </section>
 
             </div>
-            <div className="text-field-issues">
-                {serviceType === "inspections" ?
-                    <textarea className="issuesFoundInspection"
-                              id="issuesFoundInspectionsId"
-                              cols="50"
-                              rows="5"
-                              value={object.issuesFoundInspection}
-                              readOnly={true}
-                    >issuesFoundInspection
+            <div className="text-field-issues-change">
+                {typeOfService === false ?
+                    <textarea
+                        name="issuesFoundInspection"
+                        cols="50"
+                        rows="5"
+                        value={formState.issuesFoundInspection}
+                        readOnly={typeOfService}
+                        onChange={handleClick}                  //onChange because textarea id not component inputField
+
+                    >
                     </textarea>
                     :
-                    <textarea className="issuesToRepair"
-                              id="issuesToRepairId"
-                              cols="50"
-                              rows="5"
-                              value={object.issuesToRepair}
-                              readOnly={true}
-                    >issuesToRepair
+                    <textarea
+                        name="issuesToRepair"
+                        cols="50"
+                        rows="5"
+                        value={formState.issuesToRepair}
+                        readOnly={!typeOfService}
+                        onChange={handleClick}                  //onChange because textarea id not component inputField
+                    >
                     </textarea>
                 }
                 <div className="confirm-button-service-container">
                     <Button
                         buttonName="confirm-button-service"
                         buttonDescription="CONFIRM"
-                        pathName="/home"
-                        disabled={true}
+                        pathName=""
+                        disabled={false}
                         buttonIcon={confirmIcon}
+                        onClick={updateServiceById}
                     />
                 </div>
             </div>
 
 
-            <div className="serviceline-display-transaction-container">
-                <div className="serviceline-display-display-container">
+            <div className="serviceline-change-transaction-container">
+                <div className="serviceline-change-display-container">
                     <TransactionTable
                         selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="service-home-container-table"
@@ -218,7 +285,7 @@ function DisplayServicePage() {
                     />
                 </div>
 
-                <div className="serviceline-display-buttons">
+                <div className="serviceline-change-buttons">
                     <Button
                         buttonName="transaction-serviceline-button"
                         buttonDescription="DISPLAY"
@@ -231,24 +298,25 @@ function DisplayServicePage() {
                         buttonName="transaction-serviceline-button"
                         buttonDescription="CREATE"
                         buttonType="button"
-                        pathName=""
-                        disabled={true}
+                        pathName={"/servicelines/create/" + formState['@type'] + "s/" + id}
+                        disabled={false}
                         buttonIcon={createIcon}
                     />
                     <Button
                         buttonName="transaction-serviceline-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
-                        pathName=""
-                        disabled={true}
+                        pathName={"/servicelines/change/" + selectedServiceLine.idServiceLine}
+                        disabled={selectedServiceLine.idServiceLine === ''}
                         buttonIcon={changeIcon}
                     />
                     <Button
                         buttonName="transaction-serviceline-button"
                         buttonDescription="DELETE"
                         buttonType="button"
+                        onClick={() => deleteServiceLineById()}
                         pathName=""
-                        disabled={true}
+                        disabled={selectedServiceLine.idServiceLine === ''}
                         buttonIcon={deleteIcon}
                     />
                 </div>
@@ -257,11 +325,11 @@ function DisplayServicePage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !loading &&
-                    <p className="message-home">please select serviceline to display details</p>}
+                {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
+                    <p className="message-home">please change service and press confirm or create, delete or change a serviceline</p>}
             </div>
         </div>
     );
 };
 
-export default DisplayServicePage;
+export default ChangeServicePage;

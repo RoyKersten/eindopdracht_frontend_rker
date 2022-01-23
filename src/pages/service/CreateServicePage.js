@@ -50,7 +50,7 @@ function CreateServicePage() {
             const id = (data.substring(indexOf,));                                     //capture idItem
             setIdService(id);
             if (data !== null) {
-                setErrorMessage("item successfully created!");
+                setErrorMessage("service successfully created!, please select create to add serviceline");
             }
 
         } catch (e) {
@@ -81,7 +81,6 @@ function CreateServicePage() {
         if (e.target.value === "") {
         } else {
             serviceType = e.target.value;
-            // window.history.replaceState(null, null, `/services/create/${serviceType}`)
             setEndpoint(`http://localhost:8080/services/${serviceType}`);
             if (serviceType === "inspections") {
                 formState["@type"] = "inspection"
@@ -113,7 +112,6 @@ function CreateServicePage() {
                                 inputType="text"
                                 list="itemTypeList"
                                 placeholder="please select"
-                                // value={formState['@type']}
                                 readOnly={false}
                                 changeHandler={onSelection}
                     />
@@ -130,9 +128,8 @@ function CreateServicePage() {
                         inputType="text"
                         list="serviceStatusList"
                         placeholder="please select"
-                        value={formState.serviceStatus}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        onSelection={handleClick}
                     />
                     <datalist id="serviceStatusList">
                         {serviceStatus.map((status, i) => (
@@ -240,7 +237,7 @@ function CreateServicePage() {
                         buttonDescription="CREATE"
                         buttonType="button"
                         pathName={"/servicelines/create/" + formState['@type'] + "s/" + idService}
-                        disabled={false}
+                        disabled={!idService}
                         buttonIcon={createIcon}
                     />
                     <Button
@@ -265,9 +262,8 @@ function CreateServicePage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !loading &&
-                    <p className="message-home">please select service or select Service Type to switch between repairs
-                        and inspections</p>}
+                {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
+                    <p className="message-home">please enter service details and press confirm to create a new service</p>}
             </div>
         </div>
     );

@@ -21,6 +21,8 @@ import DisplayServicePage from "./pages/service/DisplayServicePage";
 import CreateServicePage from "./pages/service/CreateServicePage";
 import DisplayServiceLinePage from "./pages/serviceline/DisplayServiceLinePage";
 import CreateServiceLinePage from "./pages/serviceline/CreateServiceLinePage";
+import ChangeServicePage from "./pages/service/ChangeServicePage";
+import ChangeServiceLinePage from "./pages/serviceline/ChangeServiceLinePage";
 
 
 function App() {
@@ -83,11 +85,18 @@ function App() {
                 <Route exact path="/services/create">
                     <CreateServicePage/>
                 </Route>
+                <Route exact path="/services/change/:serviceType/:id">
+                    <ChangeServicePage/>
+                </Route>
+
                 <Route exact path="/servicelines/display/:id">
                     <DisplayServiceLinePage/>
                 </Route>
                 <Route exact path="/servicelines/create/:serviceType/:id">
                     <CreateServiceLinePage/>
+                </Route>
+                <Route exact path="/servicelines/change/:id">
+                    <ChangeServiceLinePage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
