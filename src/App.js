@@ -23,6 +23,8 @@ import DisplayServiceLinePage from "./pages/serviceline/DisplayServiceLinePage";
 import CreateServiceLinePage from "./pages/serviceline/CreateServiceLinePage";
 import ChangeServicePage from "./pages/service/ChangeServicePage";
 import ChangeServiceLinePage from "./pages/serviceline/ChangeServiceLinePage";
+import InvoicePage from "./pages/invoice/InvoicePage";
+import DisplayInvoicePage from "./pages/invoice/DisplayInvoicePage";
 
 
 function App() {
@@ -51,7 +53,6 @@ function App() {
                 <Route exact path="/customers/change/:id">
                     <ChangeCustomerPage/>
                 </Route>
-
                 <Route exact path="/cars">
                     <CarPage/>
                 </Route>
@@ -88,7 +89,6 @@ function App() {
                 <Route exact path="/services/change/:serviceType/:id">
                     <ChangeServicePage/>
                 </Route>
-
                 <Route exact path="/servicelines/display/:id">
                     <DisplayServiceLinePage/>
                 </Route>
@@ -97,6 +97,12 @@ function App() {
                 </Route>
                 <Route exact path="/servicelines/change/:id">
                     <ChangeServiceLinePage/>
+                </Route>
+                <Route exact path="/invoices">
+                    <InvoicePage/>
+                </Route>
+                <Route exact path="/invoices/display/:invoiceType/:id">
+                    <DisplayInvoicePage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}

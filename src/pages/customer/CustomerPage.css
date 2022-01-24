@@ -6,9 +6,13 @@
 }
 
 /*customer home: position filters Customer ID and Lastname*/
+.customer-home-filter {
+    margin-left: 80px;
+}
+
 .customer-home-filter section {
     display: inline-block;
-    margin-left: 100px;
+    margin-left: 20px;
     margin-top: 50px;
 }
 

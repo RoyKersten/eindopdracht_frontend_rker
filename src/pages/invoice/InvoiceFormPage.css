@@ -1,0 +1,55 @@
+/*item home: determine container/space between header and footer*/
+.invoice-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.invoice-form {
+    display: inline-flex;
+}
+
+.invoice-form section {
+    margin: 20px;
+}
+
+.invoice-form-section1 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+.invoice-form-section2 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.invoice-form-section3 {
+    display: inline-flex;
+    flex-direction: column;
+
+}
+
+.invoice-form-input-component-section1 {
+    width: 250px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+.invoice-form-input-component-section2 {
+    width: 250px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+.invoice-form-input-component-section3 {
+    width: 500px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}

@@ -6,9 +6,13 @@
 }
 
 /*car home: position filters Customer ID and Lastname*/
+.car-home-filter {
+    margin-left: 80px;
+}
+
 .car-home-filter section {
     display: inline-block;
-    margin-left: 100px;
+    margin-left: 20px;
     margin-top: 50px;
 }
 

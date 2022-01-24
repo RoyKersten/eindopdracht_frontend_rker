@@ -61,7 +61,7 @@ function DisplayItemPage() {
                 </section>
                 <section>
                     <InputField className="display-input-component-section2"
-                                ame="itemCategory"
+                                name="itemCategory"
                                 label="Item Category"
                                 inputType="text"
                                 value={object.itemCategory}

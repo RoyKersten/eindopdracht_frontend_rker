@@ -67,7 +67,11 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
                     setNestedObjectId(["idItem", "idService", "idInvoice"]);           //item, service and invoice are nested objects within serviceline => take idItem, idService and idInvoice to display in transaction table
                     console.log(hiddenHeaders);
                     break;
-
+                case "invoice" :
+                    setHiddenHeaders(["pathName", "", ""]);                            //hide header: pathName for invoice transaction table
+                    setNestedObjectId(["idCustomer", "idService"]);                    //customer aand service are nested objects within invoice => take idCustomer and idService to display in transaction table
+                    console.log(hiddenHeaders);
+                    break;
                 default:
             }
         }

@@ -7,9 +7,13 @@
 
 
 /*service home: position filters Customer ID and Lastname*/
+.service-home-filter {
+    margin-left: 80px;
+}
+
 .service-home-filter section {
     display: inline-block;
-    margin-left: 100px;
+    margin-left: 20px;
     margin-top: 50px;
 }
 
