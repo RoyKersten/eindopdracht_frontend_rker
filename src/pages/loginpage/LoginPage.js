@@ -10,20 +10,20 @@ function LoginPage() {
 
     //SignIn: get bearer token from backend based-on username and password
     async function signIn() {
-            try {
-                const bearer = await axios.post("http://localhost:8080/authenticate",
-                    {
-                        "username": "mechanic",
-                        "password": "password"
-                    })
-                localStorage.setItem('token', bearer.data.jwt);                         //local storage to store bearer token
-                const token = localStorage.getItem('token');
-                console.log(token);
-            } catch (e) {
-                console.error(e);
-            }
-        history.push('/home');
+        try {
+            const bearer = await axios.post("http://localhost:8080/authenticate",
+                {
+                    "username": "cashier",
+                    "password": "password"
+                })
+            localStorage.setItem('token', bearer.data.jwt);                         //local storage to store bearer token
+            const token = localStorage.getItem('token');
+            console.log(token);
+        } catch (e) {
+            console.error(e);
         }
+        history.push('/home');
+    }
 
     return (
         <div className="login-container">

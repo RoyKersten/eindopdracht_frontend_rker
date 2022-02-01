@@ -62,11 +62,11 @@ function InvoicePage() {
     async function deleteInvoiceById() {
         console.log(invoiceType)
         console.log(selectedInvoice.idInvoice)
-        let text = "service will be deleted permanently in case no invoice is connected, are you sure?";
+        let text = "invoice will be deleted permanently in case no invoice is connected, are you sure?";
         if (window.confirm(text) === true) {
             setError(false);
             try {
-                const {data} = await axios.delete(`http://localhost:8080/services/${invoiceType}/${selectedInvoice.idInvoice}`, {
+                const {data} = await axios.delete(`http://localhost:8080/invoices/${invoiceType}/${selectedInvoice.idInvoice}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -219,7 +219,7 @@ function InvoicePage() {
                         buttonName="transaction-home-button"
                         buttonDescription="CREATE"
                         buttonType="button"
-                        pathName={"/invoices/create"}
+                        pathName={"/invoices/create/"}
                         disabled={false}
                         buttonIcon={createIcon}
                     />
@@ -247,7 +247,8 @@ function InvoicePage() {
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
                 {!selectedInvoice.idInvoice && !loading &&
-                    <p className="message-home">please select invoice or select Invoice Type to switch between repair invoices
+                    <p className="message-home">please select invoice or select Invoice Type to switch between repair
+                        invoices
                         and inspection invoices</p>}
             </div>
         </div>

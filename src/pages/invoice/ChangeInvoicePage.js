@@ -7,22 +7,32 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 
-function DisplayInvoicePage() {
+function ChangeInvoicePage() {
 
     const {id} = useParams()
-    const {invoiceType} = useParams();
+    let {invoiceType} = useParams();
+    const [errorMessage, setErrorMessage] = useState("");
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/invoices/${invoiceType}/${id}`);
+    const [postInvoice, setPostInvoice] = useState({
+        '@type': '',
+        service: {idService: '', '@type': ''},
+        pathName: '',
+    });
+
+
     const [formState, setFormState] = useState({
         idInvoice: '',
         '@type': '',
         service: {idService: '', '@type': ''},
+        customer: {idCustomer: ''},
         invoiceStatus: '',
         invoiceSubtotal: '',
         invoiceTotal: '',
         vatAmount: '',
         vatRate: '',
-        pathName: ''
+        pathName: '',
     });
+
 
     useEffect(() => {
         async function getInvoiceById() {
@@ -42,11 +52,51 @@ function DisplayInvoicePage() {
         getInvoiceById();
     }, [endpoint]);
 
-    console.log(formState)
+
+    async function updateInvoice() {
+        console.log(postInvoice);
+        try {
+            const {data} = await axios.put(endpoint, formState, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+            setFormState(data);
+            setErrorMessage("invoice successfully updated!");
+        } catch (e) {
+            setErrorMessage(e.response.data)
+        }
+    }
+
+
+    function handleChange(e) {
+        const inputName = e.target.name;
+        const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+
+        if (inputName === "idService") {
+            setFormState(formState.service.idService = inputValue);
+        } else if (inputName === '@type') {
+            setFormState(formState.service['@type'] = inputValue);
+            setFormState(formState['@type'] = inputValue + "_invoice");
+        }
+
+        setFormState({
+            ...formState,
+            [inputName]: inputValue,
+        })
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        updateInvoice().then();
+    }
+
+    console.log(formState);
 
     return (
         <div className="invoice-form-container">
-            <form className="invoice-form">
+            <form className="invoice-form" onSubmit={handleSubmit}>
                 <div className="invoice-form-section1">
                     <section>
                         <InputField className="invoice-form-input-component-section1"
@@ -82,17 +132,27 @@ function DisplayInvoicePage() {
                                     name='@type'
                                     label="Service Type"
                                     inputType="text"
-                                    value={formState.service['@type']}
-                                    readOnly={true}
+                                    list="invoiceTypeList"
+                                    value={formState.service?.['@type'] === undefined ? '' : formState.service['@type']}
+                                    readOnly={false}
+                                    placeholder="please select"
+                                    changeHandler={handleChange}
                         />
+
+                        <datalist id="invoiceTypeList">
+                            <option value="inspection">inspection</option>
+                            <option value="repair">repair</option>
+                        </datalist>
                     </section>
                     <section>
                         <InputField className="invoice-form-input-component-section2"
                                     name="idService"
                                     label="Service ID"
                                     inputType="text"
-                                    value={formState.service.idService}
-                                    readOnly={true}
+                                    value={formState.service?.idService === undefined ? '' : formState.service.idService}
+                                    readOnly={false}
+                                    placeholder="please enter"
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -106,7 +166,7 @@ function DisplayInvoicePage() {
                     </section>
                     <section>
                         <InputField className="invoice-form-input-component-section2"
-                                    name="invoiceSubTotal"
+                                    name="invoiceSubtotal"
                                     label="Subtotal"
                                     inputType="text"
                                     value={formState.invoiceSubtotal}
@@ -138,21 +198,29 @@ function DisplayInvoicePage() {
                                     name="pathName"
                                     label="File Location To Store Invoice"
                                     inputType="text"
+                                    placeholder="please enter path: /users/roykersten/documents/invoices/invoice service 4"
                                     value={formState.pathName}
-                                    readOnly={true}
+                                    readOnly={false}
+                                    changeHandler={handleChange}
+
                         />
                     </section>
                 </div>
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
-                    pathName="/home"
-                    disabled={true}
+                    pathName=""
+                    buttonType="submit"
+                    disabled={false}
                     buttonIcon={confirmIcon}
                 />
             </form>
+            <div className="messages">
+                {errorMessage &&
+                    <p className="message-error">{errorMessage}</p>}
+            </div>
         </div>
     );
 }
 
-export default DisplayInvoicePage;
+export default ChangeInvoicePage;

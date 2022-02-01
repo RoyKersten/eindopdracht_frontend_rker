@@ -45,7 +45,7 @@ function CreateServiceLinePage() {
         lineSubTotal: '',
         vatAmount: '',
         lineTotal: '',
-        vatRate:''
+        vatRate: ''
     });
 
 
@@ -122,7 +122,7 @@ function CreateServiceLinePage() {
         if (inputName === "idItem") {
             postServiceLine.item.idItem = inputValue;
         } else if (inputName === "@type") {
-           postServiceLine.item['@type'] = inputValue;
+            postServiceLine.item['@type'] = inputValue;
         } else if (inputName === "qty") {
             postServiceLine.qty = inputValue;
         }
@@ -183,8 +183,6 @@ function CreateServiceLinePage() {
                                     readOnly={true}
                         />
                     </section>
-
-
                 </div>
                 <div className="serviceline-create-section2">
                     <div className="serviceline-create-input-section2">
@@ -197,7 +195,6 @@ function CreateServiceLinePage() {
                                             readOnly={false}
                                             placeholder="please enter"
                                             changeHandler={onSelection}
-
                                 />
                             </section>
                         </div>
@@ -212,7 +209,6 @@ function CreateServiceLinePage() {
                                             readOnly={false}
                                             placeholder="please select"
                                             onSelection={onSelection}
-
                                 />
                             </section>
 
@@ -279,14 +275,14 @@ function CreateServiceLinePage() {
                         />
                     </section>
                 </div>
-            <Button
-                buttonName="confirm-button"
-                buttonDescription="CONFIRM"
-                buttonType="submit"
-                pathName=""
-                disabled={false}
-                buttonIcon={confirmIcon}
-            />
+                <Button
+                    buttonName="confirm-button"
+                    buttonDescription="CONFIRM"
+                    buttonType="submit"
+                    pathName=""
+                    disabled={false}
+                    buttonIcon={confirmIcon}
+                />
             </form>
             <div className="messages">
                 {errorMessage &&

@@ -4,6 +4,7 @@ import "./InputField.css";
 function InputField({
                         className,
                         name,
+                        id,
                         inputType,
                         label,
                         value,
@@ -12,7 +13,7 @@ function InputField({
                         readOnly,
                         placeholder,
                         list,
-                        onSelection
+                        onSelection,
                     }) {
     return (
         <>
@@ -21,7 +22,8 @@ function InputField({
                 <input
                     className={className}
                     name={name}
-                    id={`${name}-field`}
+                    id={id}
+                    // id={`${name}-field`}
                     type={inputType}
                     value={value}
                     placeholder={placeholder}
