@@ -28,6 +28,10 @@ import DisplayInvoicePage from "./pages/invoice/DisplayInvoicePage";
 import CreateInvoicePage from "./pages/invoice/CreateInvoicePage";
 import ChangeInvoicePage from "./pages/invoice/ChangeInvoicePage";
 import ReportingPage from "./pages/Reporting/ReportingPage";
+import AdminPage from "./pages/admin/AdminPage";
+import DisplayUserPage from "./pages/admin/DisplayUserPage";
+import CreateUserPage from "./pages/admin/CreateUserPage";
+import ChangeUserPage from "./pages/admin/ChangeUserPage";
 
 
 function App() {
@@ -115,6 +119,18 @@ function App() {
                 </Route>
                 <Route exact path="/reporting">
                     <ReportingPage/>
+                </Route>
+                <Route exact path="/admin">
+                    <AdminPage/>
+                </Route>
+                <Route exact path="/user/display/:username">
+                    <DisplayUserPage/>
+                </Route>
+                <Route exact path="/user/create">
+                    <CreateUserPage/>
+                </Route>
+                <Route exact path="/user/change/:username">
+                    <ChangeUserPage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}

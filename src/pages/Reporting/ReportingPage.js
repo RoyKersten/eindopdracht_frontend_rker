@@ -3,8 +3,6 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
 import TransactionTable from "../../components/transactiontable/TransactionTable";
-import {useParams} from "react-router-dom";
-
 
 function ReportingPage() {
 
@@ -13,7 +11,8 @@ function ReportingPage() {
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [reload, setReload] = useState(false);
+    const [selectedLine, setSelectedLine] = useState("");
+
 
     const [formState, setFormState] = useState({
         callList: 'inspections',
@@ -23,7 +22,7 @@ function ReportingPage() {
 
     //Get customer data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
-         async function getServiceByStatus() {
+        async function getServiceByStatus() {
             toggleLoading(true);
             setError(false);
 
@@ -54,11 +53,11 @@ function ReportingPage() {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-       setFormState({
+        setFormState({
             ...formState,
             [inputName]: inputValue,
         })
-        if (inputValue!=="") {
+        if (inputValue !== "") {
             serviceType = inputValue;
             setEndpoint(`http://localhost:8080/services/${serviceType}/calllist`);
         }
@@ -85,6 +84,7 @@ function ReportingPage() {
             <div className="reporting-home-transaction-container">
                 <div className="reporting-home-display-container">
                     <TransactionTable
+                        selectObject={(selectedLine) => setSelectedLine(selectedLine)}                             //for CallList no action required when line is selected
                         tableContainerClassName="reporting-home-container-table"
                         headerContainerClassName="reporting-home-table-header"
                         headerClassName="reporting-home-table-header"

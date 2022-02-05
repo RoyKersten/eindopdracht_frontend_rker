@@ -220,7 +220,7 @@ function DisplayServicePage() {
 
                 <div className="serviceline-display-buttons">
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
                         pathName={"/servicelines/display/" + selectedServiceLine.idServiceLine}
@@ -228,7 +228,7 @@ function DisplayServicePage() {
                         buttonIcon={displayIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="CREATE"
                         buttonType="button"
                         pathName=""
@@ -236,7 +236,7 @@ function DisplayServicePage() {
                         buttonIcon={createIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
                         pathName=""
@@ -244,7 +244,7 @@ function DisplayServicePage() {
                         buttonIcon={changeIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="DELETE"
                         buttonType="button"
                         pathName=""

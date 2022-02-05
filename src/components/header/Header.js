@@ -42,7 +42,7 @@ function Header() {
                     <div className="dropdown-content">
                         <li onClick={() => openPage("/home")}>Change Password</li>
                         <li onClick={() => openPage("/")}>Logout</li>
-                        <li onClick={() => openPage("/home")}>Admin</li>
+                        <li onClick={() => openPage("/admin")}>Admin</li>
                     </div>
                 </div>
 

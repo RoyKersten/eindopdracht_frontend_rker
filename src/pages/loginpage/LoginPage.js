@@ -13,7 +13,7 @@ function LoginPage() {
         try {
             const bearer = await axios.post("http://localhost:8080/authenticate",
                 {
-                    "username": "cashier",
+                    "username": "admin",
                     "password": "password"
                 })
             localStorage.setItem('token', bearer.data.jwt);                         //local storage to store bearer token

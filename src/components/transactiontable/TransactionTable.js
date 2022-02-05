@@ -19,9 +19,16 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
             const keys = dataInput[0];
             const values = dataInput;
             // const values = dataInput.sort((a, b) => a.idService - b.idService);                                          //sort values based on customer id
+
+                for (let i = 0; i < values.length; i++) {
+                    delete values[i].authorities;
+                }
+
+
+            console.log(values);
             try {
                 if (keys) {
-                    setHeader(Object.keys(keys));
+                    setHeader(Object.keys(keys));                       //in case of all other objects
                 }
                 setData(Object.values(values));
                 determineIdentifierObject(keys);
@@ -29,9 +36,6 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
                 console.error(e);
             }
         }
-
-
-
         headerData().then();
     }, [dataInput]);
 
@@ -40,7 +44,6 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
         if (keys) {
             const identifier = Object.keys(keys)[0];                                                                    //determine id key
             const objectIdentified = identifier.substring(2,).toLowerCase();                                            //extracts object name from primary id key
-            console.log(objectIdentified)
 
             switch (objectIdentified) {
                 case "customer":
@@ -69,7 +72,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
                     break;
                 case "invoice" :
                     setHiddenHeaders(["pathName", "", ""]);                            //hide header: pathName for invoice transaction table
-                    setNestedObjectId(["idCustomer", "idService"]);                    //customer aand service are nested objects within invoice => take idCustomer and idService to display in transaction table
+                    setNestedObjectId(["idCustomer", "idService"]);                    //customer and service are nested objects within invoice => take idCustomer and idService to display in transaction table
                     console.log(hiddenHeaders);
                     break;
                 default:
@@ -94,7 +97,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
                 <tr key={k} tabIndex={k} onClick={() => selectObject(object)}>
                     {header.map((loop, j) => (
                         <td key={j}
-                            hidden={(header[j] === hiddenHeaders[0] || header[j] === hiddenHeaders[1] || header[j] === hiddenHeaders[2])}>{Object.values(object)[j]?.[nestedObjectId[0]] === undefined && Object.values(object)[j]?.[nestedObjectId[1]] === undefined && Object.values(object)[j]?.[nestedObjectId[2]] === undefined ? Object.values(object)[j] : Object.values(object)[j]?.[nestedObjectId[0]] || Object.values(object)[j]?.[nestedObjectId[1]] || Object.values(object)[j]?.[nestedObjectId[2]]}</td>
+                            hidden={(header[j] === hiddenHeaders[0] || header[j] === hiddenHeaders[1] || header[j] === hiddenHeaders[2])}>{Object.values(object)[j]?.[nestedObjectId[0]] === undefined && Object.values(object)[j]?.[nestedObjectId[1]] === undefined && Object.values(object)[j]?.[nestedObjectId[2]] === undefined ? Object.values(object)[j]?.toString() : Object.values(object)[j]?.[nestedObjectId[0]] || Object.values(object)[j]?.[nestedObjectId[1]] || Object.values(object)[j]?.[nestedObjectId[2]]}</td>
                     ))}
                 </tr>
             ))}

@@ -1,0 +1,32 @@
+/*User: determine container/space between header and footer*/
+.user-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.user-form-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-form-form section {
+    margin: 20px;
+    height: 100%;
+}
+
+.user-input-component {
+    width: 500px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.user-input-component:read-only {
+    width: 500px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
