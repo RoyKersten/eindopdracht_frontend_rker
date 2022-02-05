@@ -27,6 +27,7 @@ import InvoicePage from "./pages/invoice/InvoicePage";
 import DisplayInvoicePage from "./pages/invoice/DisplayInvoicePage";
 import CreateInvoicePage from "./pages/invoice/CreateInvoicePage";
 import ChangeInvoicePage from "./pages/invoice/ChangeInvoicePage";
+import ReportingPage from "./pages/Reporting/ReportingPage";
 
 
 function App() {
@@ -111,6 +112,9 @@ function App() {
                 </Route>
                 <Route exact path="/invoices/change/:invoiceType/:id">
                     <ChangeInvoicePage/>
+                </Route>
+                <Route exact path="/reporting">
+                    <ReportingPage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
