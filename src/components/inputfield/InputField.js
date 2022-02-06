@@ -14,7 +14,10 @@ function InputField({
                         placeholder,
                         list,
                         onSelection,
+                        checked
                     }) {
+
+    console.log(checked);
     return (
         <>
             <div>
@@ -23,7 +26,7 @@ function InputField({
                     className={className}
                     name={name}
                     id={id}
-                    // id={`${name}-field`}
+                    // id={`${name}-field`}         //initially used for carpaper upload, not used at the moment remove at final check when not needed
                     type={inputType}
                     value={value}
                     placeholder={placeholder}
@@ -32,6 +35,7 @@ function InputField({
                     onKeyPress={onKeyPress}         //used for filters
                     readOnly={readOnly}
                     list={list}
+                    checked={checked}
                 />
             </div>
         </>

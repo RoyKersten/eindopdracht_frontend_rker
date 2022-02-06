@@ -1,9 +1,9 @@
 /*positiong of label and inputfield (label above inputfield)*/
-label,input{
+label,input {
     display:flex;
     flex-direction:column;
-
 }
+
 
 /*set margin between label and inputfield*/
 label {

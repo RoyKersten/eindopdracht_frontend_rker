@@ -287,7 +287,7 @@ function ChangeServicePage() {
 
                 <div className="serviceline-change-buttons">
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
                         pathName={"/servicelines/display/" + selectedServiceLine.idServiceLine}
@@ -295,7 +295,7 @@ function ChangeServicePage() {
                         buttonIcon={displayIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="CREATE"
                         buttonType="button"
                         pathName={"/servicelines/create/" + formState['@type'] + "s/" + id}
@@ -303,7 +303,7 @@ function ChangeServicePage() {
                         buttonIcon={createIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
                         pathName={"/servicelines/change/" + selectedServiceLine.idServiceLine}
@@ -311,7 +311,7 @@ function ChangeServicePage() {
                         buttonIcon={changeIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="DELETE"
                         buttonType="button"
                         onClick={() => deleteServiceLineById()}
@@ -326,7 +326,8 @@ function ChangeServicePage() {
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
                 {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
-                    <p className="message-home">please change service and press confirm or create, delete or change a serviceline</p>}
+                    <p className="message-home">please change service and press confirm or create, delete or change a
+                        serviceline</p>}
             </div>
         </div>
     );

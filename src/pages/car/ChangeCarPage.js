@@ -263,6 +263,7 @@ function ChangeCarPage() {
                     </section>
                     <section>
                         <InputField className="change-input-component"
+                                    id="file-field"
                                     name="file"
                                     label="Select carpaper file for Upload"
                                     inputType="file"

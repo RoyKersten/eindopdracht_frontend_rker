@@ -1,0 +1,65 @@
+/*User: determine container/space between header and footer*/
+.user-roles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+    height: calc(100vh - 90px - 75px);
+    width: 100%;
+}
+
+.user-roles-form {
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.user-roles-form section {
+    margin: 20px;
+    height: 100%;
+}
+
+.user-roles-input-component {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.user-roles-input-component:read-only {
+    width: 250px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+.user-roles-checkbox{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+.user-roles-checkbox section {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.user-roles-checkbox section div {
+    width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-roles-checkbox input {
+    margin-right: 20px;
+}
+
+.user-roles-checkbox label {
+    margin-left: 20px;
+}
+
+
+
+

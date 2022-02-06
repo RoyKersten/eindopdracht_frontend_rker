@@ -225,7 +225,7 @@ function CreateServicePage() {
 
                 <div className="serviceline-create-buttons">
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
                         pathName={"/servicelines/display/" + selectedServiceLine.idServiceLine}
@@ -233,7 +233,7 @@ function CreateServicePage() {
                         buttonIcon={displayIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="CREATE"
                         buttonType="button"
                         pathName={"/servicelines/create/" + formState['@type'] + "s/" + idService}
@@ -241,7 +241,7 @@ function CreateServicePage() {
                         buttonIcon={createIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="CHANGE"
                         buttonType="button"
                         pathName={"/services/change/" + serviceType + "/" + selectedServiceLine.idServiceLine}
@@ -249,7 +249,7 @@ function CreateServicePage() {
                         buttonIcon={changeIcon}
                     />
                     <Button
-                        buttonName="transaction-serviceline-button"
+                        buttonName="transaction-home-small-button"
                         buttonDescription="DELETE"
                         buttonType="button"
                         pathName=""

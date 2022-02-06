@@ -277,7 +277,7 @@ function CreateCarPage() {
                     <div className="messages">
                         {message && <p className="message-error">{message}</p>}
                         {!idCar &&
-                            <p className="message-error">carpaper can be uploaded once customer has been created, please
+                            <p className="message-error">carpaper can be uploaded once car has been created, please
                                 enter details and press confirm</p>}
                     </div>
                     <Button
