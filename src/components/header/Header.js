@@ -3,10 +3,12 @@ import headerLogo from "../../images/logo_car.png"
 import menu from "../../images/icons/menu.png"
 import home from "../../images/icons/home.png"
 import {useHistory, useLocation} from "react-router-dom";
-
+import jwt_decode from 'jwt-decode';
+import {useEffect, useState} from "react";
 
 function Header() {
 
+    const [username, setUsername] = useState('');
     const {pathname} = useLocation();
     const history = useHistory();
     let headerTitle = pathname.split("/");
@@ -14,6 +16,19 @@ function Header() {
     function openPage(path) {
         history.push(path);
     }
+
+    useEffect(() => {
+    function getUserName() {
+        const token = localStorage.getItem('token')
+        const decoded = jwt_decode(token);
+        setUsername(decoded.sub);
+        console.log(decoded.sub);
+    }
+
+        getUserName();
+    }, []);
+
+
 
     return (
         <header className="header-container" style={{background: pathname === "/home" ? '#5D779E' : '#98AFD3'}}>
@@ -40,7 +55,7 @@ function Header() {
                            style={{filter: pathname === "/home" ? "invert(100%)" : "none"}}
                            onClick={() => ""}/>
                     <div className="dropdown-content">
-                        <li onClick={() => openPage("/home")}>Change Password</li>
+                        <li onClick={() => openPage(`/user/password/${username}`)}>Change Password</li>
                         <li onClick={() => openPage("/")}>Logout</li>
                         <li onClick={() => openPage("/admin")}>Admin</li>
                     </div>

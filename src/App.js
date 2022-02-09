@@ -33,6 +33,7 @@ import DisplayUserPage from "./pages/admin/DisplayUserPage";
 import CreateUserPage from "./pages/admin/CreateUserPage";
 import ChangeUserPage from "./pages/admin/ChangeUserPage";
 import UserRolesPage from "./pages/admin/UserRolesPage";
+import ChangeUserPasswordPage from "./pages/user/ChangeUserPasswordPage";
 
 
 function App() {
@@ -135,6 +136,9 @@ function App() {
                 </Route>
                 <Route exact path="/user/authorization/:username">
                     <UserRolesPage/>
+                </Route>
+                <Route exact path="/user/password/:username">
+                    <ChangeUserPasswordPage/>
                 </Route>
             </Switch>
             {(location.pathname !== "/" && location.pathname !== "/home") ? <Footer/> : null}
