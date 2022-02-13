@@ -1,18 +1,20 @@
 import './LoginPage.css';
 import React, {useState} from 'react';
 import loginPicture from '../../images/login-page.jpg';
-import {useHistory} from "react-router-dom";
 import axios from "axios";
 import InputField from "../../components/inputfield/InputField";
+import {useAuthContext} from "../../context/AuthContextProvider";
 
 function LoginPage() {
-
-    const history = useHistory();
+    const {status} = useAuthContext();
     const [formState, setFormState] = useState({username: '', password: ''});
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState(status);
+    const {login} = useAuthContext();
+
 
     //SignIn: get bearer token from backend based-on username and password
     async function signIn() {
+        setErrorMessage(status);
         console.log(formState)
         try {
             const bearer = await axios.post("http://localhost:8080/authenticate",
@@ -20,10 +22,7 @@ function LoginPage() {
                     "username": formState.username,
                     "password": formState.password
                 })
-            localStorage.setItem('token', bearer.data.jwt);                         //local storage to store bearer token
-            const token = localStorage.getItem('token');
-            console.log(token);
-            history.push('/home');
+            login(bearer.data.jwt);
         } catch (e) {
             setErrorMessage("username/password not correct !")
             console.error(e);
