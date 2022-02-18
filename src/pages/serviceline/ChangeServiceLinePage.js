@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './ChangeServiceLinePage.css';
+import './ServiceLineFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -87,11 +87,11 @@ function ChangeServiceLinePage() {
     }
 
     return (
-        <div className="serviceline-change-container">
-            <form className="serviceline-change-form" onSubmit={handleSubmit}>
-                <div className="serviceline-change-section1">
+        <div className="serviceline-form-container">
+            <form className="serviceline-form" onSubmit={handleSubmit}>
+                <div className="serviceline-form-section1">
                     <section>
-                        <InputField className="change-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="idService"
                                     label="Service ID"
                                     inputType="text"
@@ -100,7 +100,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="@type"
                                     label="Service Type"
                                     inputType="text"
@@ -109,7 +109,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="idServiceLine"
                                     label="ServiceLine ID"
                                     inputType="text"
@@ -118,7 +118,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="serviceLineNumber"
                                     label="Service Line Number"
                                     inputType="text"
@@ -127,7 +127,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="idInvoice"
                                     label="Invoice ID"
                                     inputType="text"
@@ -138,11 +138,11 @@ function ChangeServiceLinePage() {
 
 
                 </div>
-                <div className="serviceline-change-section2">
-                    <div className="serviceline-change-input-section2">
-                        <div className="serviceline-change-div2">
+                <div className="serviceline-form-section2">
+                    <div className="serviceline-form-input-section2">
+                        <div className="serviceline-form-div2">
                             <section>
-                                <InputField className="change-serviceline-input-component"
+                                <InputField className="form-serviceline-input-component"
                                             name="idItem"
                                             label="Item ID"
                                             inputType="text"
@@ -155,9 +155,9 @@ function ChangeServiceLinePage() {
                             </section>
                         </div>
 
-                        <div className="serviceline-change-div3">
+                        <div className="serviceline-form-div3">
                             <section>
-                                <InputField className="change-serviceline-input-component"
+                                <InputField className="form-serviceline-input-component"
                                             name="@type"
                                             label="Item Type"
                                             inputType="text"
@@ -179,7 +179,7 @@ function ChangeServiceLinePage() {
                     </div>
 
                     <section>
-                        <InputField className="change-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="itemName"
                                     label="Item Name"
                                     inputType="text"
@@ -188,7 +188,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="qty"
                                     label="Item Qty."
                                     inputType="text"
@@ -198,7 +198,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="price"
                                     label="Item Price"
                                     inputType="text"
@@ -207,7 +207,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="lineSubTotal"
                                     label="Subtotal"
                                     inputType="text"
@@ -216,7 +216,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="vatAmount"
                                     label="VAT Amount"
                                     inputType="text"
@@ -225,7 +225,7 @@ function ChangeServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="lineTotal"
                                     label="Total Amount"
                                     inputType="text"

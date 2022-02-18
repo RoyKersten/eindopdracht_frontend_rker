@@ -1,5 +1,5 @@
 /*item home: determine container/space between header and footer*/
-.item-change-container {
+.item-form-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,74 +8,77 @@
     width: 100%;
 }
 
-.item-change-form {
+.item-form {
     display: inline-flex;
 }
 
-.item-change-form section {
+.item-form section {
     margin: 20px;
 }
 
-.item-change-section1 {
-    display: inline-flex;
-    flex-direction: column;
-
-}
-
-.item-change-section2 {
+.item-form-section1 {
     display: inline-flex;
     flex-direction: column;
 }
 
-.item-change-section3 {
+.item-form-section2 {
     display: inline-flex;
     flex-direction: column;
+}
 
+.item-form-section3 {
+    display: inline-flex;
+    flex-direction: column;
 }
 
 
-.change-input-component-section1 {
+.form-input-component-section1 {
     width: 250px;
     height: 20px;
     border: 1px solid black;
 }
 
 
-.change-input-component-section1:read-only {
+.form-input-component-section1:read-only {
     width: 250px;
     height: 20px;
     border: 1px solid black;
     background-color: #C4C4C4;
 }
 
-.change-input-component-section2 {
+.form-input-component-section2 {
     width: 500px;
     height: 20px;
     border: 1px solid black;
 }
 
-.change-input-component-section2:read-only {
+.form-input-component-section2:read-only {
     width: 500px;
     height: 20px;
     border: 1px solid black;
     background-color: #C4C4C4;
 }
 
-
-.change-input-component-section3 {
+.form-input-component-section3 {
     width: 250px;
     height: 20px;
     border: 1px solid black;
 }
 
-.change-input-component-section2-brand {
+.form-input-component-section3:read-only {
+    width: 250px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}
+
+.form-input-component-section2-brand {
     width: 500px;
     height: 20px;
     border: 1px solid black;
 }
 
-
-.change-input-component-section2-brand:read-only {
+.form-input-component-section2-brand:read-only {
     width: 500px;
     height: 20px;
     border: 1px solid black;

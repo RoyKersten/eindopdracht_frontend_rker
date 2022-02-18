@@ -1,4 +1,4 @@
-import './DisplayServicePage.css';
+import './ServiceFormPage.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
@@ -15,8 +15,12 @@ function DisplayServicePage() {
 
     const {id} = useParams()
     const {serviceType} = useParams();
-    const serviceStatus = ["UITVOEREN", "NIET_UITVOEREN", "VOLTOOID"];
-    const [object, setObject] = useState({
+    const [serviceLine, setServiceLine] = useState([]);
+    const [loading, toggleLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
+    const [formState, setFormState] = useState({
         idService: '',
         '@type': '',
         serviceStatus: '',
@@ -27,30 +31,12 @@ function DisplayServicePage() {
         issuesToRepair: ''
     });
 
-    const [serviceLine, setServiceLine] = useState([]);
-    const [sourceData, setSourceData] = useState([]);
-    const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [reload, setReload] = useState(false);
-    const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
-    const [formState, setFormState] = useState({
-        serviceId: '',
-        serviceType: '',
-        serviceStatus: '',
-        serviceDate: '',
-        customerId: '',
-        carId: '',
-        issuesService: 'test',
-    });
-
 
     //Get item data based on endpoint, get bearer token from local storage to validate authentication and authorization
     useEffect(() => {
         async function getService() {
             toggleLoading(true);
             setError(false);
-            console.log(serviceType)
             try {
                 const {data} = await axios.get(`http://localhost:8080/services/${serviceType}/${id}`, {
                     headers: {
@@ -58,8 +44,7 @@ function DisplayServicePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                setSourceData(data);
-                setObject(data);
+                setFormState(data);
             } catch (error) {
                 setError(true);
                 setErrorMessage(error.data);
@@ -71,14 +56,13 @@ function DisplayServicePage() {
 
 
         getService().then();
-    }, [reload, serviceType]);
+    }, [serviceType]);
 
 
     useEffect(() => {
         async function getServiceLine() {
             toggleLoading(true);
             setError(false);
-            console.log(serviceType)
             try {
                 const {data} = await axios.get(`http://localhost:8080/servicelines/`, {
                     headers: {
@@ -101,87 +85,79 @@ function DisplayServicePage() {
         }
 
         getServiceLine().then();
-    }, [reload, serviceType]);
+    }, [serviceType]);
 
     return (
-        <div className="service-display-container">
-            <div className="service-display-filter">
+        <div className="service-form-container">
+            <div className="service-form-filter">
                 <section>
-                    <InputField className="service-display-input-component"
+                    <InputField className="service-form-input-component"
                                 name="idService"
                                 label="Service ID"
                                 inputType="text"
-                                value={object.idService}
+                                value={formState.idService}
                                 readOnly={true}
                     />
                 </section>
                 <section>
-                    <InputField className="service-display-input-component"
+                    <InputField className="service-form-input-component"
                                 name="@type"
                                 label="Service Type"
                                 inputType="text"
-                                list="itemTypeList"
-                                value={object['@type']}
+                                value={formState['@type']}
                                 readOnly={true}
                     />
-                    <datalist id="itemTypeList">
-                        <option value="inspections">inspections</option>
-                        <option value="repairs">repairs</option>
-                    </datalist>
                 </section>
                 <section>
                     <InputField
-                        className="service-display-input-component"
-                        name="serviceStatus" label="Service Status" inputType="text"
+                        className="service-form-input-component"
+                        name="serviceStatus"
+                        label="Service Status"
+                        inputType="text"
                         placeholder="please select"
-                        value={object.serviceStatus}
+                        value={formState.serviceStatus}
                         readOnly={true}
                     />
-
                 </section>
-
                 <section>
                     <InputField
-                        className="service-display-input-component"
+                        className="service-form-input-component"
                         name="serviceDate"
                         label="Service Date"
                         inputType="text"
-                        value={object.serviceDate}
+                        value={formState.serviceDate}
                         readOnly={true}
                     />
                 </section>
-
                 <section>
                     <InputField
-                        className="service-display-input-component"
+                        className="service-form-input-component"
                         name="idCustomer"
                         label="Customer ID"
                         inputType="text"
-                        value={object.customer?.idCustomer === undefined ? '' : object.customer.idCustomer}
+                        value={formState.customer.idCustomer}
                         readOnly={true}
                     />
                 </section>
-
-
                 <section>
                     <InputField
-                        className="service-display-input-component"
+                        className="service-form-input-component"
                         name="idCar"
                         label="Car ID"
                         inputType="text"
-                        value={object.car?.idCar === undefined ? '' : object.car.idCar}
+                        value={formState.car.idCar}
                         readOnly={true}
                     />
                 </section>
 
             </div>
-            <div className="text-field-issues">
+            <div className="text-field-issues-form">
                 {serviceType === "inspections" ?
                     <textarea className="issuesFoundInspection"
                               id="issuesFoundInspectionsId"
                               cols="50"
                               rows="5"
-                              value={object.issuesFoundInspection}
+                              value={formState.issuesFoundInspection}
                               readOnly={true}
                     >issuesFoundInspection
                     </textarea>
@@ -190,7 +166,7 @@ function DisplayServicePage() {
                               id="issuesToRepairId"
                               cols="50"
                               rows="5"
-                              value={object.issuesToRepair}
+                              value={formState.issuesToRepair}
                               readOnly={true}
                     >issuesToRepair
                     </textarea>
@@ -205,10 +181,8 @@ function DisplayServicePage() {
                     />
                 </div>
             </div>
-
-
-            <div className="serviceline-display-transaction-container">
-                <div className="serviceline-display-display-container">
+            <div className="serviceline-form-transaction-container">
+                <div className="serviceline-form-display-container">
                     <TransactionTable
                         selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="service-home-container-table"
@@ -218,7 +192,7 @@ function DisplayServicePage() {
                     />
                 </div>
 
-                <div className="serviceline-display-buttons">
+                <div className="serviceline-form-buttons">
                     <Button
                         buttonName="transaction-home-small-button"
                         buttonDescription="DISPLAY"

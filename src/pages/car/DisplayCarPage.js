@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './DisplayCarPage.css';
+import './CarFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -50,17 +50,17 @@ function DisplayCarPage() {
     }, [endpoint, carPaper]);
 
 
-       async function getCarPaper() {
-            try {
-                const paper = await axios.get(endpointCarPaper, {
-                    responseType: 'blob',
-                    headers: {
-                        "Content-type": "multipart/form-data",
-                         Authorization: 'Bearer ' + localStorage.getItem('token'),
-                    }
-                })
-                    .then((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+    async function getCarPaper() {
+        try {
+            const paper = await axios.get(endpointCarPaper, {
+                responseType: 'blob',
+                headers: {
+                    "Content-type": "multipart/form-data",
+                    Authorization: 'Bearer ' + localStorage.getItem('token'),
+                }
+            })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
                     const link = document.createElement('a');
                     link.href = url;
                     link.target = '_blank'              //Open pdf file in a new tab
@@ -68,20 +68,20 @@ function DisplayCarPage() {
                     window.URL.revokeObjectURL(url);    //let the browser know not to keep the reference to the file any longer.
                 });
 
-            } catch (e) {
-                console.error(e);
-                setMessage("something went wrong, carpaper could not be loaded, please try again")
-            }
+        } catch (e) {
+            console.error(e);
+            setMessage("something went wrong, carpaper could not be loaded, please try again")
         }
+    }
 
     return (
-        <div className="car-display-container">
-            <form className="car-display-form">
-                <div className="car-display-div-box">
-                    <section className="car-display-input-section1">
-                        <div className="car-display-div1">
+        <div className="car-form-container">
+            <form className="car-form">
+                <div className="car-form-div-box">
+                    <section className="car-form-input-section1">
+                        <div className="car-form-div1">
                             <section>
-                                <InputField className="display-car-input-component"
+                                <InputField className="form-car-input-component"
                                             name="customer ID"
                                             label="Customer ID"
                                             inputType="text"
@@ -91,21 +91,22 @@ function DisplayCarPage() {
                             </section>
                         </div>
                     </section>
-                    <section className="car-display-input-section2">
-                        <div className="car-display-div2">
+                    <section className="car-form-input-section2">
+                        <div className="car-form-div2">
                             <section>
-                                <InputField className="display-car-input-component"
+                                <InputField className="form-car-input-component"
                                             name="Car ID"
-                                            label="Car ID"                                            inputType="text"
+                                            label="Car ID"
+                                            inputType="text"
                                             value={object.idCar}
                                             readOnly={true}
                                 />
                             </section>
                         </div>
 
-                        <div className="car-display-div3">
+                        <div className="car-form-div3">
                             <section>
-                                <InputField className="display-car-input-component"
+                                <InputField className="form-car-input-component"
                                             name="license-plate-number"
                                             label="License Plate Number"
                                             inputType="text"
@@ -116,11 +117,9 @@ function DisplayCarPage() {
                         </div>
                     </section>
                 </div>
-
-
-                <section className="car-display-input-section3">
+                <section className="car-form-input-section3">
                     <section>
-                        <InputField className="display-input-component"
+                        <InputField className="form-input-component"
                                     name="brand"
                                     label="Brand"
                                     inputType="text"
@@ -129,7 +128,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="display-input-component"
+                        <InputField className="form-input-component"
                                     name="model"
                                     label="Model"
                                     inputType="text"
@@ -138,7 +137,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="display-input-component"
+                        <InputField className="form-input-component"
                                     name="year-of-construction"
                                     label="yearOfConstruction"
                                     inputType="text"
@@ -147,7 +146,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="display-input-component"
+                        <InputField className="form-input-component"
                                     name="apk-experiation-date"
                                     label="APK experiation Date"
                                     inputType="text"
@@ -156,18 +155,18 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="display-input-component"
+                        <InputField className="form-input-component"
                                     name="car-paper-check"
                                     label="Car paper available ?"
                                     inputType="text"
-                                    value={object.carPaper===null ? "NO" : "YES"}
+                                    value={object.carPaper === null ? "NO" : "YES"}
                                     readOnly={true}
                         />
                     </section>
                 </section>
 
-                <div className="car-display-carpaper-buttons-box">
-                    <section className="car-display-carpaper-buttons">
+                <div className="car-form-carpaper-buttons-box">
+                    <section className="car-form-carpaper-buttons">
                         <div className="open-button-div1">
                             <Button
                                 buttonName="car-button"
@@ -190,19 +189,18 @@ function DisplayCarPage() {
                             />
                         </div>
                     </section>
-                </div>
-                <div className="messages">
-                    {message && <p className="message-error">{message}</p>}
+                    <div className="messages">
+                        {message && <p className="message-error">{message}</p>}
+                    </div>
+                    <Button
+                        buttonName="confirm-button"
+                        buttonDescription="CONFIRM"
+                        pathName="/home"
+                        disabled={true}
+                        buttonIcon={confirmIcon}
+                    />
                 </div>
             </form>
-
-            <Button
-                buttonName="confirm-button"
-                buttonDescription="CONFIRM"
-                pathName="/home"
-                disabled={true}
-                buttonIcon={confirmIcon}
-            />
         </div>
     );
 }

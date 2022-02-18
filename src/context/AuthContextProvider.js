@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 export const AuthContext = createContext({});
 
@@ -12,6 +13,7 @@ function AuthContextProvider({children}) {
 
     const [authState, setAuthState] = useState({
         username: "",
+        adminRole: false,
         status: "loading",
     });
 
@@ -31,13 +33,12 @@ function AuthContextProvider({children}) {
         }
         //2. if token available: check if the available token valid ? if yes open homePage
         else if (isTokenValid(token)) {
-            console.log(isTokenValid(token))
             const decodedToken = jwt_decode(token);
             setAuthState({
                 username: decodedToken.sub,
                 status: "token is valid"
             });
-            history.push('/home')
+            getUserRolesByUsername(decodedToken.sub)              //check if user has admin role, if yes, access to admin environment via dropdown menu should be active
         }
         //3. in case token is not valid open loginPage, new login required.
         else if (!isTokenValid(token)) {
@@ -48,7 +49,6 @@ function AuthContextProvider({children}) {
             history.push('/')
         }
     }, []);
-
 
     function isTokenValid(token) {
         const decodedToken = jwt_decode(token)
@@ -65,20 +65,47 @@ function AuthContextProvider({children}) {
         const decodedToken = jwt_decode(token);                        //decode bearer token to get username
         setAuthState({
             username: decodedToken.sub,
+            adminRole: authState.adminRole,
             status: "user has access"
         });
-        history.push('/home');                                  //open homepage
+        getUserRolesByUsername(decodedToken.sub);                     //check if user has admin_role, if yes, access to admin environment via dropdown menu should be active
+        history.push("/home");                                  //open homepage
     }
-
 
     function logout(path) {
         localStorage.removeItem('token');                          //remove bearer token after logout to ensure that access is blocked and a new login needs to take place first
-         setAuthState({
+        setAuthState({
             username: "",
+            adminRole: false,
             status: "login required"
         });
         history.push(path);                                             //return to login page
     }
+
+
+    //get user roles and check if user has admin_role => only admin role should have access to admin environment via dropdown menu header
+    async function getUserRolesByUsername(username) {
+        try {
+            const {data} = await axios.get(`http://localhost:8080/users/${username}/authorities`, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: 'Bearer '
+                        + localStorage.getItem('token'),
+                },
+            });
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].authority === "ROLE_ADMIN") {
+                    setAuthState({
+                        username: authState.username,
+                        adminRole: true,
+                        status: "user has admin_role"
+                    });
+                }}
+        } catch (e) {
+            console.error("user has no access to this endpoint which means no admin_role");
+        }
+    }
+
 
     const dataContext = {
         ...authState,

@@ -34,10 +34,11 @@ import CreateUserPage from "./pages/admin/CreateUserPage";
 import ChangeUserPage from "./pages/admin/ChangeUserPage";
 import UserRolesPage from "./pages/admin/UserRolesPage";
 import ChangeUserPasswordPage from "./pages/user/ChangeUserPasswordPage";
-
+import {useAuthContext} from "./context/AuthContextProvider";
 
 function App() {
     const location = useLocation();                                     /*rendering of page to ensure Header is displayed after login (all other pages) */
+    const {adminRole} = useAuthContext();                               //some pages are only allowed when user has the admin_role
 
     return (
         /*in case login page is displayed Header should not be shown*/
@@ -122,21 +123,21 @@ function App() {
                 <Route exact path="/reporting">
                     <ReportingPage/>
                 </Route>
-                <Route exact path="/admin">
+                {adminRole && <Route exact path="/admin">
                     <AdminPage/>
-                </Route>
-                <Route exact path="/user/display/:username">
+                </Route>}
+                {adminRole && <Route exact path="/user/display/:username">
                     <DisplayUserPage/>
-                </Route>
-                <Route exact path="/user/create">
+                </Route>}
+                {adminRole && <Route exact path="/user/create">
                     <CreateUserPage/>
-                </Route>
-                <Route exact path="/user/change/:username">
+                </Route>}
+                {adminRole && <Route exact path="/user/change/:username">
                     <ChangeUserPage/>
-                </Route>
-                <Route exact path="/user/authorization/:username">
+                </Route>}
+                {adminRole && <Route exact path="/user/authorization/:username">
                     <UserRolesPage/>
-                </Route>
+                </Route>}
                 <Route exact path="/user/password/:username">
                     <ChangeUserPasswordPage/>
                 </Route>

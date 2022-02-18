@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './CreateItemPage.css';
+import './ItemFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -79,11 +79,11 @@ function CreateItemPage() {
 
 
     return (
-        <div className="item-create-container">
-            <form className="item-create-form" onSubmit={handleSubmit}>
-                <div className="item-create-section1">
+        <div className="item-form-container">
+            <form className="item-form" onSubmit={handleSubmit}>
+                <div className="item-form-section1">
                     <section>
-                        <InputField className="create-input-component-section1"
+                        <InputField className="form-input-component-section1"
                                     name="@type"
                                     label="Item Type"
                                     inputType="text"
@@ -100,10 +100,10 @@ function CreateItemPage() {
 
 
                 </div>
-                <div className="item-create-section2">
+                <div className="item-form-section2">
                     <section>
 
-                        <InputField className="create-input-component-section2-idItem"
+                        <InputField className="form-input-component-section2"
                                     name="idItem"
                                     label="Item ID"
                                     value={idItem}
@@ -112,7 +112,7 @@ function CreateItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component-section2"
+                        <InputField className="form-input-component-section2"
                                     name="itemCategory"
                                     label="Item Category"
                                     inputType="text"
@@ -122,7 +122,7 @@ function CreateItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component-section2"
+                        <InputField className="form-input-component-section2"
                                     name="itemName"
                                     label="Item Name"
                                     inputType="text"
@@ -132,7 +132,7 @@ function CreateItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component-section2-brand"
+                        <InputField className="form-input-component-section2-brand"
                                     name="brand"
                                     label="Brand"
                                     inputType="text"
@@ -144,7 +144,7 @@ function CreateItemPage() {
                 </div>
                 <div className="item-create-section3">
                     <section>
-                        <InputField className="create-input-component-section3"
+                        <InputField className="form-input-component-section3"
                                     name="qty"
                                     label="Stock"
                                     inputType="number"
@@ -155,7 +155,7 @@ function CreateItemPage() {
                     </section>
 
                     <section>
-                        <InputField className="create-input-component-section3"
+                        <InputField className="form-input-component-section3"
                                     name="price"
                                     label="Price"
                                     inputType="number"
@@ -166,7 +166,7 @@ function CreateItemPage() {
                     </section>
 
                     <section>
-                        <InputField className="create-input-component-section3"
+                        <InputField className="form-input-component-section3"
                                     name="status"
                                     label="Status"
                                     inputType="text"

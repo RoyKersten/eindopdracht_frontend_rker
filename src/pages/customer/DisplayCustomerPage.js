@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './DisplayCustomerPage.css';
+import './CustomerFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -32,10 +32,10 @@ function DisplayCustomerPage() {
     }, [endpoint]);
 
     return (
-        <div className="customer-display-container">
-            <form className="customer-display-form">
+        <div className="customer-form-container">
+            <form className="customer-form">
                 <section>
-                    <InputField className="display-input-component"
+                    <InputField className="form-input-component"
                                 name="customer ID"
                                 label="Customer ID"
                                 inputType="text"
@@ -44,7 +44,7 @@ function DisplayCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="display-input-component"
+                    <InputField className="form-input-component"
                                 ame="firstname"
                                 label="Firstname"
                                 inputType="text"
@@ -53,7 +53,7 @@ function DisplayCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="display-input-component"
+                    <InputField className="form-input-component"
                                 name="lastname"
                                 label="Lastname"
                                 inputType="text"
@@ -62,7 +62,7 @@ function DisplayCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="display-input-component"
+                    <InputField className="form-input-component"
                                 name="phonenumber"
                                 label="Telephone Number"
                                 inputType="text"
@@ -71,7 +71,7 @@ function DisplayCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="display-input-component"
+                    <InputField className="form-input-component"
                                 name="email"
                                 label="Email Address"
                                 inputType="text"

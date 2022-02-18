@@ -1,7 +1,6 @@
-/*customer home: determine container/space between header and footer*/
-.customer-create-container {
+/*customer: determine container space between header and footer*/
+.customer-form-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-top: 90px;
@@ -9,22 +8,22 @@
     width: 100%;
 }
 
-.customer-create-form {
+.customer-form {
     display: flex;
     flex-direction: column;
 }
 
-.customer-create-form section {
+.customer-form section {
     margin: 20px;
     height: 100%;
 }
 
-.create-input-component {
+.form-input-component {
     width: 500px;
     height: 20px;
 }
 
-.create-input-component-customerId {
+.form-input-component:read-only {
     width: 500px;
     height: 20px;
     background-color: #C4C4C4;

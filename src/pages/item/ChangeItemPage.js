@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './ChangeItemPage.css';
+import './ItemFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -74,11 +74,11 @@ function ChangeItemPage() {
     }
 
     return (
-        <div className="item-change-container">
-            <form className="item-change-form" onSubmit={handleSubmit}>
-                <div className="item-change-section1">
+        <div className="item-form-container">
+            <form className="item-form" onSubmit={handleSubmit}>
+                <div className="item-form-section1">
                     <section>
-                        <InputField className="change-input-component-section1"
+                        <InputField className="form-input-component-section1"
                                     name="itemType"
                                     label="Item Type"
                                     inputType="text"
@@ -87,10 +87,10 @@ function ChangeItemPage() {
                         />
                     </section>
                 </div>
-                <div className="item-change-section2">
+                <div className="item-form-section2">
                     <section>
 
-                        <InputField className="change-input-component-section2"
+                        <InputField className="form-input-component-section2"
                                     name="idItem"
                                     label="Item ID"
                                     inputType="text"
@@ -99,7 +99,7 @@ function ChangeItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component-section2"
+                        <InputField className="form-input-component-section2"
                                     name="itemCategory"
                                     label="Item Category"
                                     inputType="text"
@@ -109,7 +109,7 @@ function ChangeItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component-section2"
+                        <InputField className="form-input-component-section2"
                                     name="itemName"
                                     label="Item Name"
                                     inputType="text"
@@ -119,7 +119,7 @@ function ChangeItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component-section2-brand"
+                        <InputField className="form-input-component-section2-brand"
                                     name="brand"
                                     label="Brand"
                                     inputType="text"
@@ -129,9 +129,9 @@ function ChangeItemPage() {
                         />
                     </section>
                 </div>
-                <div className="item-change-section3">
+                <div className="item-form-section3">
                     <section>
-                        <InputField className="change-input-component-section3"
+                        <InputField className="form-input-component-section3"
                                     name="qty"
                                     label="Stock"
                                     inputType="text"
@@ -141,7 +141,7 @@ function ChangeItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component-section3"
+                        <InputField className="form-input-component-section3"
                                     name="price"
                                     label="Price"
                                     inputType="text"
@@ -151,7 +151,7 @@ function ChangeItemPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component-section3"
+                        <InputField className="form-input-component-section3"
                                     name="status"
                                     label="Status"
                                     inputType="text"

@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './CreateServiceLinePage.css';
+import './ServiceLineFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -135,11 +135,11 @@ function CreateServiceLinePage() {
     }
 
     return (
-        <div className="serviceline-create-container">
-            <form className="serviceline-create-form" onSubmit={handleSubmit}>
-                <div className="serviceline-create-section1">
+        <div className="serviceline-form-container">
+            <form className="serviceline-form" onSubmit={handleSubmit}>
+                <div className="serviceline-form-section1">
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="idService"
                                     label="Service ID"
                                     inputType="text"
@@ -148,7 +148,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="@type"
                                     label="Service Type"
                                     inputType="text"
@@ -157,7 +157,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="idServiceLine"
                                     label="ServiceLine ID"
                                     inputType="text"
@@ -166,7 +166,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="serviceLineNumber"
                                     label="Service Line Number"
                                     inputType="text"
@@ -175,7 +175,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section1"
+                        <InputField className="form-serviceline-input-component-section1"
                                     name="idInvoice"
                                     label="Invoice ID"
                                     inputType="text"
@@ -184,11 +184,11 @@ function CreateServiceLinePage() {
                         />
                     </section>
                 </div>
-                <div className="serviceline-create-section2">
-                    <div className="serviceline-create-input-section2">
-                        <div className="serviceline-create-div2">
+                <div className="serviceline-form-section2">
+                    <div className="serviceline-form-input-section2">
+                        <div className="serviceline-form-div2">
                             <section>
-                                <InputField className="create-serviceline-input-component"
+                                <InputField className="form-serviceline-input-component"
                                             name="idItem"
                                             label="Item ID"
                                             inputType="text"
@@ -199,9 +199,9 @@ function CreateServiceLinePage() {
                             </section>
                         </div>
 
-                        <div className="serviceline-create-div3">
+                        <div className="serviceline-form-div3">
                             <section>
-                                <InputField className="create-serviceline-input-component"
+                                <InputField className="form-serviceline-input-component"
                                             name="@type"
                                             label="Item Type"
                                             inputType="text"
@@ -221,7 +221,7 @@ function CreateServiceLinePage() {
                     </div>
 
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="itemName"
                                     label="Item Name"
                                     inputType="text"
@@ -230,7 +230,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="qty"
                                     label="Item Qty."
                                     inputType="text"
@@ -239,7 +239,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="price"
                                     label="Item Price"
                                     inputType="text"
@@ -248,7 +248,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="lineSubTotal"
                                     label="Subtotal"
                                     inputType="text"
@@ -257,7 +257,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="vatAmount"
                                     label="VAT Amount"
                                     inputType="text"
@@ -266,7 +266,7 @@ function CreateServiceLinePage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-serviceline-input-component-section2"
+                        <InputField className="form-serviceline-input-component-section2"
                                     name="lineTotal"
                                     label="Total Amount"
                                     inputType="text"

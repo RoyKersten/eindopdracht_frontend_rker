@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './ChangeCustomerPage.css';
+import './CustomerFormPage.css';
 import React, {useEffect, useState} from "react";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -71,10 +71,10 @@ function ChangeCustomerPage() {
 
 
     return (
-        <div className="customer-change-container">
-            <form onSubmit={handleSubmit} className="customer-change-form">
+        <div className="customer-form-container">
+            <form onSubmit={handleSubmit} className="customer-form">
                 <section>
-                    <InputField className="change-input-component-customerId"
+                    <InputField className="form-input-component"
                                 name="customerId"
                                 label="Customer ID"
                                 inputType="text"
@@ -83,7 +83,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="change-input-component"
+                    <InputField className="form-input-component"
                                 name="firstName"
                                 label="Firstname"
                                 inputType="text"
@@ -93,7 +93,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="change-input-component"
+                    <InputField className="form-input-component"
                                 name="lastName"
                                 label="Lastname"
                                 inputType="text"
@@ -103,7 +103,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="change-input-component"
+                    <InputField className="form-input-component"
                                 name="phoneNumber"
                                 label="Telephone Number"
                                 inputType="text"
@@ -113,7 +113,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="change-input-component"
+                    <InputField className="form-input-component"
                                 name="email"
                                 label="Email Address"
                                 inputType="text"

@@ -16,8 +16,6 @@ function InputField({
                         onSelection,
                         checked
                     }) {
-
-    console.log(checked);
     return (
         <>
             <div>

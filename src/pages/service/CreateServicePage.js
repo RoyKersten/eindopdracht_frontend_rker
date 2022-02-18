@@ -1,4 +1,4 @@
-import './CreateServicePage.css';
+import './ServiceFormPage.css';
 import axios from 'axios';
 import React, {useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
@@ -25,14 +25,14 @@ function CreateServicePage() {
     const [reload, setReload] = useState(false);
     const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
     const [formState, setFormState] = useState({
-        serviceId: '',
+        idService: '',
         '@type': '',
         serviceStatus: '',
         serviceDate: '',
         customer: {idCustomer: ''},
         car: {idCar: ''},
-        issuesFoundInspection: 'test 1',
-        issuesToRepair: 'test 2',
+        issuesFoundInspection: '',
+        issuesToRepair: '',
     });
 
 
@@ -58,15 +58,9 @@ function CreateServicePage() {
         }
     }
 
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-
-        if (inputName === "idCustomer") {
-            setFormState(formState.customer.idCustomer = inputValue);
-        } else if (inputName === "idCar") {
-            setFormState(formState.car.idCar = inputValue);
-        }
 
         setFormState({
             ...formState,
@@ -75,29 +69,41 @@ function CreateServicePage() {
 
     }
 
+    //handle change for nested object properties
+    function handleChangeNestedObject(e) {
+        const inputName = e.target.name;
+        const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    //filter data based on serviceType part or activity selection
+        const objectName = inputName.substring(2,).toLowerCase();
+
+        setFormState({
+            ...formState,
+            [objectName]: {[inputName]: inputValue},
+        });
+    }
+
+    //setFormState with correct @type: inspection or repair (endpoint is based on inspections and repairs)
     function onSelection(e) {
         if (e.target.value === "") {
         } else {
             serviceType = e.target.value;
             setEndpoint(`http://localhost:8080/services/${serviceType}`);
             if (serviceType === "inspections") {
-                formState["@type"] = "inspection"
-                setTypeOfService(false);
+               setFormState({...formState, '@type': "inspection"});
+               setTypeOfService(false);
             } else {
-                formState["@type"] = "repair"
+                setFormState({...formState, '@type': "repair"});
                 setTypeOfService(true);
             }
         }
     }
 
     return (
-        <div className="service-create-container">
-            <div className="service-create-filter">
+        <div className="service-form-container">
+            <div className="service-form-filter">
                 <section>
-                    <InputField className="service-create-input-component-idService"
-                                name="serviceId"
+                    <InputField className="service-form-input-component"
+                                name="idService"
                                 label="Service ID"
                                 inputType="text"
                                 value={idService}
@@ -106,7 +112,7 @@ function CreateServicePage() {
                     />
                 </section>
                 <section>
-                    <InputField className="service-create-input-component"
+                    <InputField className="service-form-input-component"
                                 name="@type"
                                 label="Service Type"
                                 inputType="text"
@@ -122,14 +128,14 @@ function CreateServicePage() {
                 </section>
                 <section>
                     <InputField
-                        className="service-create-input-component"
+                        className="service-form-input-component"
                         name="serviceStatus"
                         label="Service Status"
                         inputType="text"
                         list="serviceStatusList"
                         placeholder="please select"
                         readOnly={false}
-                        onSelection={handleClick}
+                        onSelection={handleChange}
                     />
                     <datalist id="serviceStatusList">
                         {serviceStatus.map((status, i) => (
@@ -141,42 +147,42 @@ function CreateServicePage() {
 
                 <section>
                     <InputField
-                        className="service-create-input-component"
+                        className="service-form-input-component"
                         name="serviceDate"
                         label="Service Date"
                         inputType="text"
                         value={formState.serviceDate}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChange}
                     />
                 </section>
 
                 <section>
                     <InputField
-                        className="service-create-input-component"
+                        className="service-form-input-component"
                         name="idCustomer"
                         label="Customer ID"
                         inputType="text"
                         value={formState.customer.idCustomer}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChangeNestedObject}
                     />
                 </section>
 
                 <section>
                     <InputField
-                        className="service-create-input-component"
+                        className="service-form-input-component"
                         name="idCar"
                         label="Car ID"
                         inputType="text"
                         value={formState.car.idCar}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChangeNestedObject}
                     />
                 </section>
 
             </div>
-            <div className="create-text-field-issues">
+            <div className="text-field-issues-form">
                 {typeOfService === false ?
                     <textarea
                         name="issuesFoundInspection"
@@ -184,7 +190,8 @@ function CreateServicePage() {
                         rows="5"
                         value={formState.issuesFoundInspection}
                         readOnly={typeOfService}
-                        onChange={handleClick}
+                        placeholder="please enter issues found during inspection"
+                        onChange={handleChange}
 
                     >
                     </textarea>
@@ -195,7 +202,8 @@ function CreateServicePage() {
                         rows="5"
                         value={formState.issuesToRepair}
                         readOnly={!typeOfService}
-                        onChange={handleClick}
+                        placeholder="please enter issues to repair"
+                        onChange={handleChange}
                     >
                     </textarea>
                 }
@@ -212,8 +220,8 @@ function CreateServicePage() {
             </div>
 
 
-            <div className="serviceline-create-transaction-container">
-                <div className="serviceline-create-display-container">
+            <div className="serviceline-form-transaction-container">
+                <div className="serviceline-form-display-container">
                     <TransactionTable
                         selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="service-home-container-table"
@@ -223,7 +231,7 @@ function CreateServicePage() {
                     />
                 </div>
 
-                <div className="serviceline-create-buttons">
+                <div className="serviceline-form-buttons">
                     <Button
                         buttonName="transaction-home-small-button"
                         buttonDescription="DISPLAY"
@@ -263,7 +271,8 @@ function CreateServicePage() {
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
                 {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
-                    <p className="message-home">please enter service details and press confirm to create a new service</p>}
+                    <p className="message-home">please enter service details and press confirm to create a new
+                        service</p>}
             </div>
         </div>
     );

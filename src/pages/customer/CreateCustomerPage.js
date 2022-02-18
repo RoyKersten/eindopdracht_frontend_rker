@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './CreateCustomerPage.css';
+import './CustomerFormPage.css';
 import React, {useState} from "react";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -49,11 +49,11 @@ function CreateCustomerPage() {
     }
 
     return (
-        <div className="customer-create-container">
+        <div className="customer-form-container">
             <div>
-                <form className="customer-create-form" onSubmit={handleSubmit}>
+                <form className="customer-form" onSubmit={handleSubmit}>
                     <section>
-                        <InputField className="create-input-component-customerId"
+                        <InputField className="form-input-component"
                                     name="customerId"
                                     label="Customer ID"
                                     inputType="text"
@@ -61,7 +61,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component"
+                        <InputField className="form-input-component"
                                     name="firstName"
                                     label="Firstname"
                                     inputType="text"
@@ -71,7 +71,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component"
+                        <InputField className="form-input-component"
                                     name="lastName"
                                     label="Lastname"
                                     inputType="text"
@@ -81,7 +81,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component"
+                        <InputField className="form-input-component"
                                     name="phoneNumber"
                                     label="Telephone Number"
                                     inputType="text"
@@ -91,7 +91,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="create-input-component"
+                        <InputField className="form-input-component"
                                     name="email"
                                     label="Email Address"
                                     inputType="text"

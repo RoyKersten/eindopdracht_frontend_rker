@@ -1,12 +1,12 @@
-/*service create: determine container/space between header and footer*/
-.service-create-container {
+/*service display: determine container/space between header and footer*/
+.service-form-container {
     padding-top: 90px;
     height: calc(100vh - 90px - 75px);
     width: 100%;
 }
 
 /*service display: position box filters and width calculation: 100px left, 100px left-side button, 175px button, 100px right-side button*/
-.service-create-filter {
+.service-form-filter {
     display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
@@ -15,24 +15,23 @@
     flex-wrap: wrap;
 }
 
-.service-create-input-component {
+.service-form-input-component {
     border: 1px solid black;
 }
 
-.service-create-input-component-idService {
+.service-form-input-component:read-only {
     background-color: #C4C4C4;
     border: 1px solid black;
 }
 
 
 /*service display: position filters*/
-.service-create-filter section {
+.service-form-filter section {
     margin-top: 50px;
 }
 
-
 /*calculate the width of the text area box 100px left, 100px left-side button, 175px button, 100px right-side button, + 175px confirm-button + 100px margin-left confirm button*/
-.create-text-field-issues {
+.text-field-issues-form {
     display: inline-flex;
     width: calc(100% - 200px - 175px - 100px + 175px + 100px);
     margin-left: 100px;
@@ -40,10 +39,18 @@
 }
 
 /*set textarea width to 100%*/
-.create-text-field-issues textarea{
+.text-field-issues-form textarea {
     width: 100%;
     border: 1px solid black;
 }
+
+/*set textarea width to 100%*/
+.text-field-issues-form textarea:read-only {
+    width: 100%;
+    border: 1px solid black;
+    background-color: #C4C4C4;
+}
+
 
 /*position confirm-button-service*/
 .confirm-button-service-container{
@@ -53,15 +60,15 @@
     align-items: flex-end;
 }
 
-/*service create: position transaction window and buttons: display, create, change and delete*/
-.serviceline-create-transaction-container {
+/*service display: position transaction window and buttons: display, create, change and delete*/
+.serviceline-form-transaction-container {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
-/*service create: position transaction window*/
-.serviceline-create-display-container {
+/*service display: position transaction window*/
+.serviceline-form-display-container {
     margin-left: 100px;
     margin-top: 40px;
     min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px - 150px);
@@ -72,7 +79,7 @@
 }
 
 /*service home: position buttons: display, create, change and delete*/
-.serviceline-create-buttons {
+.serviceline-form-buttons {
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
@@ -83,7 +90,7 @@
 }
 
 /*set table width for headers in transaction window, border-spacing 0*/
-.serviceline-create-container-table {
+.serviceline-form-container-table {
     overflow: hidden;
     top: 0;
     width: 100%;

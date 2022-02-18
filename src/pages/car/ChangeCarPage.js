@@ -1,5 +1,5 @@
 import InputField from "../../components/inputfield/InputField";
-import './ChangeCarPage.css';
+import './CarFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
@@ -49,7 +49,6 @@ function ChangeCarPage() {
     }, [endpoint]);
 
 
-
     //Add a car to the database
     async function changeCar() {
         try {
@@ -71,8 +70,6 @@ function ChangeCarPage() {
             console.error(e);
         }
     }
-
-    // console.log(formState.fileLocation);
 
     //Get CarPaper from database
     async function getCarPaper() {
@@ -132,34 +129,47 @@ function ChangeCarPage() {
 
         try {
             let carLicensePlate = await axios.get(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${licensePlateNumber}`); //API RDW op basis van kenteken
-            formState.brand = carLicensePlate.data[0].merk;
-            formState.model = carLicensePlate.data[0].handelsbenaming;
-            formState.yearOfConstruction = carLicensePlate.data[0].datum_eerste_toelating.substring(0, 4);
-            formState.licensePlateNumber = carLicensePlate.data[0].kenteken;
-            formState.experiationDateInspection = carLicensePlate.data[0].vervaldatum_apk;
-            setFormState(formState);
+            setFormState({
+                brand: carLicensePlate.data[0].merk,
+                model: carLicensePlate.data[0].handelsbenaming,
+                yearOfConstruction: carLicensePlate.data[0].datum_eerste_toelating.substring(0, 4),
+                licensePlateNumber: carLicensePlate.data[0].kenteken,
+                experiationDateInspection: carLicensePlate.data[0].vervaldatum_apk,
+                idCar: formState.idCar,
+                customer: {idCustomer: formState.customer.idCustomer}
+            });
+
         } catch (e) {
             console.error(e);
         }
     }
 
-    function handleClick(e) {
+    //handle change for formState properties
+    function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-
-        if (inputName === "idCustomer") {
-            setFormState(formState.customer.idCustomer = inputValue);
-        }
 
         setFormState({
             ...formState,
             [inputName]: inputValue,
-        })
-        if (e.key === 'Enter') {
-            console.log("test");
+        });
+
+        if (e.key === 'Enter' && inputName === "licensePlateNumber" && inputValue !== '') {
             getCarByLicensePlate();
             e.preventDefault();
         }
+    }
+
+    //handle change for nested object properties
+    function handleChangeNestedObject(e) {
+        const inputName = e.target.name;
+        const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        const objectName = inputName.substring(2,).toLowerCase();
+
+        setFormState({
+            ...formState,
+            [objectName]: {[inputName]: inputValue},
+        });
     }
 
     function handleSubmit(e) {
@@ -168,29 +178,30 @@ function ChangeCarPage() {
     }
 
     return (
-        <div className="car-change-container">
+        <div className="car-form-container">
 
-            <form className="car-change-form" onSubmit={handleSubmit}>
-                <div className="car-change-div-box">
-                    <section className="car-change-input-section1">
-                        <div className="car-change-div1">
+            <form className="car-form">
+                <div className="car-form-div-box">
+                    <section className="car-form-input-section1">
+                        <div className="car-form-div1">
                             <section>
-                                <InputField className="change-car-input-component"
+                                <InputField className="form-car-input-component"
                                             name="idCustomer"
                                             label="Customer ID"
                                             inputType="text"
                                             value={formState.customer.idCustomer}
                                             readOnly={false}
-                                            changeHandler={handleClick}
+                                            changeHandler={handleChangeNestedObject}
                                 />
                             </section>
-                            {!formState.customer.idCustomer && <p className="field-message">please enter customer ID</p>}
+                            {!formState.customer.idCustomer &&
+                                <p className="field-message">please enter customer ID</p>}
                         </div>
                     </section>
-                    <section className="car-change-input-section2">
-                        <div className="car-change-div2">
+                    <section className="car-form-input-section2">
+                        <div className="car-form-div2">
                             <section>
-                                <InputField className="change-car-input-component-carId"
+                                <InputField className="form-car-input-component"
                                             name="idCar"
                                             label="Car ID"
                                             value={formState.idCar}
@@ -200,69 +211,70 @@ function ChangeCarPage() {
                             </section>
                         </div>
 
-                        <div className="car-change-div3">
+                        <div className="car-form-div3">
                             <section>
-                                <InputField className="change-car-input-component"
+                                <InputField className="form-car-input-component"
                                             name="licensePlateNumber"
                                             label="License Plate Number"
                                             inputType="text"
                                             value={formState.licensePlateNumber}
                                             readOnly={false}
                                             placeholder="J-071-FT  or  J071FT"
-                                            changeHandler={handleClick}
-                                            onKeyPress={handleClick}
+                                            changeHandler={handleChange}
+                                            onKeyPress={handleChange}
                                 />
                             </section>
-                            {!formState.licensePlateNumber && <p className="field-message">please enter license plate number </p>}
+                            {!formState.licensePlateNumber &&
+                                <p className="field-message">please enter license plate number </p>}
                         </div>
                     </section>
                 </div>
 
 
-                <section className="car-change-input-section3">
+                <section className="car-form-input-section3">
                     <section>
-                        <InputField className="change-input-component"
+                        <InputField className="form-input-component"
                                     name="brand"
                                     label="Brand"
                                     inputType="text"
                                     value={formState.brand}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
 
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component"
+                        <InputField className="form-input-component"
                                     name="model"
                                     label="Model"
                                     inputType="text"
                                     value={formState.model}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component"
+                        <InputField className="form-input-component"
                                     name="yearOfConstruction"
                                     label="Year Of Construction"
                                     inputType="text"
                                     value={formState.yearOfConstruction}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component"
+                        <InputField className="form-input-component"
                                     name="experiationDateInspection"
                                     label="APK experiation Date"
                                     inputType="text"
                                     value={formState.experiationDateInspection}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
-                        <InputField className="change-input-component"
+                        <InputField className="form-input-component"
                                     id="file-field"
                                     name="file"
                                     label="Select carpaper file for Upload"
@@ -273,8 +285,8 @@ function ChangeCarPage() {
                         />
                     </section>
                 </section>
-                <div className="car-change-carpaper-buttons-box">
-                    <section className="car-change-carpaper-buttons">
+                <div className="car-form-carpaper-buttons-box">
+                    <section className="car-form-carpaper-buttons">
                         <div className="open-button-div1">
                             <Button
                                 buttonName="car-button"
@@ -300,14 +312,18 @@ function ChangeCarPage() {
                     </section>
                     <div className="messages">
                         {message && <p className="message-error">{message}</p>}
-                        {!pdfReadyForUpload &&
-                            <p className="message-error">please update car details and press confirm or choose carpaper file and press upload </p>}
+                        {!pdfReadyForUpload && !message &&
+                            <p className="message-error">please update car details and press confirm or choose carpaper
+                                file and press upload </p>}
                     </div>
                     <Button
                         buttonName="confirm-button"
                         buttonDescription="CONFIRM"
                         pathName=""
-                        buttonType="submit"
+                        buttonType="button"
+                        onClick={(e) => {
+                            handleSubmit(e)
+                        }}
                         disabled={false}
                         buttonIcon={confirmIcon}
                     />

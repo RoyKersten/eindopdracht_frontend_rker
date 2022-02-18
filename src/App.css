@@ -40,6 +40,7 @@ input, label {
     margin: 5px 5px 5px 5px;
     color: red;
     animation: fadeIn 1s linear;
+
 }
 
 /*fadeIn dropdown-content when pointer is on menu icon*/

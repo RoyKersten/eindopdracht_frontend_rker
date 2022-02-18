@@ -11,10 +11,12 @@ function Header() {
     const history = useHistory();
     let headerTitle = pathname.split("/");
     const {logout} = useAuthContext();
-    const {username} = useAuthContext()
+    const {username} = useAuthContext();
+    const {adminRole} = useAuthContext();
+
 
     function openPage(path) {
-        if(path === "/") {
+        if (path === "/") {
             logout(path);
         }
         history.push(path);
@@ -47,7 +49,7 @@ function Header() {
                     <div className="dropdown-content">
                         <li onClick={() => openPage(`/user/password/${username}`)}>Change Password</li>
                         <li onClick={() => openPage("/")}>Logout</li>
-                        <li onClick={() => openPage("/admin")}>Admin</li>
+                        {adminRole && <li onClick={() => openPage("/admin")}>Admin</li>}
                     </div>
                 </div>
             </div>

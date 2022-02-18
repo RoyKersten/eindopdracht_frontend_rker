@@ -1,4 +1,4 @@
-import './ChangeServicePage.css';
+import './ServiceFormPage.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import InputField from "../../components/inputfield/InputField";
@@ -24,7 +24,7 @@ function ChangeServicePage() {
     const [reload, setReload] = useState(false);
     const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
     const [formState, setFormState] = useState({
-        serviceId: '',
+        idService: '',
         '@type': '',
         serviceStatus: '',
         serviceDate: '',
@@ -41,15 +41,12 @@ function ChangeServicePage() {
             toggleLoading(true);
             setError(false);
 
-            //Set type Of Service required for textarea IssuesFoundInspection / IssuesToRepair
+            //Set TypeOfService true/false required for textarea IssuesFoundInspection (false) / IssuesToRepair (false)
             if (serviceType === "inspections") {
-                formState["@type"] = "inspection"
                 setTypeOfService(false);
             } else {
-                formState["@type"] = "repair"
                 setTypeOfService(true);
             }
-
 
             try {
                 const {data} = await axios.get(`http://localhost:8080/services/${serviceType}/${id}`, {
@@ -58,7 +55,9 @@ function ChangeServicePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
+                console.log(data)
                 setFormState(data);
+
             } catch (error) {
                 setError(true);
                 setErrorMessage(error.data);
@@ -141,28 +140,35 @@ function ChangeServicePage() {
         }
     }
 
-
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-
-        if (inputName === "idCustomer") {
-            setFormState(formState.customer.idCustomer = inputValue);
-        } else if (inputName === "idCar") {
-            setFormState(formState.car.idCar = inputValue);
-        }
 
         setFormState({
             ...formState,
             [inputName]: inputValue,
         })
+
+    }
+
+    //handle change for nested object properties
+    function handleChangeNestedObject(e) {
+        const inputName = e.target.name;
+        const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+
+        const objectName = inputName.substring(2,).toLowerCase();
+
+        setFormState({
+            ...formState,
+            [objectName]: {[inputName]: inputValue},
+        });
     }
 
     return (
-        <div className="service-change-container">
-            <div className="service-change-filter">
+        <div className="service-form-container">
+            <div className="service-form-filter">
                 <section>
-                    <InputField className="service-change-input-component"
+                    <InputField className="service-form-input-component"
                                 name="idService"
                                 label="Service ID"
                                 inputType="text"
@@ -171,29 +177,24 @@ function ChangeServicePage() {
                     />
                 </section>
                 <section>
-                    <InputField className="service-change-input-component"
+                    <InputField className="service-form-input-component"
                                 name="@type"
                                 label="Service Type"
                                 inputType="text"
-                                list="itemTypeList"
                                 value={formState['@type']}
                                 readOnly={true}
                     />
-                    <datalist id="itemTypeList">
-                        <option value="inspections">inspections</option>
-                        <option value="repairs">repairs</option>
-                    </datalist>
                 </section>
                 <section>
                     <InputField
-                        className="service-change-input-component"
+                        className="service-form-input-component"
                         name="serviceStatus"
                         label="Service Status"
                         inputType="text"
                         placeholder="please select"
                         value={formState.serviceStatus}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChange}
                         list="serviceStatusList"
                     />
                     <datalist id="serviceStatusList">
@@ -205,40 +206,40 @@ function ChangeServicePage() {
                 </section>
                 <section>
                     <InputField
-                        className="service-change-input-component"
+                        className="service-form-input-component"
                         name="serviceDate"
                         label="Service Date"
                         inputType="text"
                         value={formState.serviceDate}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChange}
                     />
                 </section>
                 <section>
                     <InputField
-                        className="service-change-input-component"
+                        className="service-form-input-component"
                         name="idCustomer"
                         label="Customer ID"
                         inputType="text"
-                        value={formState.customer?.idCustomer === undefined ? '' : formState.customer.idCustomer}
+                        value={formState.customer.idCustomer}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChangeNestedObject}
                     />
                 </section>
                 <section>
                     <InputField
-                        className="service-change-input-component"
+                        className="service-form-input-component"
                         name="idCar"
                         label="Car ID"
                         inputType="text"
-                        value={formState.car?.idCar === undefined ? '' : formState.car.idCar}
+                        value={formState.car.idCar}
                         readOnly={false}
-                        changeHandler={handleClick}
+                        changeHandler={handleChangeNestedObject}
                     />
                 </section>
 
             </div>
-            <div className="text-field-issues-change">
+            <div className="text-field-issues-form">
                 {typeOfService === false ?
                     <textarea
                         name="issuesFoundInspection"
@@ -246,7 +247,7 @@ function ChangeServicePage() {
                         rows="5"
                         value={formState.issuesFoundInspection}
                         readOnly={typeOfService}
-                        onChange={handleClick}                  //onChange because textarea id not component inputField
+                        onChange={handleChange}                  //onChange because textarea id not component inputField
 
                     >
                     </textarea>
@@ -257,7 +258,7 @@ function ChangeServicePage() {
                         rows="5"
                         value={formState.issuesToRepair}
                         readOnly={!typeOfService}
-                        onChange={handleClick}                  //onChange because textarea id not component inputField
+                        onChange={handleChange}                  //onChange because textarea id not component inputField
                     >
                     </textarea>
                 }
@@ -274,8 +275,8 @@ function ChangeServicePage() {
             </div>
 
 
-            <div className="serviceline-change-transaction-container">
-                <div className="serviceline-change-display-container">
+            <div className="serviceline-form-transaction-container">
+                <div className="serviceline-form-display-container">
                     <TransactionTable
                         selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="service-home-container-table"
@@ -285,7 +286,7 @@ function ChangeServicePage() {
                     />
                 </div>
 
-                <div className="serviceline-change-buttons">
+                <div className="serviceline-form-buttons">
                     <Button
                         buttonName="transaction-home-small-button"
                         buttonDescription="DISPLAY"
