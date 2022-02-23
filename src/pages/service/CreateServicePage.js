@@ -19,10 +19,7 @@ function CreateServicePage() {
     const serviceStatus = ["UITVOEREN", "NIET_UITVOEREN", "VOLTOOID"];
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/services/${serviceType}`);
     const [serviceLine, setServiceLine] = useState([]);
-    const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [reload, setReload] = useState(false);
     const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
     const [formState, setFormState] = useState({
         idService: '',
@@ -54,7 +51,11 @@ function CreateServicePage() {
             }
 
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("service could not be created, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("service could not be created!")
+            }
         }
     }
 
@@ -89,8 +90,8 @@ function CreateServicePage() {
             serviceType = e.target.value;
             setEndpoint(`http://localhost:8080/services/${serviceType}`);
             if (serviceType === "inspections") {
-               setFormState({...formState, '@type': "inspection"});
-               setTypeOfService(false);
+                setFormState({...formState, '@type': "inspection"});
+                setTypeOfService(false);
             } else {
                 setFormState({...formState, '@type': "repair"});
                 setTypeOfService(true);
@@ -151,6 +152,7 @@ function CreateServicePage() {
                         name="serviceDate"
                         label="Service Date"
                         inputType="text"
+                        placeholder="2022-03-21"
                         value={formState.serviceDate}
                         readOnly={false}
                         changeHandler={handleChange}
@@ -267,10 +269,8 @@ function CreateServicePage() {
                 </div>
             </div>
             <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
+                {!selectedServiceLine.idServiceLine && !errorMessage &&
                     <p className="message-home">please enter service details and press confirm to create a new
                         service</p>}
             </div>

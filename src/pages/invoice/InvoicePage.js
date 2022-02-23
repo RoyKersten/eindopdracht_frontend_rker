@@ -34,7 +34,6 @@ function InvoicePage() {
         async function getInvoice() {
             toggleLoading(true);
             setError(false);
-            console.log(invoiceType)
             try {
                 const {data} = await axios.get(`http://localhost:8080/invoices/${invoiceType}`, {
                     headers: {
@@ -47,9 +46,6 @@ function InvoicePage() {
 
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -60,8 +56,6 @@ function InvoicePage() {
 
 
     async function deleteInvoiceById() {
-        console.log(invoiceType)
-        console.log(selectedInvoice.idInvoice)
         let text = "invoice will be deleted permanently in case no invoice is connected, are you sure?";
         if (window.confirm(text) === true) {
             setError(false);
@@ -73,11 +67,14 @@ function InvoicePage() {
                     },
                 });
                 setErrorMessage(data);
-                console.log(data);
                 setReload(!reload);
 
             } catch (error) {
-                setErrorMessage(error.response.data);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("invoice could not be deleted, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -116,7 +113,7 @@ function InvoicePage() {
             formState.invoiceStatus = e.target.value
         }
         filterData(sourceData);
-        formState.invoiceStatus = '';       //Reset filter serviceStatus to reload available repairs or inspections
+        formState.invoiceStatus = '';       //Reset filter invoiceStatus to reload available repairs or inspections
     }
 
 
@@ -155,23 +152,32 @@ function InvoicePage() {
             <div className="invoice-home-filter">
 
                 <section>
-                    <InputField name="invoiceId" label="Invoice ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="invoiceId"
+                                label="Invoice ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
-                <section>
-                    <InputField name="invoiceType" label="Invoice Type" inputType="text" list="invoiceTypeList"
+                <section spellCheck="false">
+                    <InputField name="invoiceType"
+                                label="Invoice Type"
+                                inputType="text"
+                                list="invoiceTypeList"
                                 placeholder="please select"
                                 onSelection={onSelectionInvoiceType}
 
                     />
                     <datalist id="invoiceTypeList">
-                        <option defaultValue="inspections">inspections</option>
-                        <option value="repairs">repairs</option>
+                        <option key={1} value="inspections">inspections</option>
+                        <option key={2} value="repairs">repairs</option>
                     </datalist>
                 </section>
                 <section>
-                    <InputField name="invoiceStatus" label="Invoice Status" inputType="text" list="invoiceStatusList"
+                    <InputField name="invoiceStatus"
+                                label="Invoice Status"
+                                inputType="text"
+                                list="invoiceStatusList"
                                 placeholder="please select"
                                 onSelection={onSelectionInvoiceStatus}
                     />
@@ -183,16 +189,21 @@ function InvoicePage() {
                     </datalist>
                 </section>
                 <section>
-                    <InputField name="customerId" label="Customer ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="customerId"
+                                label="Customer ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
                 <section>
-                    <InputField name="serviceId" label="Service ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="serviceId"
+                                label="Service ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
-
 
             </div>
             <div className="invoice-home-transaction-container">
@@ -246,10 +257,9 @@ function InvoicePage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedInvoice.idInvoice && !loading &&
+                {!selectedInvoice.idInvoice && !loading && !errorMessage && !error &&
                     <p className="message-home">please select invoice or select Invoice Type to switch between repair
-                        invoices
-                        and inspection invoices</p>}
+                        invoices and inspection invoices</p>}
             </div>
         </div>
     );

@@ -19,7 +19,6 @@ function ChangeServicePage() {
     let [typeOfService, setTypeOfService] = useState(false);
     const [serviceLine, setServiceLine] = useState([]);
     const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
     const [selectedServiceLine, setSelectedServiceLine] = useState({idServiceLine: ''});
@@ -39,7 +38,6 @@ function ChangeServicePage() {
     useEffect(() => {
         async function getService() {
             toggleLoading(true);
-            setError(false);
 
             //Set TypeOfService true/false required for textarea IssuesFoundInspection (false) / IssuesToRepair (false)
             if (serviceType === "inspections") {
@@ -58,11 +56,12 @@ function ChangeServicePage() {
                 console.log(data)
                 setFormState(data);
 
-            } catch (error) {
-                setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
+            } catch (e) {
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("service details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("service details could not be retrieved!")
+                }
             }
             toggleLoading(false);
         }
@@ -75,8 +74,6 @@ function ChangeServicePage() {
     useEffect(() => {
         async function getServiceLine() {
             toggleLoading(true);
-            setError(false);
-            console.log(serviceType)
             try {
                 const {data} = await axios.get(`http://localhost:8080/servicelines/`, {
                     headers: {
@@ -89,11 +86,12 @@ function ChangeServicePage() {
                 });
                 setServiceLine(serviceLinesByServiceId);
 
-            } catch (error) {
-                setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
+            } catch (e) {
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("serviceLine details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("serviceLine details could not be retrieved!")
+                }
             }
             toggleLoading(false);
         }
@@ -103,11 +101,8 @@ function ChangeServicePage() {
 
 
     async function deleteServiceLineById() {
-        console.log(serviceType)
-        console.log(selectedServiceLine.idServiceLine)
         let text = "serviceline will be deleted permanently in case no invoice is connected, are you sure?";
         if (window.confirm(text) === true) {
-            setError(false);
             try {
                 const {data} = await axios.delete(`http://localhost:8080/servicelines/${selectedServiceLine.idServiceLine}`, {
                     headers: {
@@ -116,11 +111,14 @@ function ChangeServicePage() {
                     },
                 });
                 setErrorMessage(data);
-                console.log(data);
                 setReload(!reload);
 
             } catch (error) {
-                setErrorMessage(error.response.data);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("serviceLine could not be deleted, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -136,7 +134,11 @@ function ChangeServicePage() {
             });
             setErrorMessage("service successfully updated!");
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("service could not be updated, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("service could not be updated!")
+            }
         }
     }
 
@@ -324,7 +326,6 @@ function ChangeServicePage() {
             </div>
             <div className="messages">
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
                 {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
                     <p className="message-home">please change service and press confirm or create, delete or change a

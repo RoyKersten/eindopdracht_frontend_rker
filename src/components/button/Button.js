@@ -8,17 +8,17 @@ function Button({buttonName, disabled, pathName, buttonDescription, buttonIcon, 
     function openPage() {
         history.push({
             pathname: pathName,
-       });
+        });
     }
 
     return (
-        pathName==="" ?
-        <button className={buttonName} disabled={disabled} type={buttonType}
-             onClick={onClick} ><span>
+        pathName === "" ?
+            <button className={buttonName} disabled={disabled} type={buttonType}
+                    onClick={onClick}><span>
             {buttonDescription} <p></p><img src={buttonIcon} alt="icon"/></span></button>
-        :
-        <button className={buttonName} disabled={disabled} type={buttonType}
-                onClick={() => openPage()} ><span>
+            :
+            <button className={buttonName} disabled={disabled} type={buttonType}
+                    onClick={() => openPage()}><span>
             {buttonDescription} <p></p><img src={buttonIcon} alt="icon"/></span></button>
 
     );

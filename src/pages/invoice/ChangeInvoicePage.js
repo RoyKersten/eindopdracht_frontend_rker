@@ -13,10 +13,20 @@ function ChangeInvoicePage() {
     let {invoiceType} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/invoices/${invoiceType}/${id}`);
+    const [endpointStatus, setEndpointStatus] = useState(`http://localhost:8080/invoices/${invoiceType}/status/${id}`);
+    const [statusUpdated, setStatusUpdated] = useState(false);
+
     const [postInvoice, setPostInvoice] = useState({
         '@type': '',
         service: {idService: '', '@type': ''},
+        invoiceStatus: '',
         pathName: '',
+    });
+
+    const [updateStatus, setUpdateStatus] = useState({
+        idInvoice: '',
+        '@type': '',
+        invoiceStatus: '',
     });
 
 
@@ -43,9 +53,14 @@ function ChangeInvoicePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
+                data.pathName = "";   //initial value of pathName should be an empty String before setFormState
                 setFormState(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("invoice details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("invoice details could not be retrieved!")
+                }
             }
         }
 
@@ -53,50 +68,90 @@ function ChangeInvoicePage() {
     }, [endpoint]);
 
 
+    useEffect(() => {
+        function setPostProperties() {
+            setPostInvoice({
+                '@type': formState["@type"],
+                service: {idService: formState.service.idService, '@type': formState.service["@type"]},
+                pathName: formState.pathName,
+            });
+        }
+
+        setPostProperties();
+    }, [formState]);
+
+
+    useEffect(() => {
+        function setUpdateInvoiceStatus() {
+            setUpdateStatus({
+                idInvoice: formState.idInvoice,
+                '@type': formState["@type"],
+                invoiceStatus: formState.invoiceStatus,
+            });
+        }
+
+        setUpdateInvoiceStatus();
+    }, [formState]);
+
+
     async function updateInvoice() {
-        console.log(postInvoice);
         try {
-            const {data} = await axios.put(endpoint, formState, {
+            //If invoiceStatus not Updated use PUT
+            if (!statusUpdated) {
+                const {data} = await axios.put(endpoint, postInvoice, {
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+
+            }
+            //If invoiceStatus updated use PATCH
+            const {status} = await axios.patch(endpointStatus, updateStatus, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-            setFormState(data);
-            setErrorMessage("invoice successfully updated!");
+            if (statusUpdated) {
+                setErrorMessage("invoice status successfully updated!");
+            } else if (!statusUpdated) {
+                setErrorMessage("invoice successfully updated and stored on file location!");
+            }
+
         } catch (e) {
-            setErrorMessage(e.response.data)
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("invoice could not be updated, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("invoice could not be updated!")
+            }
         }
     }
 
-
+    //handle change for formState properties
     function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-        if (inputName === "idService") {
-            setFormState(formState.service.idService = inputValue);
-        } else if (inputName === '@type') {
-            setFormState(formState.service['@type'] = inputValue);
-            setFormState(formState['@type'] = inputValue + "_invoice");
+        if (inputName === "invoiceStatus" && inputValue !== "") {
+            setStatusUpdated(true);     //in case status of invoice is updated PATCH should be used instead of PUT
         }
 
         setFormState({
             ...formState,
             [inputName]: inputValue,
-        })
+        });
     }
+
 
     function handleSubmit(e) {
         e.preventDefault();
         updateInvoice().then();
     }
 
-    console.log(formState);
-
     return (
         <div className="invoice-form-container">
-            <form className="invoice-form" onSubmit={handleSubmit}>
+            <form className="invoice-form">
                 <div className="invoice-form-section1">
                     <section>
                         <InputField className="invoice-form-input-component-section1"
@@ -134,15 +189,9 @@ function ChangeInvoicePage() {
                                     inputType="text"
                                     list="invoiceTypeList"
                                     value={formState.service?.['@type'] === undefined ? '' : formState.service['@type']}
-                                    readOnly={false}
+                                    readOnly={true}
                                     placeholder="please select"
-                                    changeHandler={handleChange}
                         />
-
-                        <datalist id="invoiceTypeList">
-                            <option value="inspection">inspection</option>
-                            <option value="repair">repair</option>
-                        </datalist>
                     </section>
                     <section>
                         <InputField className="invoice-form-input-component-section2"
@@ -150,9 +199,8 @@ function ChangeInvoicePage() {
                                     label="Service ID"
                                     inputType="text"
                                     value={formState.service?.idService === undefined ? '' : formState.service.idService}
-                                    readOnly={false}
+                                    readOnly={true}
                                     placeholder="please enter"
-                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -160,9 +208,16 @@ function ChangeInvoicePage() {
                                     name="invoiceStatus"
                                     label="Invoice Status"
                                     inputType="text"
+                                    list="invoiceStatusList"
                                     value={formState.invoiceStatus}
-                                    readOnly={true}
+                                    readOnly={formState.pathName !== ""}
+                                    changeHandler={handleChange}
                         />
+
+                        <datalist id="invoiceStatusList">
+                            <option key={1} value="OPEN">OPEN</option>
+                            <option key={2} value="BETAALD">BETAALD</option>
+                        </datalist>
                     </section>
                     <section>
                         <InputField className="invoice-form-input-component-section2"
@@ -199,10 +254,9 @@ function ChangeInvoicePage() {
                                     label="File Location To Store Invoice"
                                     inputType="text"
                                     placeholder="please enter path: /users/roykersten/documents/invoices/invoice service 4"
-                                    value={formState.pathName}
-                                    readOnly={false}
+                                    value={statusUpdated ? "" : formState.pathName}
+                                    readOnly={statusUpdated}
                                     changeHandler={handleChange}
-
                         />
                     </section>
                 </div>
@@ -210,7 +264,10 @@ function ChangeInvoicePage() {
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
                     pathName=""
-                    buttonType="submit"
+                    buttonType="button"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}
                     disabled={false}
                     buttonIcon={confirmIcon}
                 />
@@ -218,6 +275,9 @@ function ChangeInvoicePage() {
             <div className="messages">
                 {errorMessage &&
                     <p className="message-error">{errorMessage}</p>}
+                {!errorMessage &&
+                    <p className="message-error">please enter file location in case invoice should be recalculated and
+                        printed OR change Invoice Status </p>}
             </div>
         </div>
     );

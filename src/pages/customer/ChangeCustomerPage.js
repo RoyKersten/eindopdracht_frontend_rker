@@ -31,7 +31,11 @@ function ChangeCustomerPage() {
                 });
                 setFormState(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("customer details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("customer details could not be retrieved!")
+                }
             }
         }
 
@@ -50,11 +54,15 @@ function ChangeCustomerPage() {
             setErrorMessage("customer successfully updated!");
             console.log(formState);
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("customer could not be updated, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("customer could not be updated!")
+            }
         }
     }
 
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -72,7 +80,7 @@ function ChangeCustomerPage() {
 
     return (
         <div className="customer-form-container">
-            <form onSubmit={handleSubmit} className="customer-form">
+            <form className="customer-form">
                 <section>
                     <InputField className="form-input-component"
                                 name="customerId"
@@ -89,7 +97,7 @@ function ChangeCustomerPage() {
                                 inputType="text"
                                 readOnly={false}
                                 value={formState.firstName}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <section>
@@ -99,7 +107,7 @@ function ChangeCustomerPage() {
                                 inputType="text"
                                 readOnly={false}
                                 value={formState.lastName}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <section>
@@ -109,7 +117,7 @@ function ChangeCustomerPage() {
                                 inputType="text"
                                 readOnly={false}
                                 value={formState.phoneNumber}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <section>
@@ -119,13 +127,16 @@ function ChangeCustomerPage() {
                                 inputType="text"
                                 readOnly={false}
                                 value={formState.email}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
-                    buttonType="submit"
+                    buttonType="button"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}
                     pathName=""
                     disabled={false}
                     buttonIcon={confirmIcon}
@@ -134,9 +145,7 @@ function ChangeCustomerPage() {
                     {errorMessage && <p className="message-error">{errorMessage}</p>}
                 </div>
             </form>
-
         </div>
-
     );
 }
 

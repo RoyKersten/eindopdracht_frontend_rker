@@ -27,10 +27,13 @@ function ChangeUserPage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                console.log(data)
                 setFormState(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("user details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("user details could not be retrieved!")
+                }
             }
         }
 
@@ -39,9 +42,6 @@ function ChangeUserPage() {
 
 
     async function changeUser() {
-
-        console.log(formState)
-
         try {
             const {data} = await axios.put(endpoint, formState, {
                 headers: {
@@ -50,13 +50,16 @@ function ChangeUserPage() {
                 },
             });
             setErrorMessage("user successfully updated!");
-            console.log(formState);
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("user could not be updated, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("user could not be updated!")
+            }
         }
     }
 
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         let inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -74,7 +77,7 @@ function ChangeUserPage() {
 
     return (
         <div className="user-form-container">
-            <form onSubmit={handleSubmit} className="user-form-form">
+            <form className="user-form-form">
                 <section>
                     <InputField className="user-input-component"
                                 name="username"
@@ -87,11 +90,11 @@ function ChangeUserPage() {
                 <section>
                     <InputField className="user-input-component"
                                 name="password"
-                                label="Password"
+                                label="Reset Password"
                                 inputType="text"
                                 readOnly={false}
                                 value={formState.password}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <section>
@@ -102,12 +105,12 @@ function ChangeUserPage() {
                                 readOnly={false}
                                 list="userStatusList"
                                 value={formState.enabled}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
 
                     <datalist id="userStatusList">
-                        <option value="true">true</option>
-                        <option value="false">false</option>
+                        <option key={1} value="true">true</option>
+                        <option key={2} value="false">false</option>
                     </datalist>
 
                 </section>
@@ -115,7 +118,10 @@ function ChangeUserPage() {
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
-                    buttonType="submit"
+                    buttonType="button"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}
                     pathName=""
                     disabled={false}
                     buttonIcon={confirmIcon}

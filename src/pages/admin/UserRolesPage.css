@@ -33,7 +33,7 @@
     border: 1px solid black;
 }
 
-.user-roles-checkbox{
+.user-roles-checkbox {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;

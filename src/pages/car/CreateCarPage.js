@@ -47,11 +47,13 @@ function CreateCarPage() {
             setEndpointCarPaper(`http://localhost:8080/cars/${id}/carpaper`)    //setEndPointCarPaper to ensure upload for carpaper takes last idCar
 
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("car could not be created, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("car could not be created!")
+            }
         }
     }
-
-    // console.log(formState.fileLocation);
 
     //Get CarPaper from database
     async function getCarPaper() {
@@ -74,7 +76,7 @@ function CreateCarPage() {
 
         } catch (e) {
             console.error(e);
-            setMessage("carpaper not available, please first upload carpaper")
+            setMessage("carPaper not available, please first upload carPaper")
         }
     }
 
@@ -91,7 +93,7 @@ function CreateCarPage() {
                 }
             });
             if (carPaper.status === 200) {
-                setMessage("carpaper successfully added, you can open the uploaded file")
+                setMessage("carPaper successfully added, you can open the uploaded file")
                 setPdfAvailable(true);
             }
         } catch (e) {
@@ -119,7 +121,11 @@ function CreateCarPage() {
                 customer: {idCustomer: formState.customer.idCustomer}
             });
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("car details could not be retrieved from RDW, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("car details could not be retrieved from RDW!")
+            }
         }
     }
 
@@ -288,8 +294,9 @@ function CreateCarPage() {
                         </div>
                     </section>
                     <div className="messages">
-                        {message && <p className="message-error">{message}</p>}
-                        {!idCar && !message &&
+                        {errorMessage && !message && <p className="message-error">{errorMessage}</p>}
+                        {message && !errorMessage && <p className="message-error">{message}</p>}
+                        {!idCar && !message && !errorMessage &&
                             <p className="message-error">carpaper can be uploaded once car has been created, please
                                 enter details and press confirm</p>}
                     </div>

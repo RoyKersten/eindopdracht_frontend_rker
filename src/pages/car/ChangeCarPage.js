@@ -41,7 +41,11 @@ function ChangeCarPage() {
                 });
                 setFormState(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("car details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("car details could not be retrieved!")
+                }
             }
         }
 
@@ -67,7 +71,11 @@ function ChangeCarPage() {
             setEndpointCarPaper(`http://localhost:8080/cars/${id}/carpaper`)    //setEndPointCarPaper to ensure upload for carpaper takes last idCar
 
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("car could not be updated, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("car could not be updated!")
+            }
         }
     }
 
@@ -92,7 +100,7 @@ function ChangeCarPage() {
 
         } catch (e) {
             console.error(e);
-            setMessage("carpaper not available, please first upload carpaper")
+            setMessage("carPaper not available, please first upload carpaper")
         }
     }
 
@@ -111,11 +119,15 @@ function ChangeCarPage() {
                 }
             });
             if (carPaper.status === 200) {
-                setMessage("carpaper successfully added, you can open the uploaded file")
+                setMessage("carPaper successfully added, you can open the uploaded file")
                 setPdfAvailable(true);
             }
         } catch (e) {
-            console.log(e)
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("carPaper could not be added, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("carPaper could not be added!")
+            }
         }
     }
 
@@ -140,7 +152,11 @@ function ChangeCarPage() {
             });
 
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("car details could not be retrieved from RDW, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("car details could not be retrieved from RDW!")
+            }
         }
     }
 
@@ -311,8 +327,9 @@ function ChangeCarPage() {
                         </div>
                     </section>
                     <div className="messages">
-                        {message && <p className="message-error">{message}</p>}
-                        {!pdfReadyForUpload && !message &&
+                        {errorMessage && !message && <p className="message-error">{errorMessage}</p>}
+                        {message && !errorMessage && <p className="message-error">{message}</p>}
+                        {!pdfReadyForUpload && !message && !errorMessage &&
                             <p className="message-error">please update car details and press confirm or choose carpaper
                                 file and press upload </p>}
                     </div>

@@ -44,9 +44,6 @@ function CustomerPage() {
 
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -67,11 +64,13 @@ function CustomerPage() {
                     },
                 });
                 setErrorMessage(data);
-                console.log(data);
                 setReload(!reload);
-
             } catch (error) {
-                setErrorMessage(error.response.data);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("customer could not be deleted, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -96,7 +95,6 @@ function CustomerPage() {
     //Filter data based customerId and lastname or show all customers when filters are empty
     function filterData(data) {
         setCustomers(sourceData);
-
         if (formState.customerId !== "") {
             setCustomers(data.filter(function (object) {
                 return object.idCustomer.toString() === formState.customerId.toString();
@@ -115,13 +113,19 @@ function CustomerPage() {
         <div className="customer-home-container">
             <div className="customer-home-filter">
                 <section>
-                    <InputField name="customerId" label="Customer ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="customerId"
+                                label="Customer ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
                 <section>
-                    <InputField name="lastname" label="Lastname" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="lastname"
+                                label="Lastname"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
             </div>
@@ -176,9 +180,9 @@ function CustomerPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedCustomer.idCustomer && !loading && <p className="message-home">Please select a customer</p>}
+                {!selectedCustomer.idCustomer && !loading && !errorMessage && !error &&
+                    <p className="message-home">Please select a customer</p>}
             </div>
-
         </div>
     );
 };

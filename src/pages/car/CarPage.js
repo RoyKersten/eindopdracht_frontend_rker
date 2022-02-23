@@ -39,16 +39,11 @@ function CarPage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-
-                console.log(data)
                 setSourceData(data);
                 setCars(data);
 
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -69,11 +64,14 @@ function CarPage() {
                     },
                 });
                 setErrorMessage(data);
-                console.log(data);
                 setReload(!reload);
 
             } catch (error) {
-                setErrorMessage(error.response.data);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("car could not be deleted, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -178,7 +176,8 @@ function CarPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedCar.idCar && !loading && <p className="message-home">Please select a car</p>}
+                {!selectedCar.idCar && !loading && !errorMessage && !error &&
+                    <p className="message-home">Please select a car</p>}
             </div>
 
         </div>

@@ -31,12 +31,7 @@ function CreateInvoicePage() {
         pathName: ''
     });
 
-
     async function addInvoice() {
-        setPostInvoice(postInvoice['@type'] = formState['@type']);
-        setPostInvoice(postInvoice.service.idService = formState.service.idService);
-        setPostInvoice(postInvoice.service['@type'] = formState.service['@type']);
-        setPostInvoice(postInvoice.pathName = formState.pathName);
         try {
             const {data} = await axios.post(endpoint, postInvoice, {
                 headers: {
@@ -44,10 +39,8 @@ function CreateInvoicePage() {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-            console.log(data);
             const indexOf = data.lastIndexOf("/") + 1;                           //determine new created idCar => last numbers after last /
             const id = (data.substring(indexOf,));                                     //capture idItem
-            console.log(id);
             if (data !== null) {
                 setErrorMessage("invoice successfully created!");
             }
@@ -55,9 +48,26 @@ function CreateInvoicePage() {
             await getInvoiceById(id, serviceType);
 
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("invoice could not be created, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("invoice could not be created!")
+            }
         }
     }
+
+
+    useEffect(() => {
+        function setPostProperties() {
+            setPostInvoice({
+                '@type': formState["@type"],
+                service: {idService: formState.service.idService, '@type': formState.service["@type"]},
+                pathName: formState.pathName,
+            });
+        }
+
+        setPostProperties();
+    }, [formState]);
 
 
     //Get invoiceById
@@ -69,39 +79,57 @@ function CreateInvoicePage() {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
+            data.pathName = "";   //initial value of pathName should be an empty String before setFormState
             setFormState(data);
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("invoice details could not be retrieved, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("invoice details could not be retrieved!")
+            }
         }
     }
 
 
+    //handle change for formState properties
     function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        const inputId = e.target.id;
-        console.log(inputId);
-        console.log(inputName);
 
-        if (inputName === "idService") {
-            formState.service.idService = inputValue;
-        } else if (inputName === '@type' && inputId === "serviceType") {
-            formState.service['@type'] = inputValue;
+        setFormState({
+            ...formState,
+            [inputName]: inputValue,
+        });
+    }
+
+    //handle change for nested object properties
+    function handleChangeNestedObject(e) {
+        const inputName1 = e.target.name;
+        const inputValue1 = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        let inputName2 = '';
+        let inputValue2 = '';
+
+        //nestedObject Item exists of two properties: determine which nestedObject property is updated, the other also needs to be updated to avoid error message
+        //handleChangeNestedObject function is only invoked via two properties item.idItem and item['@type']
+        if (inputName1 === "idService") {
+            inputName2 = "@type";
+            inputValue2 = formState.service["@type"];
             invoiceType = formState.service['@type'] + "s";
             setEndpoint(`http://localhost:8080/invoices/${invoiceType}`);
-        } else if ((inputName === '@type' && inputId === "invoiceType") || inputName === "pathName")
-            setFormState({
-                ...formState,
-                [inputName]: inputValue,
-            })
+        } else {
+            inputName2 = "idService"
+            inputValue2 = formState.service.idService;
+        }
+        setFormState({
+            ...formState,
+            service: {[inputName1]: inputValue1, [inputName2]: inputValue2},
+        });
     }
 
     function handleSubmit(e) {
         e.preventDefault();
         addInvoice().then();
     }
-
-    console.log(formState);
 
     return (
         <div className="invoice-form-container">
@@ -153,11 +181,11 @@ function CreateInvoicePage() {
                                     list="serviceTypeList"
                                     readOnly={false}
                                     placeholder="please select"
-                                    changeHandler={handleChange}
+                                    changeHandler={handleChangeNestedObject}
                         />
                         <datalist id="serviceTypeList">
-                            <option value="inspection">inspection</option>
-                            <option value="repair">repair</option>
+                            <option key={1} value="inspection">inspection</option>
+                            <option key={2} value="repair">repair</option>
                         </datalist>
                     </section>
                     <section>
@@ -167,7 +195,7 @@ function CreateInvoicePage() {
                                     inputType="text"
                                     readOnly={false}
                                     placeholder="please enter"
-                                    changeHandler={handleChange}
+                                    changeHandler={handleChangeNestedObject}
                         />
                     </section>
                     <section>

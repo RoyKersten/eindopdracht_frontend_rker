@@ -6,10 +6,9 @@ import {useParams} from "react-router-dom";
 
 
 function UserRolesPage() {
-
-    const {username} = useParams()
+    const {username} = useParams();
+    const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [reload, setReload] = useState(false);
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/users/${username}/authorities`);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         username: '',
@@ -20,13 +19,20 @@ function UserRolesPage() {
         role_admin: false
     });
 
-    const [addNewUserRole, setAddNewUserRole] =useState( {
+    const [addNewUserRole, setAddNewUserRole] = useState({
         username: {username},
         authority: ''
     });
 
+    const [removeExistingUserRole, setRemoveExistingNewUserRole] = useState({
+        username: {username},
+        authority: ''
+    });
+
+
     useEffect(() => {
-        console.log(endpoint)
+        setError(false);
+
         async function getUserRolesByUsername() {
             try {
                 const {data} = await axios.get(endpoint, {
@@ -35,10 +41,9 @@ function UserRolesPage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                getRoles(data)
-
+                getRoles(data);
             } catch (e) {
-                console.error(e);
+                setError(true);
             }
         }
 
@@ -46,69 +51,88 @@ function UserRolesPage() {
     }, [endpoint]);
 
 
+    //Set granted roles in formState
     function getRoles(data) {
         const roles = [];
         for (let i = 0; i < data.length; i++) {
             roles.push(data[i].authority)
         }
-        console.log(roles);
-
+        console.log(roles)
         for (let i = 0; i < roles.length; i++) {
             switch (roles[i]) {
                 case "ROLE_MECHANIC":
-                    formState.role_mechanic = true;
+                    setFormState(prevState => ({...prevState, role_mechanic: true}));
                     break;
                 case "ROLE_ADMIN_CLERK":
-                    formState.role_admin_clerk = true;
+                    setFormState(prevState => ({...prevState, role_admin_clerk: true}));
                     break;
                 case "ROLE_BACKOFFICE":
-                    formState.role_backoffice = true;
+                    setFormState(prevState => ({...prevState, role_backoffice: true}));
                     break;
                 case "ROLE_CASHIER":
-                   formState.role_cashier = true;
+                    setFormState(prevState => ({...prevState, role_cashier: true}));
                     break;
                 case "ROLE_ADMIN":
-                    formState.role_admin = true;
+                    setFormState(prevState => ({...prevState, role_admin: true}));
                     break;
                 default:
             }
         }
-        setReload(!reload);
-        }
-
-
-    async function addUserRole() {
-        try {
-            const {data} = await axios.post(endpoint, addNewUserRole, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            setErrorMessage("user role successfully added!");
-            console.log(formState);
-        } catch (e) {
-            console.error(e);
-        }
     }
 
-    async function removeUserRole() {
-        try {
-            const {data} = await axios.delete(`http://localhost:8080/users/${username}/authorities/${addNewUserRole.authority}`, {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            setErrorMessage("user role successfully removed!");
-        } catch (e) {
-            console.error(e);
+    useEffect(() => {
+        if (addNewUserRole.authority !== "") {
+
+            async function addUserRole() {
+                console.log(addNewUserRole);
+                try {
+                    const {data} = await axios.post(endpoint, addNewUserRole, {
+                        headers: {
+                            "Content-type": "application/json",
+                            Authorization: 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    });
+                    setErrorMessage("user role successfully added!");
+                } catch (e) {
+                    if (e.response.status.toString() === "403") {
+                        setErrorMessage("user role could not be created, you are not authorized!")
+                    } else if (e.response.status.toString() !== "403") {
+                        setErrorMessage("user role could not be created!")
+                    }
+                }
+            }
+
+            addUserRole();
         }
-    }
+    }, [addNewUserRole]);
 
 
+    useEffect(() => {
+        if (removeExistingUserRole.authority !== "") {
+            async function removeUserRole() {
+                try {
+                    const {data} = await axios.delete(`http://localhost:8080/users/${username}/authorities/${removeExistingUserRole.authority}`, {
+                        headers: {
+                            "Content-type": "application/json",
+                            Authorization: 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    });
+                    setErrorMessage("user role successfully removed!");
+                } catch (e) {
+                    if (e.response.status.toString() === "403") {
+                        setErrorMessage("user role could not be removed, you are not authorized!")
+                    } else if (e.response.status.toString() !== "403") {
+                        setErrorMessage("role could not be removed!")
+                    }
+                }
+            }
 
-    function handleClick(e) {
+            removeUserRole();
+        }
+    }, [removeExistingUserRole]);
+
+
+    function handleChange(e) {
         const inputName = e.target.name;
         let inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -118,27 +142,15 @@ function UserRolesPage() {
         })
 
         if (e.target.checked === true) {
-            addNewUserRole.authority='';
-            addNewUserRole.authority = inputName.toUpperCase();
-            addUserRole();
+            setAddNewUserRole(prevState => ({...prevState, authority: inputName.toUpperCase()}));
         } else if (e.target.checked === false) {
-            addNewUserRole.authority='';
-            addNewUserRole.authority = inputName;
-            removeUserRole();
+            setRemoveExistingNewUserRole(prevState => ({...prevState, authority: inputName.toLowerCase()}));
         }
-
-
     }
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        // addUserRoles().then();
-    }
-
 
     return (
         <div className="user-roles-container">
-            <form onSubmit={handleSubmit} className="user-roles-form">
+            <form className="user-roles-form">
                 <section>
                     <InputField className="user-roles-input-component"
                                 name="username"
@@ -149,17 +161,16 @@ function UserRolesPage() {
                     />
                 </section>
                 <div className="user-roles-checkbox">
-                <section>
-                    <InputField className="user-roles-input-checkbox"
-                                name="role_mechanic"
-                                label="ROLE_MECHANIC"
-                                inputType="checkbox"
-                                readOnly={false}
-                                checked={formState.role_mechanic}
-                                changeHandler={handleClick}
-
-                    />
-                </section>
+                    <section>
+                        <InputField className="user-roles-input-checkbox"
+                                    name="role_mechanic"
+                                    label="ROLE_MECHANIC"
+                                    inputType="checkbox"
+                                    readOnly={false}
+                                    checked={formState.role_mechanic}
+                                    changeHandler={handleChange}
+                        />
+                    </section>
                     <section>
                         <InputField className="user-roles-input-checkbox"
                                     name="role_admin_clerk"
@@ -167,7 +178,7 @@ function UserRolesPage() {
                                     inputType="checkbox"
                                     readOnly={false}
                                     checked={formState.role_admin_clerk}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -177,7 +188,7 @@ function UserRolesPage() {
                                     inputType="checkbox"
                                     readOnly={false}
                                     checked={formState.role_backoffice}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -187,7 +198,7 @@ function UserRolesPage() {
                                     inputType="checkbox"
                                     readOnly={false}
                                     checked={formState.role_cashier}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -197,12 +208,13 @@ function UserRolesPage() {
                                     inputType="checkbox"
                                     readOnly={false}
                                     checked={formState.role_admin}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
-        </div>
+                </div>
                 <div className="messages">
-                    {errorMessage && <p className="message-error">{errorMessage}</p>}
+                    {error && !errorMessage && <p className="message-home">Error occurred</p>}
+                    {errorMessage && !error && <p className="message-error">{errorMessage}</p>}
                 </div>
             </form>
         </div>

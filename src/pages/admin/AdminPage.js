@@ -44,9 +44,6 @@ function AdminPage() {
 
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -67,11 +64,14 @@ function AdminPage() {
                     },
                 });
                 setErrorMessage(data);
-                console.log(data);
                 setReload(!reload);
 
-            } catch (error) {
-                setErrorMessage(error.response.data);
+            } catch (e) {
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("user could not be deleted, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("user could not be deleted!")
+                }
             }
             toggleLoading(false);
         }
@@ -96,12 +96,9 @@ function AdminPage() {
     //Filter data based customerId and lastname or show all customers when filters are empty
     function filterData(data) {
         setUser(sourceData);
-        console.log(data)
 
         if (formState.username !== "") {
             setUser(data.filter(function (object) {
-                console.log(object.username);
-                console.log(formState.username);
                 return object.username === formState.username;
             }))
         } else {
@@ -178,7 +175,8 @@ function AdminPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedUser.username && !loading && <p className="message-home">Please select a user</p>}
+                {!selectedUser.username && !loading && !errorMessage && !error &&
+                    <p className="message-home">Please select a user</p>}
             </div>
 
         </div>

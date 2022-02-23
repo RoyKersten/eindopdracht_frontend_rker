@@ -18,7 +18,7 @@ function CreateItemPage() {
         itemCategory: '',
         itemName: '',
         brand: '',
-        qty: '',
+        qty: 0,
         price: 0,
         status: ''
     });
@@ -32,7 +32,7 @@ function CreateItemPage() {
                 },
             });
             console.log(data);
-            const indexOf = data.lastIndexOf("/") + 1;                           //determine new created idCar => last numbers after last /
+            const indexOf = data.lastIndexOf("/") + 1;                           //determine new created idItem
             const id = (data.substring(indexOf,));                                     //capture idItem
             setIdItem(id);
             if (data !== null) {
@@ -40,14 +40,27 @@ function CreateItemPage() {
             }
 
         } catch (e) {
-            // setErrorMessage(e.response.data)
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("item could not be created, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("item could not be created!")
+            }
         }
     }
 
-    function handleClick(e) {
-        const inputName = e.target.name;
-        const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    function handleChange(e) {
+        let inputName = e.target.name;
+        let inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+
+        if (inputValue === "parts") {
+            itemType = e.target.value;
+            inputValue = "part";
+        } else if (inputValue === "activities") {
+            itemType = e.target.value;
+            inputValue = "activity"
+        }
+        //set http address to corresponding itemType
+        window.history.replaceState(null, null, `/items/create/${itemType}`)
 
         setFormState({
             ...formState,
@@ -60,27 +73,9 @@ function CreateItemPage() {
         addItem().then();
     }
 
-    //filter data based on itemType part or activity selection
-    function onSelection(e) {
-        if (e.target.value === "") {
-        } else {
-            itemType = e.target.value;
-            window.history.replaceState(null, null, `/items/create/${itemType}`)
-            if (itemType === "parts") {
-                formState["@type"] = "part"
-                setTypeOfItem(false);
-            } else {
-                formState["@type"] = "activity"
-                setTypeOfItem(true);
-            }
-        }
-    }
-
-
-
     return (
         <div className="item-form-container">
-            <form className="item-form" onSubmit={handleSubmit}>
+            <form className="item-form">
                 <div className="item-form-section1">
                     <section>
                         <InputField className="form-input-component-section1"
@@ -88,12 +83,12 @@ function CreateItemPage() {
                                     label="Item Type"
                                     inputType="text"
                                     readOnly={false}
-                                    onSelection={onSelection}
+                                    onSelection={handleChange}
                                     list="itemTypeList"
                         />
                         <datalist id="itemTypeList">
-                            <option value="parts">parts</option>
-                            <option value="activities">activities</option>
+                            <option key={1} value="parts">parts</option>
+                            <option key={2} value="activities">activities</option>
                         </datalist>
 
                     </section>
@@ -118,7 +113,7 @@ function CreateItemPage() {
                                     inputType="text"
                                     value={formState.itemCategory}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -128,7 +123,7 @@ function CreateItemPage() {
                                     inputType="text"
                                     value={formState.itemName}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -138,7 +133,7 @@ function CreateItemPage() {
                                     inputType="text"
                                     value={formState.brand}
                                     readOnly={typeOfItem}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                 </div>
@@ -148,9 +143,9 @@ function CreateItemPage() {
                                     name="qty"
                                     label="Stock"
                                     inputType="number"
-                                    value={formState.qty}
+                                    value={formState.qty < 0 ? 0 : formState.qty}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
 
@@ -161,7 +156,7 @@ function CreateItemPage() {
                                     inputType="number"
                                     value={parseFloat(formState.price).toFixed(2).replace(',', '.')}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
 
@@ -172,19 +167,22 @@ function CreateItemPage() {
                                     inputType="text"
                                     value={formState.status}
                                     readOnly={false}
-                                    changeHandler={handleClick}
-                                    list="itemTypeList"
+                                    changeHandler={handleChange}
+                                    list="itemStatusList"
                         />
-                        <datalist id="itemTypeList">
-                            <option value="LOCKED">LOCKED</option>
-                            <option value="OPEN">OPEN</option>
+                        <datalist id="itemStatusList">
+                            <option key={1} value="LOCKED">LOCKED</option>
+                            <option key={2} value="OPEN">OPEN</option>
                         </datalist>
                     </section>
                 </div>
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
-                    buttonType="submit"
+                    buttonType="button"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}
                     pathName=""
                     disabled={false}
                     buttonIcon={confirmIcon}

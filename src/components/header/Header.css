@@ -2,7 +2,7 @@
 .header-container {
     display: flex;
     position: fixed;
-    top:0;
+    top: 0;
     width: 100%;
     border-bottom: 2px solid #718EBA;
 }
@@ -51,6 +51,7 @@
     margin-right: 20px;
 }
 
+
 .page-name {
     width: 100%;
     padding: 35px 0;
@@ -83,7 +84,11 @@
 
 /*fadeIn dropdown-content when pointer is on menu icon*/
 @keyframes fadeIn {
-    0% { opacity: 0 }
-    100% { opacity: 1 }
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
 }
 

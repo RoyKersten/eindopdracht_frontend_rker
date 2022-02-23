@@ -27,7 +27,7 @@
 }
 
 /*position div2: Item ID and div3: Item Type left and right side of container of 500px wide*/
-.serviceline-form-input-section2{
+.serviceline-form-input-section2 {
     display: flex;
     justify-content: space-between;
     width: 500px;

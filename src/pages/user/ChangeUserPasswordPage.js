@@ -1,6 +1,6 @@
 import InputField from "../../components/inputfield/InputField";
 import './ChangeUserPasswordPage.css';
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
 import axios from "axios";
@@ -35,12 +35,12 @@ function ChangeUserPasswordPage() {
         }
     }
 
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         let inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
         if (e.target.name === "passwordCheck") {
-            password.passwordCheck = e.target.value;
+            setPassword({passwordCheck: e.target.value})
         }
 
         setFormState({
@@ -51,8 +51,6 @@ function ChangeUserPasswordPage() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(formState.password)
-        console.log(password.passwordCheck)
         if (formState.password === password.passwordCheck) {
             changeUser().then();
         }
@@ -62,7 +60,7 @@ function ChangeUserPasswordPage() {
 
     return (
         <div className="user-form-container">
-            <form onSubmit={handleSubmit} className="user-form-form">
+            <form className="user-form-form">
                 <section>
                     <InputField className="user-input-component"
                                 name="username"
@@ -80,7 +78,7 @@ function ChangeUserPasswordPage() {
                                 readOnly={false}
                                 placeholder="enter new password"
                                 value={formState.password}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <section>
@@ -91,13 +89,16 @@ function ChangeUserPasswordPage() {
                                 readOnly={false}
                                 placeholder="repeat new password"
                                 value={password.passwordCheck}
-                                changeHandler={handleClick}
+                                changeHandler={handleChange}
                     />
                 </section>
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
-                    buttonType="submit"
+                    buttonType="button"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}
                     pathName=""
                     disabled={false}
                     buttonIcon={confirmIcon}

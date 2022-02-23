@@ -10,6 +10,7 @@ import axios from "axios";
 function DisplayUserPage() {
 
     const {username} = useParams()
+    const [errorMessage, setErrorMessage] = useState("");
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/users/${username}`);
     const [object, setObject] = useState({username: '', password: '', enabled: ''});
 
@@ -24,7 +25,11 @@ function DisplayUserPage() {
                 });
                 setObject(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("user details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("user details could not be retrieved!")
+                }
             }
         }
 
@@ -61,15 +66,17 @@ function DisplayUserPage() {
                                 readOnly={true}
                     />
                 </section>
+                <div className="messages">
+                    {errorMessage && <p className="message-error">{errorMessage}</p>}
+                </div>
+                <Button
+                    buttonName="confirm-button"
+                    buttonDescription="CONFIRM"
+                    pathName="/home"
+                    disabled={true}
+                    buttonIcon={confirmIcon}
+                />
             </form>
-
-            <Button
-                buttonName="confirm-button"
-                buttonDescription="CONFIRM"
-                pathName="/home"
-                disabled={true}
-                buttonIcon={confirmIcon}
-            />
         </div>
 
     );

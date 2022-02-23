@@ -33,7 +33,6 @@ function ServicePage() {
         async function getService() {
             toggleLoading(true);
             setError(false);
-            console.log(serviceType)
             try {
                 const {data} = await axios.get(`http://localhost:8080/services/${serviceType}`, {
                     headers: {
@@ -46,9 +45,6 @@ function ServicePage() {
 
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -59,8 +55,6 @@ function ServicePage() {
 
 
     async function deleteServiceById() {
-        console.log(serviceType)
-        console.log(selectedService.idService)
         let text = "service will be deleted permanently in case no invoice is connected, are you sure?";
         if (window.confirm(text) === true) {
             setError(false);
@@ -72,11 +66,15 @@ function ServicePage() {
                     },
                 });
                 setErrorMessage(data);
-                console.log(data);
                 setReload(!reload);
 
             } catch (error) {
-                setErrorMessage(error.response.data);
+                console.log(error.response.status.toString());
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("service could not be deleted, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -112,7 +110,7 @@ function ServicePage() {
     function onSelectionServiceStatus(e) {
         if (e.target.value === "") {
         } else {
-            formState.serviceStatus = e.target.value
+            formState.serviceStatus = e.target.value;
         }
         filterData(sourceData);
         formState.serviceStatus = '';       //Reset filter serviceStatus to reload available repairs or inspections
@@ -150,19 +148,25 @@ function ServicePage() {
             <div className="service-home-filter">
 
                 <section>
-                    <InputField name="serviceId" label="Service ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="serviceId"
+                                label="Service ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
-                <section>
-                    <InputField name="serviceType" label="Service Type" inputType="text" list="serviceTypeList"
+                <section spellCheck="false">
+                    <InputField name="serviceType"
+                                label="Service Type"
+                                inputType="text"
+                                list="serviceTypeList"
                                 placeholder="please select"
                                 onSelection={onSelectionServiceType}
 
                     />
                     <datalist id="serviceTypeList">
-                        <option defaultValue="inspections">inspections</option>
-                        <option value="repairs">repairs</option>
+                        <option key={1} value="inspections">inspections</option>
+                        <option key={2} value="repairs">repairs</option>
                     </datalist>
                 </section>
                 <section>
@@ -178,8 +182,11 @@ function ServicePage() {
                     </datalist>
                 </section>
                 <section>
-                    <InputField name="customerId" label="Customer ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="customerId"
+                                label="Customer ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
             </div>
@@ -234,7 +241,7 @@ function ServicePage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedService.idService && !loading &&
+                {!selectedService.idService && !loading && !errorMessage && !error &&
                     <p className="message-home">please select service or select Service Type to switch between repairs
                         and inspections</p>}
             </div>

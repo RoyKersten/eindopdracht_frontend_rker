@@ -96,13 +96,14 @@ function AuthContextProvider({children}) {
             for (let i = 0; i < data.length; i++) {
                 if (data[i].authority === "ROLE_ADMIN") {
                     setAuthState({
-                        username: authState.username,
+                        username: username,
                         adminRole: true,
                         status: "user has admin_role"
                     });
-                }}
+                }
+            }
         } catch (e) {
-            console.error("user has no access to this endpoint which means no admin_role");
+            console.error("user has no admin_role, no access to admin environment");
         }
     }
 

@@ -20,7 +20,7 @@ function ChangeItemPage() {
         itemCategory: '',
         itemName: '',
         brand: '',
-        qty: '',
+        qty: 0,
         price: 0,
         status: ''
     });
@@ -36,7 +36,11 @@ function ChangeItemPage() {
                 });
                 setFormState(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("item details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("item details could not be retrieved!")
+                }
             }
         }
 
@@ -54,11 +58,15 @@ function ChangeItemPage() {
             });
             setErrorMessage("item successfully updated!");
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("item could not be updated, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("item could not be updated!")
+            }
         }
     }
 
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -75,21 +83,20 @@ function ChangeItemPage() {
 
     return (
         <div className="item-form-container">
-            <form className="item-form" onSubmit={handleSubmit}>
+            <form className="item-form">
                 <div className="item-form-section1">
                     <section>
                         <InputField className="form-input-component-section1"
                                     name="itemType"
                                     label="Item Type"
                                     inputType="text"
-                                    value={itemType}                                                                          //retrieve itemType from Param itemtype
+                                    value={itemType}                                                                          //retrieve itemType from Param itemType
                                     readOnly={true}
                         />
                     </section>
                 </div>
                 <div className="item-form-section2">
                     <section>
-
                         <InputField className="form-input-component-section2"
                                     name="idItem"
                                     label="Item ID"
@@ -105,7 +112,7 @@ function ChangeItemPage() {
                                     inputType="text"
                                     value={formState.itemCategory}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -115,7 +122,7 @@ function ChangeItemPage() {
                                     inputType="text"
                                     value={formState.itemName}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -124,8 +131,8 @@ function ChangeItemPage() {
                                     label="Brand"
                                     inputType="text"
                                     readOnly={itemType === "activities"}
-                                    value={itemType=== "activities" ? "" : formState.brand}
-                                    changeHandler={typeOfItem === true ? null : handleClick}
+                                    value={itemType === "activities" ? "" : formState.brand}
+                                    changeHandler={handleChange}
                         />
                     </section>
                 </div>
@@ -134,20 +141,20 @@ function ChangeItemPage() {
                         <InputField className="form-input-component-section3"
                                     name="qty"
                                     label="Stock"
-                                    inputType="text"
-                                    value={formState.qty}
+                                    inputType="number"
+                                    value={formState.qty}                            //Allowed to go below zero to ensure stock correction can be made in case physical inventory is lower than administrative inventory
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
                         <InputField className="form-input-component-section3"
                                     name="price"
                                     label="Price"
-                                    inputType="text"
+                                    inputType="number"
                                     value={parseFloat(formState.price).toFixed(2).replace(',', '.')}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -157,19 +164,22 @@ function ChangeItemPage() {
                                     inputType="text"
                                     value={formState.status}
                                     readOnly={false}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                                     list="itemTypeList"
                         />
                         <datalist id="itemTypeList">
-                            <option value="LOCKED">LOCKED</option>
-                            <option value="OPEN">OPEN</option>
+                            <option key={1} value="LOCKED">LOCKED</option>
+                            <option key={2} value="OPEN">OPEN</option>
                         </datalist>
                     </section>
                 </div>
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
-                    buttonType="submit"
+                    buttonType="button"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}
                     pathName=""
                     disabled={false}
                     buttonIcon={confirmIcon}
@@ -179,7 +189,6 @@ function ChangeItemPage() {
                 {errorMessage && <p className="message-error">{errorMessage}</p>}
             </div>
         </div>
-
     );
 }
 

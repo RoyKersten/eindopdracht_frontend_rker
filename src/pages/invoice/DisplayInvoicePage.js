@@ -11,6 +11,7 @@ function DisplayInvoicePage() {
 
     const {id} = useParams()
     const {invoiceType} = useParams();
+    const [error, setError] = useState(false);
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/invoices/${invoiceType}/${id}`);
     const [formState, setFormState] = useState({
         idInvoice: '',
@@ -26,6 +27,7 @@ function DisplayInvoicePage() {
 
     useEffect(() => {
         async function getInvoiceById() {
+            setError(false);
             try {
                 const {data} = await axios.get(endpoint, {
                     headers: {
@@ -33,16 +35,15 @@ function DisplayInvoicePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
+                data.pathName = "";   //initial value of pathName should be an empty String before setFormState
                 setFormState(data);
             } catch (e) {
-                console.error(e);
+                setError(true);
             }
         }
 
         getInvoiceById();
     }, [endpoint]);
-
-    console.log(formState)
 
     return (
         <div className="invoice-form-container">
@@ -142,7 +143,9 @@ function DisplayInvoicePage() {
                                     readOnly={true}
                         />
                     </section>
+
                 </div>
+
                 <Button
                     buttonName="confirm-button"
                     buttonDescription="CONFIRM"
@@ -151,6 +154,10 @@ function DisplayInvoicePage() {
                     buttonIcon={confirmIcon}
                 />
             </form>
+            <div className="messages">
+                {error &&
+                    <p className="message-error">Error occurred</p>}
+            </div>
         </div>
     );
 }

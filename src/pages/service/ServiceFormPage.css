@@ -53,7 +53,7 @@
 
 
 /*position confirm-button-service*/
-.confirm-button-service-container{
+.confirm-button-service-container {
     display: inline-flex;
     flex-direction: column;
     justify-content: flex-end;

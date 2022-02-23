@@ -29,18 +29,17 @@ function Header() {
                 <img src={headerLogo} className="logo" alt="car-logo"/>
                 <h4 id="header-logo-text" style={{color: pathname === "/home" ? '#FFFFFF' : '#000000'}}>AUTOGARAGE
                     KERSTEN</h4>
-
-
             </div>
-            <div
-                className="page-name">{(headerTitle[1] + (headerTitle[2] === undefined ? '' : "-" + headerTitle[2])).toUpperCase()}</div>
+
+            <div className="page-name">
+                {(headerTitle[1] + (headerTitle[2] === undefined ? '' : "-" + headerTitle[2])).toUpperCase()}
+            </div>
 
 
             <div className="header-nav">
                 {pathname !== "/home" ?
                     <input className="home-button" type="image" alt="home" src={home}
                            onClick={() => openPage("/home")}/> : null}
-
 
                 <div className="dropdown">
                     <input className="menu-button" type="image" alt="menu" src={menu}

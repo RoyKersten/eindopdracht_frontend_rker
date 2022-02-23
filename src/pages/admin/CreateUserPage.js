@@ -26,13 +26,16 @@ function CreateUserPage() {
             if (data !== null) {
                 setErrorMessage("user successfully created!");
             }
-            console.log(formState);
         } catch (e) {
-            console.error(e);
+            if (e.response.status.toString() === "403") {
+                setErrorMessage("user could not be created, you are not authorized!")
+            } else if (e.response.status.toString() !== "403") {
+                setErrorMessage("user could not be created!")
+            }
         }
     }
 
-    function handleClick(e) {
+    function handleChange(e) {
         const inputName = e.target.name;
         const inputValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -50,7 +53,7 @@ function CreateUserPage() {
     return (
         <div className="user-form-container">
             <div>
-                <form className="user-form-form" onSubmit={handleSubmit}>
+                <form className="user-form-form">
                     <section>
                         <InputField className="user-input-component"
                                     name="username"
@@ -58,7 +61,7 @@ function CreateUserPage() {
                                     inputType="text"
                                     readOnly={false}
                                     value={formState.username}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -68,7 +71,7 @@ function CreateUserPage() {
                                     inputType="text"
                                     readOnly={false}
                                     value={formState.password}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>
@@ -78,13 +81,16 @@ function CreateUserPage() {
                                     inputType="text"
                                     readOnly={true}
                                     value={formState.enabled}
-                                    changeHandler={handleClick}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <Button
                         buttonName="confirm-button"
                         buttonDescription="CONFIRM"
-                        buttonType="submit"
+                        buttonType="button"
+                        onClick={(e) => {
+                            handleSubmit(e)
+                        }}
                         pathName=""
                         disabled={false}
                         buttonIcon={confirmIcon}

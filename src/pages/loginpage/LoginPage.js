@@ -15,7 +15,6 @@ function LoginPage() {
     //SignIn: get bearer token from backend based-on username and password
     async function signIn() {
         setErrorMessage(status);
-        console.log(formState)
         try {
             const bearer = await axios.post("http://localhost:8080/authenticate",
                 {
@@ -50,7 +49,7 @@ function LoginPage() {
         <div className="login-container">
             <img src={loginPicture} alt="car"/>
 
-            <form className="login-form" onSubmit={handleSubmit}>
+            <form className="login-form" spellCheck="false" onSubmit={handleSubmit}>
                 <section>
                     <InputField className="login-fields"
                                 name="username"

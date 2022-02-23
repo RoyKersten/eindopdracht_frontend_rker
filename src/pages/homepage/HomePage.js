@@ -20,7 +20,6 @@ function HomePage() {
                         buttonType="button"
                         pathName="/customers"
                         disabled={false}
-                        onClick="openPage()"
                         buttonIcon={account_box}
                     />
                     <Button
@@ -28,7 +27,6 @@ function HomePage() {
                         buttonDescription="CARS"
                         buttonType="button"
                         pathName="/cars"
-                        onClick="openPage()"
                         disabled={false}
                         buttonIcon={directions_box}
                     />

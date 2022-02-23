@@ -13,6 +13,7 @@ function DisplayCarPage() {
     const {id} = useParams()
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/cars/${id}`);
     const [endpointCarPaper, setEndpointCarPaper] = useState(`http://localhost:8080/cars/${id}/carpaper`);
+    const [errorMessage, setErrorMessage] = useState("");
     const [message, setMessage] = useState("");
     const [carPaper, setCarPaper] = useState(undefined)
 
@@ -42,7 +43,11 @@ function DisplayCarPage() {
                     setCarPaper(false);
                 }
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("car details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("car details could not be retrieved!")
+                }
             }
         }
 
@@ -52,7 +57,7 @@ function DisplayCarPage() {
 
     async function getCarPaper() {
         try {
-            const paper = await axios.get(endpointCarPaper, {
+            const carPaper = await axios.get(endpointCarPaper, {
                 responseType: 'blob',
                 headers: {
                     "Content-type": "multipart/form-data",
@@ -69,8 +74,8 @@ function DisplayCarPage() {
                 });
 
         } catch (e) {
-            console.error(e);
-            setMessage("something went wrong, carpaper could not be loaded, please try again")
+            console.log(e);
+            setMessage("something went wrong, carPaper could not be loaded, please try again")
         }
     }
 
@@ -190,7 +195,8 @@ function DisplayCarPage() {
                         </div>
                     </section>
                     <div className="messages">
-                        {message && <p className="message-error">{message}</p>}
+                        {errorMessage && !message && <p className="message-error">{errorMessage}</p>}
+                        {message && !errorMessage && <p className="message-error">{message}</p>}
                     </div>
                     <Button
                         buttonName="confirm-button"

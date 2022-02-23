@@ -11,7 +11,8 @@ function DisplayServiceLinePage() {
 
     const {id} = useParams()
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/servicelines/${id}`);
-    const [object, setObject] = useState({
+    const [errorMessage, setErrorMessage] = useState("");
+    const [formState, setFormState] = useState({
         idServiceLine: '',
         service: {idService: '', '@type': ''},
         invoice: {idInvoice: ''},
@@ -23,7 +24,7 @@ function DisplayServiceLinePage() {
         lineSubTotal: '',
         vatAmount: '',
         lineTotal: '',
-        vatRate:''
+        vatRate: ''
     });
 
     useEffect(() => {
@@ -35,17 +36,19 @@ function DisplayServiceLinePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                setObject(data);
+                setFormState(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("serviceLine details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("serviceLine details could not be retrieved!")
+                }
             }
         }
 
 
         getServiceLineById();
     }, [endpoint]);
-
-    console.log(object);
 
     return (
         <div className="serviceline-form-container">
@@ -56,7 +59,7 @@ function DisplayServiceLinePage() {
                                     name="idService"
                                     label="Service ID"
                                     inputType="text"
-                                    value={object.service.idService}                                                                          //retrieve from Param itemtype
+                                    value={formState.service.idService}                                                                          //retrieve from Param itemtype
                                     readOnly={true}
                         />
                     </section>
@@ -65,7 +68,7 @@ function DisplayServiceLinePage() {
                                     name="serviceType"
                                     label="Service Type"
                                     inputType="text"
-                                    value={object.service['@type']}                                                                          //retrieve from Param itemtype
+                                    value={formState.service['@type']}                                                                          //retrieve from Param itemtype
                                     readOnly={true}
                         />
                     </section>
@@ -74,7 +77,7 @@ function DisplayServiceLinePage() {
                                     name="idServiceLine"
                                     label="ServiceLine ID"
                                     inputType="text"
-                                    value={object.idServiceLine}                                                                          //retrieve from Param itemtype
+                                    value={formState.idServiceLine}                                                                          //retrieve from Param itemtype
                                     readOnly={true}
                         />
                     </section>
@@ -83,7 +86,7 @@ function DisplayServiceLinePage() {
                                     name="serviceLineNumber"
                                     label="Service Line Number"
                                     inputType="text"
-                                    value={object.serviceLineNumber}                                                                          //retrieve from Param itemtype
+                                    value={formState.serviceLineNumber}                                                                          //retrieve from Param itemtype
                                     readOnly={true}
                         />
                     </section>
@@ -92,7 +95,7 @@ function DisplayServiceLinePage() {
                                     name="idInvoice"
                                     label="Invoice ID"
                                     inputType="text"
-                                    value={object.invoice?.idInvoice === undefined ? '' : object.invoice?.idInvoice}                                          //When serviceline is not invoiced, invoice will be null and leads to error, by first checking error will be avoided
+                                    value={formState.invoice?.idInvoice === undefined ? '' : formState.invoice?.idInvoice}                                          //When serviceline is not invoiced, invoice will be null and leads to error, by first checking error will be avoided
                                     readOnly={true}
                         />
                     </section>
@@ -107,7 +110,7 @@ function DisplayServiceLinePage() {
                                             name="idItem"
                                             label="Item ID"
                                             inputType="text"
-                                            value={object.item.idItem}
+                                            value={formState.item.idItem}
                                             readOnly={true}
                                 />
                             </section>
@@ -119,7 +122,7 @@ function DisplayServiceLinePage() {
                                             name="@type"
                                             label="Item Type"
                                             inputType="text"
-                                            value={object.item['@type']}
+                                            value={formState.item['@type']}
                                             readOnly={true}
                                 />
                             </section>
@@ -131,7 +134,7 @@ function DisplayServiceLinePage() {
                                     ame="itemName"
                                     label="Item Name"
                                     inputType="text"
-                                    value={object.itemName}
+                                    value={formState.itemName}
                                     readOnly={true}
                         />
                     </section>
@@ -140,7 +143,7 @@ function DisplayServiceLinePage() {
                                     name="qty"
                                     label="Item Qty."
                                     inputType="text"
-                                    value={object.qty}
+                                    value={formState.qty}
                                     readOnly={true}
                         />
                     </section>
@@ -149,7 +152,7 @@ function DisplayServiceLinePage() {
                                     name="price"
                                     label="item Price"
                                     inputType="text"
-                                    value={object.price}
+                                    value={formState.price}
                                     readOnly={true}
                         />
                     </section>
@@ -158,7 +161,7 @@ function DisplayServiceLinePage() {
                                     name="lineSubTotal"
                                     label="Subtotal"
                                     inputType="text"
-                                    value={object.lineSubTotal}
+                                    value={formState.lineSubTotal}
                                     readOnly={true}
                         />
                     </section>
@@ -167,7 +170,7 @@ function DisplayServiceLinePage() {
                                     name="vatAmount"
                                     label="VAT Amount"
                                     inputType="text"
-                                    value={object.vatAmount}
+                                    value={formState.vatAmount}
                                     readOnly={true}
                         />
                     </section>
@@ -176,23 +179,25 @@ function DisplayServiceLinePage() {
                                     name="lineTotal"
                                     label="Total Amount"
                                     inputType="text"
-                                    value={object.lineTotal}
+                                    value={formState.lineTotal}
                                     readOnly={true}
                         />
                     </section>
                 </div>
+                <Button
+                    buttonName="confirm-button"
+                    buttonDescription="CONFIRM"
+                    pathName="/home"
+                    disabled={true}
+                    buttonIcon={confirmIcon}
+                />
             </form>
+            <div className="messages">
+                {errorMessage &&
+                    <p className="message-error">{errorMessage}</p>}
+            </div>
 
-
-            <Button
-                buttonName="confirm-button"
-                buttonDescription="CONFIRM"
-                pathName="/home"
-                disabled={true}
-                buttonIcon={confirmIcon}
-            />
         </div>
-
     );
 }
 

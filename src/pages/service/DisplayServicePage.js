@@ -47,9 +47,6 @@ function DisplayServicePage() {
                 setFormState(data);
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
@@ -75,11 +72,12 @@ function DisplayServicePage() {
                 });
                 setServiceLine(serviceLinesByServiceId);
 
-            } catch (error) {
-                setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
+            } catch (e) {
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("serviceLine details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("serviceLine details could not be retrieved!")
+                }
             }
             toggleLoading(false);
         }
@@ -231,8 +229,8 @@ function DisplayServicePage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !loading &&
-                    <p className="message-home">please select serviceline to display details</p>}
+                {!selectedServiceLine.idServiceLine && !loading && !errorMessage && !error &&
+                    <p className="message-home">please select serviceLine to display details</p>}
             </div>
         </div>
     );

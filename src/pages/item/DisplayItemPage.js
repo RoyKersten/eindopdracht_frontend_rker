@@ -11,6 +11,7 @@ function DisplayItemPage() {
 
     const {id} = useParams()
     const {itemType} = useParams();
+    const [errorMessage, setErrorMessage] = useState("");
     const [endpoint, setEndpoint] = useState(`http://localhost:8080/items/${itemType}/${id}`);
     const [object, setObject] = useState({
         idItem: '',
@@ -34,14 +35,17 @@ function DisplayItemPage() {
                 });
                 setObject(data);
             } catch (e) {
-                console.error(e);
+                if (e.response.status.toString() === "403") {
+                    setErrorMessage("item details could not be retrieved, you are not authorized!")
+                } else if (e.response.status.toString() !== "403") {
+                    setErrorMessage("item details could not be retrieved!")
+                }
             }
         }
 
         getItemById();
     }, [endpoint]);
 
-    console.log(itemType);
 
     return (
         <div className="item-form-container">
@@ -124,15 +128,18 @@ function DisplayItemPage() {
                                     readOnly={true}
                         />
                     </section>
+                    <div className="messages">
+                        {errorMessage && <p className="message-error">{errorMessage}</p>}
+                    </div>
+                    <Button
+                        buttonName="confirm-button"
+                        buttonDescription="CONFIRM"
+                        pathName="/home"
+                        disabled={true}
+                        buttonIcon={confirmIcon}
+                    />
                 </div>
             </form>
-            <Button
-                buttonName="confirm-button"
-                buttonDescription="CONFIRM"
-                pathName="/home"
-                disabled={true}
-                buttonIcon={confirmIcon}
-            />
         </div>
 
     );

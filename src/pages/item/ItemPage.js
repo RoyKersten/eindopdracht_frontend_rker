@@ -32,8 +32,6 @@ function ItemPage() {
         async function getItem() {
             toggleLoading(true);
             setError(false);
-            console.log(itemType)
-
             try {
                 const {data} = await axios.get(`http://localhost:8080/items/${itemType}`, {
                     headers: {
@@ -46,13 +44,9 @@ function ItemPage() {
 
             } catch (error) {
                 setError(true);
-                setErrorMessage(error.data);
-                console.error(error.status);       //logt HTTP status code e.g. 400
-                console.error(error.data);         //logt de message die vanuit de backend wordt gegeven
             }
             toggleLoading(false);
         }
-
 
         getItem().then();
     }, [reload, itemType]);
@@ -69,12 +63,14 @@ function ItemPage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                setErrorMessage(data);
-                console.log(data);
+                setErrorMessage(data);                                                                                   //backend message will be displayed
                 setReload(!reload);
-
             } catch (error) {
-                setErrorMessage(error.response.data);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("item could not be deleted, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -131,43 +127,46 @@ function ItemPage() {
         ;
     }
 
-    console.log(selectedItem);
     return (
-        <div className="service-home-container">
+        <div className="service-home-container" >
             <div className="item-home-filter">
-
                 <section>
-                    <InputField name="itemId" label="Item ID" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="itemId"
+                                label="Item ID"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
-                <section>
-                    <InputField name="itemType" label="Item Type" inputType="text" list="itemTypeList"
+                <section spellCheck="false">
+                    <InputField name="itemType"
+                                label="Item Type"
+                                inputType="text"
+                                list="itemTypeList"
                                 placeholder="please select"
                                 onSelection={onSelection}
-
-
                     />
                     <datalist id="itemTypeList">
-                        <option value="parts">parts</option>
-                        <option value="activities">activities</option>
+                        <option key={1} value="parts">parts</option>
+                        <option key={2} value="activities">activities</option>
                     </datalist>
-
                 </section>
-
                 <section>
-                    <InputField name="itemName" label="Item Name" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="itemName"
+                                label="Item Name"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
-
                 <section>
-                    <InputField name="itemCategory" label="Item Category" inputType="text"
-                                onKeyPress={onKeyPress} changeHandler={onKeyPress}
+                    <InputField name="itemCategory"
+                                label="Item Category"
+                                inputType="text"
+                                onKeyPress={onKeyPress}
+                                changeHandler={onKeyPress}
                     />
                 </section>
-
-
             </div>
             <div className="item-home-transaction-container">
                 <div className="item-home-display-container">
@@ -220,9 +219,9 @@ function ItemPage() {
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
                 {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedItem.idItem && !loading && <p className="message-home">Please select an item</p>}
+                {!selectedItem.idItem && !loading && !errorMessage && !error &&
+                    <p className="message-home">Please select an item</p>}
             </div>
-
         </div>
     );
 };
