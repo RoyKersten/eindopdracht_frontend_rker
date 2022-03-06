@@ -1,19 +1,21 @@
-/*customer home: determine container/space between header and footer*/
+/*determine container/space between header and footer*/
 .customer-home-container {
     padding-top: 90px;
-    height: calc(100vh - 90px - 75px);
+    padding-bottom: 75px;
     width: 100%;
 }
 
-/*customer home: position filters Customer ID and Lastname*/
+/*position filters Customer ID and Lastname margin-left: 80px because filter has margin-left: 20px left => in total 100px*/
 .customer-home-filter {
     margin-left: 80px;
+    white-space: nowrap;
 }
 
+/*position filters Customer ID and Lastname*/
 .customer-home-filter section {
     display: inline-block;
     margin-left: 20px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 /*customer home: position transaction window and buttons: display, create, change and delete*/
@@ -27,37 +29,56 @@
 .customer-home-display-container {
     margin-left: 100px;
     margin-top: 20px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
-    height: 500px;
+    min-height: calc(100vh - 90px - 50px - 75px - 75px);
     width: 100%;
     border: 1px solid black;
     overflow: auto;
 }
 
-/*customer home: position buttons: display, create, change and delete*/
-.customer-home-buttons {
-    display: inline-flex;
+/*align transaction table and messages*/
+.transaction-table {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 20px;
-    margin-left: 100px;
-    margin-right: 100px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
+    max-height: calc(100vh - 90px - 50px - 75px - 75px);
 }
+
 
 /*set table width for headers in transaction window, border-spacing 0*/
 .customer-home-container-table {
-    overflow: hidden;
     top: 0;
     width: 100%;
     border-spacing: 0;
 }
 
-/*fix header at top of transaction window */
-th {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    text-align: left;
-    border-bottom: 1px solid black;
+
+/*customer home: position buttons: display, create, change and delete*/
+/*margin between transactiontable and buttons is 40px*/
+.customer-home-buttons {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 100px;
+    min-height: calc(100vh - 90px - 50px - 75px - 75px);
 }
+
+/*for screens wider than 1200px margin between transactiontable and buttons is 70px*/
+@media screen and (min-width: 1200px) {
+    .customer-home-buttons {
+        margin-left: 70px;
+    }
+}
+
+/*for screens wider than 1600px margin between transactiontable and buttons is 100px*/
+@media screen and (min-width: 1600px) {
+    .customer-home-buttons {
+        margin-left: 100px;
+    }
+}
+
+
+
+
+

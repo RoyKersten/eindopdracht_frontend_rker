@@ -4,12 +4,14 @@
     justify-content: center;
     align-items: center;
     padding-top: 90px;
-    height: calc(100vh - 90px - 75px);
+    padding-bottom: 75px;
     width: 100%;
+    overflow: auto;
 }
 
 .invoice-form {
     display: inline-flex;
+    margin-top: 20px;
 }
 
 .invoice-form section {

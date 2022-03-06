@@ -7,8 +7,6 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     //1. SelectObject => after selection of row the data will be sent to parent / page CustomerPage
     let key = [];
     let value = [];
-    let id = '';
-    let values = '';
 
     const [header, setHeader] = useState(key);
     const [data, setData] = useState(value);
@@ -16,6 +14,9 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     const [hiddenHeaders, setHiddenHeaders] = useState(["", ""]);                        //set which headers should be hidden from original object
 
     useEffect(() => {
+        let id = '';
+        let values = '';
+
         async function headerData() {
             const keys = dataInput[0];
 
@@ -105,7 +106,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
                 </tr>
             ))}
             </tbody>
-        </table>
+         </table>
     );
 }
 

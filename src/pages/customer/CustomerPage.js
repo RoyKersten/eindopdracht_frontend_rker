@@ -14,7 +14,6 @@ function CustomerPage() {
 
     const [customer, setCustomers] = useState([]);
     const [sourceData, setSourceData] = useState([]);
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/customers`);    //initial endpoint used to fetch all customers from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -33,7 +32,7 @@ function CustomerPage() {
             setError(false);
 
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/customers`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -49,7 +48,7 @@ function CustomerPage() {
         }
 
         getCustomers().then();
-    }, [endpoint, reload]);
+    }, [reload]);
 
 
     async function deleteCustomerById() {
@@ -131,6 +130,7 @@ function CustomerPage() {
             </div>
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">
+                    <div className="transaction-table">
                     <TransactionTable
                         selectObject={(selectedCustomer) => setSelectedCustomer(selectedCustomer)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="customer-home-container-table"
@@ -138,8 +138,15 @@ function CustomerPage() {
                         headerClassName="customer-home-table-header"
                         dataInput={customer}
                     />
+                        <div className="messages">
+                            {loading && <p className="message-home">Data Loading, please wait...</p>}
+                            {error && <p className="message-home">Error occurred</p>}
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedCustomer.idCustomer && !loading && !errorMessage && !error &&
+                                <p className="message-home">Please select a customer</p>}
+                        </div>
+                    </div>
                 </div>
-
                 <div className="customer-home-buttons">
                     <Button
                         buttonName="transaction-home-button"
@@ -176,14 +183,8 @@ function CustomerPage() {
                     />
                 </div>
             </div>
-            <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedCustomer.idCustomer && !loading && !errorMessage && !error &&
-                    <p className="message-home">Please select a customer</p>}
-            </div>
         </div>
+
     );
 };
 

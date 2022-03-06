@@ -3,7 +3,7 @@ import './ItemFormPage.css';
 import {useParams} from "react-router-dom";
 import Button from "../../components/button/Button";
 import confirmIcon from "../../images/icons/confirm.png";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 
 function CreateItemPage() {
@@ -12,7 +12,6 @@ function CreateItemPage() {
     let [idItem, setIdItem] = useState("");
     const [typeOfItem, setTypeOfItem] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/items/${itemType}`);
     const [formState, setFormState] = useState({
         '@type': '',
         itemCategory: '',
@@ -25,7 +24,7 @@ function CreateItemPage() {
 
     async function addItem() {
         try {
-            const {data} = await axios.post(endpoint, formState, {
+            const {data} = await axios.post(`http://localhost:8080/items/${itemType}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -55,9 +54,11 @@ function CreateItemPage() {
         if (inputValue === "parts") {
             itemType = e.target.value;
             inputValue = "part";
+            setTypeOfItem(false);
         } else if (inputValue === "activities") {
             itemType = e.target.value;
             inputValue = "activity"
+            setTypeOfItem(true);
         }
         //set http address to corresponding itemType
         window.history.replaceState(null, null, `/items/create/${itemType}`)
@@ -187,11 +188,11 @@ function CreateItemPage() {
                     disabled={false}
                     buttonIcon={confirmIcon}
                 />
+                <div className="messages">
+                    {errorMessage &&
+                        <p className="message-error">{errorMessage}</p>}
+                </div>
             </form>
-            <div className="messages">
-                {errorMessage &&
-                    <p className="message-error">{errorMessage}</p>}
-            </div>
         </div>
     );
 }

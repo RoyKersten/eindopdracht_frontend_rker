@@ -15,7 +15,6 @@ function AdminPage() {
 
     const [user, setUser] = useState([]);
     const [sourceData, setSourceData] = useState([]);
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/users`);    //initial endpoint used to fetch all users from database
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -33,7 +32,7 @@ function AdminPage() {
             setError(false);
 
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/users`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -49,7 +48,7 @@ function AdminPage() {
         }
 
         getUsers().then();
-    }, [endpoint, reload]);
+    }, [reload]);
 
 
     async function deleteUserByUserName() {
@@ -118,15 +117,23 @@ function AdminPage() {
             </div>
             <div className="admin-home-transaction-container">
                 <div className="admin-home-display-container">
-                    <TransactionTable
-                        selectObject={(selectedUser) => setSelectedUser(selectedUser)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="admin-home-container-table"
-                        headerContainerClassName="admin-home-table-header"
-                        headerClassName="admin-home-table-header"
-                        dataInput={user}
-                    />
+                    <div className="transaction-table">
+                        <TransactionTable
+                            selectObject={(selectedUser) => setSelectedUser(selectedUser)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="admin-home-container-table"
+                            headerContainerClassName="admin-home-table-header"
+                            headerClassName="admin-home-table-header"
+                            dataInput={user}
+                        />
+                        <div className="messages">
+                            {loading && <p className="message-home">Data Loading, please wait...</p>}
+                            {error && <p className="message-home">Error occurred</p>}
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedUser.username && !loading && !errorMessage && !error &&
+                                <p className="message-home">Please select a user</p>}
+                        </div>
+                    </div>
                 </div>
-
                 <div className="admin-home-buttons">
                     <Button
                         buttonName="transaction-home-small-button"
@@ -171,14 +178,6 @@ function AdminPage() {
                     />
                 </div>
             </div>
-            <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedUser.username && !loading && !errorMessage && !error &&
-                    <p className="message-home">Please select a user</p>}
-            </div>
-
         </div>
     );
 };

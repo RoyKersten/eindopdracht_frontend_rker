@@ -12,7 +12,6 @@ function DisplayInvoicePage() {
     const {id} = useParams()
     const {invoiceType} = useParams();
     const [error, setError] = useState(false);
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/invoices/${invoiceType}/${id}`);
     const [formState, setFormState] = useState({
         idInvoice: '',
         '@type': '',
@@ -29,7 +28,7 @@ function DisplayInvoicePage() {
         async function getInvoiceById() {
             setError(false);
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/invoices/${invoiceType}/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -43,7 +42,7 @@ function DisplayInvoicePage() {
         }
 
         getInvoiceById();
-    }, [endpoint]);
+    }, [id, invoiceType]);
 
     return (
         <div className="invoice-form-container">

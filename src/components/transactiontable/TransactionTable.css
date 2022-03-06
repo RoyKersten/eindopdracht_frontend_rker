@@ -6,3 +6,16 @@ tr:hover {
 tr:focus {
     background-color: #cccccc;
 }
+
+th {
+    position: sticky;
+    min-width: 100px;
+    top: 0;
+    background-color: white;
+    text-align: left;
+    border-bottom: 1px solid black;
+}
+
+tr {
+    height: 15px;
+}

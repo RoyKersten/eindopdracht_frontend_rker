@@ -10,7 +10,6 @@ import axios from "axios";
 function DisplayServiceLinePage() {
 
     const {id} = useParams()
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/servicelines/${id}`);
     const [errorMessage, setErrorMessage] = useState("");
     const [formState, setFormState] = useState({
         idServiceLine: '',
@@ -30,7 +29,7 @@ function DisplayServiceLinePage() {
     useEffect(() => {
         async function getServiceLineById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/servicelines/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -48,7 +47,7 @@ function DisplayServiceLinePage() {
 
 
         getServiceLineById();
-    }, [endpoint]);
+    }, [id]);
 
     return (
         <div className="serviceline-form-container">
@@ -183,6 +182,7 @@ function DisplayServiceLinePage() {
                                     readOnly={true}
                         />
                     </section>
+
                 </div>
                 <Button
                     buttonName="confirm-button"
@@ -191,12 +191,12 @@ function DisplayServiceLinePage() {
                     disabled={true}
                     buttonIcon={confirmIcon}
                 />
-            </form>
-            <div className="messages">
-                {errorMessage &&
-                    <p className="message-error">{errorMessage}</p>}
-            </div>
+                <div className="messages">
+                    {errorMessage &&
+                        <p className="message-error">{errorMessage}</p>}
+                </div>
 
+            </form>
         </div>
     );
 }

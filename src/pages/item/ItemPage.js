@@ -128,7 +128,7 @@ function ItemPage() {
     }
 
     return (
-        <div className="service-home-container" >
+        <div className="service-home-container">
             <div className="item-home-filter">
                 <section>
                     <InputField name="itemId"
@@ -170,15 +170,23 @@ function ItemPage() {
             </div>
             <div className="item-home-transaction-container">
                 <div className="item-home-display-container">
-                    <TransactionTable
-                        selectObject={(selectedItem) => setSelectedItem(selectedItem)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="item-home-container-table"
-                        headerContainerClassName="item-home-table-header"
-                        headerClassName="item-home-table-header"
-                        dataInput={item}
-                    />
+                    <div className="transaction-table">
+                        <TransactionTable
+                            selectObject={(selectedItem) => setSelectedItem(selectedItem)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="item-home-container-table"
+                            headerContainerClassName="item-home-table-header"
+                            headerClassName="item-home-table-header"
+                            dataInput={item}
+                        />
+                        <div className="messages">
+                            {loading && <p className="message-home">Data Loading, please wait...</p>}
+                            {error && <p className="message-home">Error occurred</p>}
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedItem.idItem && !loading && !errorMessage && !error &&
+                                <p className="message-home">Please select an item</p>}
+                        </div>
+                    </div>
                 </div>
-
                 <div className="item-home-buttons">
                     <Button
                         buttonName="transaction-home-button"
@@ -214,13 +222,6 @@ function ItemPage() {
                         buttonIcon={deleteIcon}
                     />
                 </div>
-            </div>
-            <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedItem.idItem && !loading && !errorMessage && !error &&
-                    <p className="message-home">Please select an item</p>}
             </div>
         </div>
     );

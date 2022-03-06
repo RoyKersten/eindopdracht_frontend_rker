@@ -11,7 +11,6 @@ function ChangeCustomerPage() {
 
     const {id} = useParams()
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/customers/${id}`);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         idCustomer: '',
         firstName: '',
@@ -23,7 +22,7 @@ function ChangeCustomerPage() {
     useEffect(() => {
         async function getCustomerById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/customers/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -40,12 +39,12 @@ function ChangeCustomerPage() {
         }
 
         getCustomerById();
-    }, [endpoint]);
+    }, [id]);
 
 
     async function changeCustomers() {
         try {
-            const {data} = await axios.put(endpoint, formState, {
+            await axios.put(`http://localhost:8080/customers/${id}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -82,7 +81,7 @@ function ChangeCustomerPage() {
         <div className="customer-form-container">
             <form className="customer-form">
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="customerId"
                                 label="Customer ID"
                                 inputType="text"
@@ -91,7 +90,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="firstName"
                                 label="Firstname"
                                 inputType="text"
@@ -101,7 +100,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="lastName"
                                 label="Lastname"
                                 inputType="text"
@@ -111,7 +110,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="phoneNumber"
                                 label="Telephone Number"
                                 inputType="text"
@@ -121,7 +120,7 @@ function ChangeCustomerPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="email"
                                 label="Email Address"
                                 inputType="text"

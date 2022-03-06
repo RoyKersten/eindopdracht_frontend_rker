@@ -11,11 +11,11 @@
     flex-direction: row;
     justify-content: space-between;
     margin-left: 100px;
-    width: calc(100% - 200px - 175px - 100px);
-    flex-wrap: wrap;
+    width: calc(100% - 200px - 175px - 40px);
 }
 
 .service-form-input-component {
+    flex-direction: row;
     border: 1px solid black;
 }
 
@@ -27,15 +27,16 @@
 
 /*service display: position filters*/
 .service-form-filter section {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 /*calculate the width of the text area box 100px left, 100px left-side button, 175px button, 100px right-side button, + 175px confirm-button + 100px margin-left confirm button*/
 .text-field-issues-form {
     display: inline-flex;
     width: calc(100% - 200px - 175px - 100px + 175px + 100px);
+    height: 50px;
     margin-left: 100px;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 /*set textarea width to 100%*/
@@ -58,6 +59,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+    margin-left: -60px;
 }
 
 /*service display: position transaction window and buttons: display, create, change and delete*/
@@ -70,12 +72,19 @@
 /*service display: position transaction window*/
 .serviceline-form-display-container {
     margin-left: 100px;
-    margin-top: 40px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px - 150px);
-    height: 300px;
+    margin-top: 20px;
+    min-height: calc(100vh - 90px - 50px - 75px - 75px - 70px );
     width: 100%;
     border: 1px solid black;
     overflow: auto;
+}
+
+/*align transaction table and messages*/
+.transaction-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: calc(100vh - 90px - 50px - 75px - 75px - 70px);
 }
 
 /*service home: position buttons: display, create, change and delete*/
@@ -83,25 +92,77 @@
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 40px;
-    margin-left: 100px;
+    margin-top: 20px;
+    margin-left: 40px;
     margin-right: 100px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px - 150px);
+    min-height: calc(100vh - 90px - 50px - 75px - 75px - 70px);
 }
 
 /*set table width for headers in transaction window, border-spacing 0*/
 .serviceline-form-container-table {
-    overflow: hidden;
     top: 0;
     width: 100%;
     border-spacing: 0;
 }
 
-/*fix header at top of transaction window */
-th {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    text-align: left;
-    border-bottom: 1px solid black;
+/*for screens wider than 1200px*/
+@media screen and (min-width: 1200px) {
+    .service-form-filter {
+        width: calc(100% - 200px - 175px - 45px);
+    }
+
+    .text-field-issues-form {
+        height: 75px;
+        margin-top: 30px;
+    }
+
+    .serviceline-form-display-container {
+        min-height: calc(100vh - 90px - 50px - 75px - 75px - 105px );
+        margin-top: 30px;
+    }
+
+    .transaction-table {
+        max-height: calc(100vh - 90px - 50px - 75px - 75px - 105px);
+    }
+
+    .confirm-button-service-container {
+        margin-left: -30px;
+    }
+
+    .serviceline-form-buttons {
+        min-height: calc(100vh - 90px - 50px - 75px - 75px - 105px);
+        margin-left: 70px;
+        margin-top: 30px;
+    }
+}
+
+/*for screens wider than 1600px*/
+@media screen and (min-width: 1600px) {
+    .service-form-filter {
+        width: calc(100% - 200px - 175px - 100px);
+    }
+
+    .text-field-issues-form {
+        height: 100px;
+        margin-top: 40px;
+    }
+
+    .serviceline-form-display-container {
+        min-height: calc(100vh - 90px - 50px - 75px - 75px - 150px );
+        margin-top: 40px;
+    }
+
+    .transaction-table {
+        max-height: calc(100vh - 90px - 50px - 75px - 75px - 150px);
+    }
+
+    .confirm-button-service-container {
+        margin-left: 0;
+    }
+
+    .serviceline-form-buttons {
+        min-height: calc(100vh - 90px - 50px - 75px - 75px - 150px);
+        margin-left: 100px;
+        margin-top: 40px;
+    }
 }

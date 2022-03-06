@@ -4,11 +4,13 @@
     justify-content: center;
     align-items: center;
     padding-top: 90px;
-    height: calc(100vh - 90px - 75px);
+    padding-bottom: 75px;
     width: 100%;
+    overflow: auto;
 }
 
 .car-form {
+    margin-top: 20px;
     width: 100%;
 }
 
@@ -26,17 +28,18 @@
 .car-form-input-section1 {
     display: inline-flex;
     justify-content: flex-end;
-    min-width: calc(50% - 250px);
+    min-width: calc(50% - 175px);
 }
 
 /*position div2: Car ID and div3: License Plate Number left and right side of container of 500px wide*/
 .car-form-input-section2 {
     display: flex;
     justify-content: space-between;
-    width: 500px;
-    margin-bottom: 20px;
+    width: 350px;
+    margin-bottom: 10px;
 }
 
+/*field message for customer ID and License Plate Number*/
 .field-message {
     position: absolute;
     margin-top: 5px;
@@ -57,8 +60,8 @@
 .car-form-input-section3 section {
     justify-content: center;
     width: 100%;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     height: 100%;
 }
 
@@ -67,27 +70,135 @@
     display: inline-flex;
     justify-content: center;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 /*positioning carpaper buttons open and upload*/
 .car-form-carpaper-buttons {
     display: flex;
     justify-content: space-between;
-    width: 500px;
+    width: 350px;
 }
 
 /*style inputfields 225px wide*/
 .form-car-input-component {
-    width: 225px;
+    width: 150px;
     height: 20px;
     border: 1px solid black;
 }
 
 /*style inputfields 225px wide*/
 .form-car-input-component:read-only {
-    width: 225px;
+    width: 150px;
     height: 20px;
     background-color: #C4C4C4;
     border: 1px solid black;
+}
+
+.car-form-input-component {
+    width: 350px;
+    height: 20px;
+    border: 1px solid black;
+}
+
+.car-form-input-component:read-only {
+    width: 350px;
+    height: 20px;
+    background-color: #C4C4C4;
+    border: 1px solid black;
+}
+
+
+/*for screens wider than 1200px */
+@media screen and (min-width: 1200px) {
+    .car-form-input-section1 {
+        min-width: calc(50% - 200px);
+    }
+
+
+    /*position div2: Car ID and div3: License Plate Number left and right side of container of 500px wide*/
+    .car-form-input-section2 {
+        width: 400px;
+        margin-bottom: 15px;
+    }
+
+    /*set margin of 15px for bottom and top between inputfields*/
+    .car-form-input-section3 section {
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+
+
+    .form-car-input-component {
+        width: 175px;
+    }
+
+    .form-car-input-component:read-only {
+        width: 175px;
+    }
+
+
+    .car-form-input-component {
+        width: 400px;
+    }
+
+    .car-form-input-component:read-only {
+        width: 400px;
+    }
+
+    /*size carpaper buttons open and upload*/
+    .car-form-carpaper-buttons {
+        width: 400px;
+    }
+
+    /*positioning box for carpaper buttons open and upload*/
+    .car-form-carpaper-buttons-box {
+        margin-top: 15px;
+    }
+
+
+}
+
+/*for screens wider than 1600px*/
+@media screen and (min-width: 1600px) {
+    .car-form-input-section1 {
+        min-width: calc(50% - 250px);
+    }
+
+    .car-form-input-section2 {
+        width: 500px;
+        margin-bottom: 20px;
+    }
+
+    /*set margin of 20px for bottom and top between inputfields*/
+    .car-form-input-section3 section {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .form-car-input-component {
+        width: 225px;
+    }
+
+    .form-car-input-component:read-only {
+        width: 225px;
+    }
+
+    .car-form-input-component {
+        width: 500px;
+    }
+
+    .car-form-input-component:read-only {
+        width: 500px;
+    }
+
+    /*size carpaper buttons open and upload*/
+    .car-form-carpaper-buttons {
+        width: 500px;
+    }
+
+    /*positioning box for carpaper buttons open and upload*/
+    .car-form-carpaper-buttons-box {
+        margin-top: 20px;
+    }
 }

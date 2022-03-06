@@ -10,5 +10,17 @@
 
 /*Homepage buttons positioning / spacing*/
 .homepage-button {
-    margin: 50px;
+    margin: 30px;
+}
+
+@media screen and (min-width: 1200px) {
+    .homepage-button {
+        margin: 40px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .homepage-button {
+        margin: 50px;
+    }
 }

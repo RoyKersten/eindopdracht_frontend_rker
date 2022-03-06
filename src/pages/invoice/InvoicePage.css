@@ -1,7 +1,7 @@
 /*invoice home: determine container/space between header and footer*/
 .invoice-home-container {
     padding-top: 90px;
-    height: calc(100vh - 90px - 75px);
+    padding-bottom: 75px;
     width: 100%;
 }
 
@@ -10,6 +10,7 @@
 /*invoice home: starting position filters Invoice ID (80px + 20px)*/
 .invoice-home-filter {
     margin-left: 80px;
+    white-space: nowrap;
 }
 
 .invoice-home-filter section {

@@ -12,8 +12,6 @@ function ChangeInvoicePage() {
     const {id} = useParams()
     let {invoiceType} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/invoices/${invoiceType}/${id}`);
-    const [endpointStatus, setEndpointStatus] = useState(`http://localhost:8080/invoices/${invoiceType}/status/${id}`);
     const [statusUpdated, setStatusUpdated] = useState(false);
 
     const [postInvoice, setPostInvoice] = useState({
@@ -47,7 +45,7 @@ function ChangeInvoicePage() {
     useEffect(() => {
         async function getInvoiceById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/invoices/${invoiceType}/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -65,7 +63,7 @@ function ChangeInvoicePage() {
         }
 
         getInvoiceById();
-    }, [endpoint]);
+    }, [id, invoiceType]);
 
 
     useEffect(() => {
@@ -98,7 +96,7 @@ function ChangeInvoicePage() {
         try {
             //If invoiceStatus not Updated use PUT
             if (!statusUpdated) {
-                const {data} = await axios.put(endpoint, postInvoice, {
+                await axios.put(`http://localhost:8080/invoices/${invoiceType}/${id}`, postInvoice, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -107,7 +105,7 @@ function ChangeInvoicePage() {
 
             }
             //If invoiceStatus updated use PATCH
-            const {status} = await axios.patch(endpointStatus, updateStatus, {
+            await axios.patch(`http://localhost:8080/invoices/${invoiceType}/status/${id}`, updateStatus, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

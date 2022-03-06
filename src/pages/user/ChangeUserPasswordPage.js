@@ -11,7 +11,6 @@ function ChangeUserPasswordPage() {
 
     const {username} = useParams()
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/users/${username}`);
     const [password, setPassword] = useState({passwordCheck: ''});
     const [formState, setFormState] = useState({
         username: '',
@@ -22,7 +21,7 @@ function ChangeUserPasswordPage() {
     async function changeUser() {
 
         try {
-            const {data} = await axios.put(endpoint, formState, {
+            await axios.put(`http://localhost:8080/users/${username}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -59,10 +58,10 @@ function ChangeUserPasswordPage() {
 
 
     return (
-        <div className="user-form-container">
-            <form className="user-form-form">
+        <div className="user-password-form-container">
+            <form className="user-password-form-form">
                 <section>
-                    <InputField className="user-input-component"
+                    <InputField className="user-password-input-component"
                                 name="username"
                                 label="UserName"
                                 inputType="text"
@@ -71,7 +70,7 @@ function ChangeUserPasswordPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="user-input-component"
+                    <InputField className="user-password-input-component"
                                 name="password"
                                 label="Password"
                                 inputType="password"
@@ -82,7 +81,7 @@ function ChangeUserPasswordPage() {
                     />
                 </section>
                 <section>
-                    <InputField className="user-input-component"
+                    <InputField className="user-password-input-component"
                                 name="passwordCheck"
                                 label="Password Check"
                                 inputType="password"

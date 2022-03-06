@@ -12,8 +12,6 @@ function CreateServiceLinePage() {
     const {id} = useParams()
     const {serviceType} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/services/${serviceType}/${id}`);
-    const [endpointServiceLinePost, setEndpointServiceLinePost] = useState(`http://localhost:8080/servicelines`);
 
     //Only a few properties are required to post a serviceLine, backend will create rest of properties automatically which you will find back in formState
     const [postServiceLine, setPostServiceLine] = useState({
@@ -42,7 +40,7 @@ function CreateServiceLinePage() {
     useEffect(() => {
         async function getServiceById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/services/${serviceType}/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -72,7 +70,7 @@ function CreateServiceLinePage() {
         }
 
         getServiceById();
-    }, [endpoint]);
+    }, [serviceType, id]);
 
     //When one of the properties of formState changes, postServiceLine properties need to be updated.
     useEffect(() => {
@@ -91,7 +89,7 @@ function CreateServiceLinePage() {
     //add serviceLine
     async function addServiceLine() {
         try {
-            const {data} = await axios.post(endpointServiceLinePost, postServiceLine, {
+            const {data} = await axios.post(`http://localhost:8080/servicelines`, postServiceLine, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -1,10 +1,8 @@
-/*Header Button styling*/
-
 /*Homepage Button styling*/
 .homepage-button {
     background-color: white;
-    height: 200px;
-    width: 200px;
+    height: 125px;
+    width: 125px;
     cursor: pointer;
     box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
     font-weight: bold;
@@ -23,32 +21,78 @@
 }
 
 
-/*Customer - Home Button styling*/
+@media screen and (min-width: 1200px) {
+    .homepage-button {
+        height: 150px;
+        width: 150px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .homepage-button {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+
+/*Transaction - Home Button styling*/
 .transaction-home-button {
     background-color: #C4D3EA;
-    height: 125px;
-    width: 200px;
+    height: 75px;
+    width: 125px;
     cursor: pointer;
     box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
     font-weight: bold;
     border: 1px solid black;
 }
 
-/*Customer Home button styling hover*/
-.customer-home-button:hover {
+/* Transaction Home button styling hover*/
+.transaction-home-button:hover {
     filter: opacity(0.80);
 }
 
+@media screen and (min-width: 1200px) {
+    .transaction-home-button {
+        height: 100px;
+        width: 150px;
+    }
+}
 
-/*Customer - Home Button styling*/
+
+@media screen and (min-width: 1600px) {
+    .transaction-home-button {
+        height: 125px;
+        width: 200px;
+    }
+}
+
+/*Home small Button styling, used in serviceLine*/
 .transaction-home-small-button {
     background-color: #C4D3EA;
-    height: 100px;
-    width: 175px;
+    height: 70px;
+    width: 125px;
     cursor: pointer;
     box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
     font-weight: bold;
     border: 1px solid black;
+}
+
+@media screen and (min-width: 1200px) {
+    /*Home small Button styling, used in serviceLine*/
+    .transaction-home-small-button {
+        height: 85px;
+        width: 150px;
+    }
+}
+
+
+@media screen and (min-width: 1600px) {
+    /*Home small Button styling, used in serviceLine*/
+    .transaction-home-small-button {
+        height: 100px;
+        width: 175px;
+    }
 }
 
 
@@ -68,7 +112,7 @@
     filter: opacity(0.80);
 }
 
-/*Footer Button styling*/
+/*Confirm Button styling*/
 .confirm-button {
     background-color: #C4D3EA;
     height: 40px;
@@ -79,25 +123,26 @@
     border: 1px solid black;
 }
 
-/*Footer button styling hover */
+/*Confirm button styling hover */
 .confirm-button:hover {
     filter: opacity(0.80);
 }
 
-
+/*position confirm button, applicable for all screens*/
 .confirm-button {
     position: fixed;
     bottom: 105px;
     right: 20px;
 }
 
-/*Footer button positioning*/
+/*Confirm button styling*/
 .confirm-button span {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
 }
 
+/*Confirm button styling*/
 .confirm-button img {
     margin-left: 10px;
 }
@@ -106,8 +151,8 @@
 /*car button (open and upload) styling*/
 .car-button {
     background-color: #C4D3EA;
-    height: 40px;
-    width: 225px;
+    height: 35px;
+    width: 160px;
     cursor: pointer;
     box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
     font-weight: bold;
@@ -132,18 +177,49 @@
 }
 
 
-/*Footer Button styling*/
+@media screen and (min-width: 1200px) {
+    .car-button {
+        height: 35px;
+        width: 175px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .car-button {
+        height: 40px;
+        width: 225px;
+    }
+}
+
+
+/*Confirm Button - Service styling*/
 .confirm-button-service {
     background-color: #C4D3EA;
     height: 40px;
-    width: 175px;
+    width: 125px;
     cursor: pointer;
     box-shadow: 0 10px 4px rgba(0, 0, 0, 0.25);
     font-weight: bold;
     border: 1px solid black;
 }
 
-/*Footer button styling hover */
+@media screen and (min-width: 1200px) {
+    /*Confirm Button Service styling*/
+    .confirm-button-service {
+        height: 40px;
+        width: 150px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    /*Confirm Button Service styling*/
+    .confirm-button-service {
+        height: 40px;
+        width: 175px;
+    }
+}
+
+/*Confirm button styling hover */
 .confirm-button-service:hover {
     filter: opacity(0.80);
 }

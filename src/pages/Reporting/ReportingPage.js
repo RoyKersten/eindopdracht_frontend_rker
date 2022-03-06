@@ -10,7 +10,6 @@ function ReportingPage() {
     const [callList, setCallList] = useState([]);
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const [selectedLine, setSelectedLine] = useState("");
     const [formState, setFormState] = useState({
         callList: 'inspections',
@@ -87,7 +86,6 @@ function ReportingPage() {
             <div className="messages">
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
                 {error && <p className="message-home">Error occurred</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
             </div>
 
         </div>

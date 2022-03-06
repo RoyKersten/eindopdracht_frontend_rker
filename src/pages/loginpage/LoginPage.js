@@ -12,7 +12,7 @@ function LoginPage() {
     const {login} = useAuthContext();
 
 
-    //SignIn: get bearer token from backend based-on username and password
+    //SignIn: get bearer token from backend based on username and password
     async function signIn() {
         setErrorMessage(status);
         try {
@@ -21,7 +21,8 @@ function LoginPage() {
                     "username": formState.username,
                     "password": formState.password
                 })
-            login(bearer.data.jwt);
+            localStorage.setItem('token', bearer.data.jwt);                         //local storage to store bearer token
+            login();
         } catch (e) {
             setErrorMessage("username/password not correct !")
             console.error(e);
@@ -71,7 +72,7 @@ function LoginPage() {
                     />
                 </section>
                 <button className="login-fields">login</button>
-                {errorMessage && <p className="message-login">{errorMessage}</p>}
+                {errorMessage && <div className="message-login">{errorMessage}</div>}
             </form>
 
         </div>

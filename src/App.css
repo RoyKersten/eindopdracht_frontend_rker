@@ -3,21 +3,18 @@ html {
 }
 
 body {
-    /*overflow: hidden;*/
+    overflow: auto;
     min-height: 100vh;
     margin: 0;
 }
 
-input, label {
-    display: block;
-}
 
-/*position error message below inputfields on create and display pages */
+/*position error message below inputfields on create, change and display pages */
 .message-error {
     position: absolute;
+    bottom: 65px;
     left: 50%;
     transform: translate(-50%);
-    bottom: 70px;
     color: red;
     animation: fadeIn 1s linear;
 }
@@ -32,12 +29,12 @@ input, label {
 }
 
 
-/*position error message below inputfields on create and display pages */
+/*position message centered under transaction table*/
 .message-home {
     position: absolute;
-    left: calc(50% - 150px);
-    transform: translate(-50%, 0);
-    margin: 5px 5px 5px 5px;
+    bottom: 65px;
+    width: calc(100% - 400px);
+    text-align: center;
     color: red;
     animation: fadeIn 1s linear;
 

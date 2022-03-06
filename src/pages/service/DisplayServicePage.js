@@ -53,7 +53,7 @@ function DisplayServicePage() {
 
 
         getService().then();
-    }, [serviceType]);
+    }, [serviceType, id]);
 
 
     useEffect(() => {
@@ -83,7 +83,7 @@ function DisplayServicePage() {
         }
 
         getServiceLine().then();
-    }, [serviceType]);
+    }, [serviceType, id]);
 
     return (
         <div className="service-form-container">
@@ -181,15 +181,23 @@ function DisplayServicePage() {
             </div>
             <div className="serviceline-form-transaction-container">
                 <div className="serviceline-form-display-container">
-                    <TransactionTable
-                        selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="service-home-container-table"
-                        headerContainerClassName="service-home-table-header"
-                        headerClassName="service-home-table-header"
-                        dataInput={serviceLine}
-                    />
+                    <div className="transaction-table">
+                        <TransactionTable
+                            selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="service-home-container-table"
+                            headerContainerClassName="service-home-table-header"
+                            headerClassName="service-home-table-header"
+                            dataInput={serviceLine}
+                        />
+                        <div className="messages">
+                            {loading && <p className="message-home">Data Loading, please wait...</p>}
+                            {error && <p className="message-home">Error occurred</p>}
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedServiceLine.idServiceLine && !loading && !errorMessage && !error &&
+                                <p className="message-home">please select serviceLine to display details</p>}
+                        </div>
+                    </div>
                 </div>
-
                 <div className="serviceline-form-buttons">
                     <Button
                         buttonName="transaction-home-small-button"
@@ -224,13 +232,6 @@ function DisplayServicePage() {
                         buttonIcon={deleteIcon}
                     />
                 </div>
-            </div>
-            <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !loading && !errorMessage && !error &&
-                    <p className="message-home">please select serviceLine to display details</p>}
             </div>
         </div>
     );

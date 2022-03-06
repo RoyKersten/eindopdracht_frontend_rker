@@ -8,7 +8,6 @@ import axios from "axios";
 function CreateUserPage() {
 
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/users");    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         username: '',
         password: '',
@@ -17,7 +16,7 @@ function CreateUserPage() {
 
     async function addUser() {
         try {
-            const {data} = await axios.post(endpoint, formState, {
+            const {data} = await axios.post(`http://localhost:8080/users`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -11,13 +11,12 @@ function DisplayUserPage() {
 
     const {username} = useParams()
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/users/${username}`);
     const [object, setObject] = useState({username: '', password: '', enabled: ''});
 
     useEffect(() => {
         async function getUserByUsername() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/users/${username}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -34,7 +33,7 @@ function DisplayUserPage() {
         }
 
         getUserByUsername();
-    }, [endpoint]);
+    }, [username]);
 
     return (
         <div className="user-form-container">

@@ -11,9 +11,7 @@ function ChangeItemPage() {
 
     const {id} = useParams()
     let {itemType} = useParams();
-    const [typeOfItem, setTypeOfItem] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/items/${itemType}/${id}`);
     const [formState, setFormState] = useState({
         '@type': '',
         idItem: '',
@@ -28,7 +26,7 @@ function ChangeItemPage() {
     useEffect(() => {
         async function getItemById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/items/${itemType}/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -45,12 +43,12 @@ function ChangeItemPage() {
         }
 
         getItemById();
-    }, [endpoint]);
+    }, [itemType, id]);
 
 
     async function changeItem() {
         try {
-            const {data} = await axios.put(endpoint, formState, {
+            await axios.put(`http://localhost:8080/items/${itemType}/${id}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -184,10 +182,10 @@ function ChangeItemPage() {
                     disabled={false}
                     buttonIcon={confirmIcon}
                 />
+                <div className="messages">
+                    {errorMessage && <p className="message-error">{errorMessage}</p>}
+                </div>
             </form>
-            <div className="messages">
-                {errorMessage && <p className="message-error">{errorMessage}</p>}
-            </div>
         </div>
     );
 }

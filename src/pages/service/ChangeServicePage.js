@@ -53,7 +53,6 @@ function ChangeServicePage() {
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                console.log(data)
                 setFormState(data);
 
             } catch (e) {
@@ -68,7 +67,7 @@ function ChangeServicePage() {
 
 
         getService().then();
-    }, [reload, serviceType]);
+    }, [reload, serviceType, id]);
 
 
     useEffect(() => {
@@ -97,7 +96,7 @@ function ChangeServicePage() {
         }
 
         getServiceLine().then();
-    }, [reload, serviceType]);
+    }, [reload, serviceType, id]);
 
 
     async function deleteServiceLineById() {
@@ -126,7 +125,7 @@ function ChangeServicePage() {
 
     async function updateServiceById() {
         try {
-            const {data} = await axios.put(`http://localhost:8080/services/${serviceType}/${id}`, formState, {
+            await axios.put(`http://localhost:8080/services/${serviceType}/${id}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -211,7 +210,7 @@ function ChangeServicePage() {
                         className="service-form-input-component"
                         name="serviceDate"
                         label="Service Date"
-                        inputType="text"
+                        inputType="date"
                         value={formState.serviceDate}
                         readOnly={false}
                         changeHandler={handleChange}
@@ -279,6 +278,7 @@ function ChangeServicePage() {
 
             <div className="serviceline-form-transaction-container">
                 <div className="serviceline-form-display-container">
+                    <div className="transaction-table">
                     <TransactionTable
                         selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
                         tableContainerClassName="service-home-container-table"
@@ -286,8 +286,15 @@ function ChangeServicePage() {
                         headerClassName="service-home-table-header"
                         dataInput={serviceLine}
                     />
+                    <div className="messages">
+                        {loading && <p className="message-home">Data Loading, please wait...</p>}
+                        {errorMessage && <p className="message-home">{errorMessage}</p>}
+                        {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
+                            <p className="message-home">please change service and press confirm or create, delete or change a
+                                serviceline</p>}
+                    </div>
                 </div>
-
+                </div>
                 <div className="serviceline-form-buttons">
                     <Button
                         buttonName="transaction-home-small-button"
@@ -323,13 +330,6 @@ function ChangeServicePage() {
                         buttonIcon={deleteIcon}
                     />
                 </div>
-            </div>
-            <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
-                    <p className="message-home">please change service and press confirm or create, delete or change a
-                        serviceline</p>}
             </div>
         </div>
     );

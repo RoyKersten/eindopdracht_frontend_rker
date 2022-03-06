@@ -8,7 +8,6 @@ import axios from "axios";
 function CreateCustomerPage() {
 
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState("http://localhost:8080/customers");    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         firstName: '',
         lastName: '',
@@ -18,7 +17,7 @@ function CreateCustomerPage() {
 
     async function addCustomers() {
         try {
-            const {data} = await axios.post(endpoint, formState, {
+            const {data} = await axios.post(`http://localhost:8080/customers`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -57,7 +56,7 @@ function CreateCustomerPage() {
             <div>
                 <form className="customer-form">
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="customer-form-input-component"
                                     name="customerId"
                                     label="Customer ID"
                                     inputType="text"
@@ -65,7 +64,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="customer-form-input-component"
                                     name="firstName"
                                     label="Firstname"
                                     inputType="text"
@@ -75,7 +74,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="customer-form-input-component"
                                     name="lastName"
                                     label="Lastname"
                                     inputType="text"
@@ -85,7 +84,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="customer-form-input-component"
                                     name="phoneNumber"
                                     label="Telephone Number"
                                     inputType="text"
@@ -95,7 +94,7 @@ function CreateCustomerPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="customer-form-input-component"
                                     name="email"
                                     label="Email Address"
                                     inputType="text"
@@ -115,11 +114,12 @@ function CreateCustomerPage() {
                         disabled={false}
                         buttonIcon={confirmIcon}
                     />
+                    <div className="messages">
+                        {errorMessage && <p className="message-error">{errorMessage}</p>}
+                    </div>
                 </form>
             </div>
-            <div className="messages">
-                {errorMessage && <p className="message-error">{errorMessage}</p>}
-            </div>
+
         </div>
     );
 }

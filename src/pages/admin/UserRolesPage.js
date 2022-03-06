@@ -9,7 +9,6 @@ function UserRolesPage() {
     const {username} = useParams();
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/users/${username}/authorities`);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         username: '',
         role_mechanic: false,
@@ -35,7 +34,7 @@ function UserRolesPage() {
 
         async function getUserRolesByUsername() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/users/${username}/authorities`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -48,7 +47,7 @@ function UserRolesPage() {
         }
 
         getUserRolesByUsername();
-    }, [endpoint]);
+    }, [username]);
 
 
     //Set granted roles in formState
@@ -86,7 +85,7 @@ function UserRolesPage() {
             async function addUserRole() {
                 console.log(addNewUserRole);
                 try {
-                    const {data} = await axios.post(endpoint, addNewUserRole, {
+                    await axios.post(`http://localhost:8080/users/${username}/authorities`, addNewUserRole, {
                         headers: {
                             "Content-type": "application/json",
                             Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -104,14 +103,14 @@ function UserRolesPage() {
 
             addUserRole();
         }
-    }, [addNewUserRole]);
+    }, [addNewUserRole, username]);
 
 
     useEffect(() => {
         if (removeExistingUserRole.authority !== "") {
             async function removeUserRole() {
                 try {
-                    const {data} = await axios.delete(`http://localhost:8080/users/${username}/authorities/${removeExistingUserRole.authority}`, {
+                    await axios.delete(`http://localhost:8080/users/${username}/authorities/${removeExistingUserRole.authority}`, {
                         headers: {
                             "Content-type": "application/json",
                             Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -129,7 +128,7 @@ function UserRolesPage() {
 
             removeUserRole();
         }
-    }, [removeExistingUserRole]);
+    }, [removeExistingUserRole, username]);
 
 
     function handleChange(e) {

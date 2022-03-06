@@ -10,9 +10,7 @@ import axios from "axios";
 function ChangeServiceLinePage() {
 
     const {id} = useParams()
-    const {serviceType} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/services/${serviceType}/${id}`);
 
     //Only a few properties are required to post a serviceLine, backend will create rest of properties automatically which you will find back in formState
     const [postServiceLine, setPostServiceLine] = useState({
@@ -58,7 +56,7 @@ function ChangeServiceLinePage() {
         }
 
         getServiceLineById();
-    }, [endpoint]);
+    }, [id]);
 
 
     //When one of the properties of formState changes, postServiceLine properties need to be updated.
@@ -77,7 +75,7 @@ function ChangeServiceLinePage() {
 
     async function updateServiceLineById() {
         try {
-            const {data} = await axios.put(`http://localhost:8080/servicelines/${id}`, postServiceLine, {
+            await axios.put(`http://localhost:8080/servicelines/${id}`, postServiceLine, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -11,7 +11,6 @@ function ChangeUserPage() {
 
     const {username} = useParams()
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/users/${username}`);    //initial endpoint used to fetch all customers from database
     const [formState, setFormState] = useState({
         username: '',
         password: '',
@@ -21,7 +20,7 @@ function ChangeUserPage() {
     useEffect(() => {
         async function getUserByUsername() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/users/${username}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -38,12 +37,12 @@ function ChangeUserPage() {
         }
 
         getUserByUsername();
-    }, [endpoint]);
+    }, [username]);
 
 
     async function changeUser() {
         try {
-            const {data} = await axios.put(endpoint, formState, {
+            await axios.put(`http://localhost:8080/users/${username}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),

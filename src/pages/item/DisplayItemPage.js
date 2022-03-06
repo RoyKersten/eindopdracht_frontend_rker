@@ -12,7 +12,6 @@ function DisplayItemPage() {
     const {id} = useParams()
     const {itemType} = useParams();
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/items/${itemType}/${id}`);
     const [object, setObject] = useState({
         idItem: '',
         itemType: '',
@@ -27,7 +26,7 @@ function DisplayItemPage() {
     useEffect(() => {
         async function getItemById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/items/${itemType}/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -44,7 +43,7 @@ function DisplayItemPage() {
         }
 
         getItemById();
-    }, [endpoint]);
+    }, [itemType, id]);
 
 
     return (
@@ -128,9 +127,6 @@ function DisplayItemPage() {
                                     readOnly={true}
                         />
                     </section>
-                    <div className="messages">
-                        {errorMessage && <p className="message-error">{errorMessage}</p>}
-                    </div>
                     <Button
                         buttonName="confirm-button"
                         buttonDescription="CONFIRM"
@@ -138,6 +134,9 @@ function DisplayItemPage() {
                         disabled={true}
                         buttonIcon={confirmIcon}
                     />
+                </div>
+                <div className="messages">
+                    {errorMessage && <p className="message-error">{errorMessage}</p>}
                 </div>
             </form>
         </div>

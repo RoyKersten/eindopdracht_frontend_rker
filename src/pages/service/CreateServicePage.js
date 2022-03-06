@@ -42,14 +42,13 @@ function CreateServicePage() {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-            console.log(data);
             const indexOf = data.lastIndexOf("/") + 1;                           //determine new created idItem => last numbers after last /
             const id = (data.substring(indexOf,));                                     //capture idItem
             setIdService(id);
             if (data !== null) {
                 setErrorMessage("service successfully created!, please select create to add serviceline");
             }
-
+            setServiceLine([]);
         } catch (e) {
             if (e.response.status.toString() === "403") {
                 setErrorMessage("service could not be created, you are not authorized!")
@@ -123,8 +122,8 @@ function CreateServicePage() {
                                 changeHandler={onSelection}
                     />
                     <datalist id="itemTypeList">
-                        <option value="inspections">inspections</option>
-                        <option value="repairs">repairs</option>
+                        <option key={1} value="inspections">inspections</option>
+                        <option key={2} value="repairs">repairs</option>
                     </datalist>
                 </section>
                 <section>
@@ -151,8 +150,7 @@ function CreateServicePage() {
                         className="service-form-input-component"
                         name="serviceDate"
                         label="Service Date"
-                        inputType="text"
-                        placeholder="2022-03-21"
+                        inputType="date"
                         value={formState.serviceDate}
                         readOnly={false}
                         changeHandler={handleChange}
@@ -224,13 +222,22 @@ function CreateServicePage() {
 
             <div className="serviceline-form-transaction-container">
                 <div className="serviceline-form-display-container">
-                    <TransactionTable
-                        selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="service-home-container-table"
-                        headerContainerClassName="service-home-table-header"
-                        headerClassName="service-home-table-header"
-                        dataInput={serviceLine}
-                    />
+                    <div className="transaction-table">
+                        <TransactionTable
+                            selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="service-home-container-table"
+                            headerContainerClassName="service-home-table-header"
+                            headerClassName="service-home-table-header"
+                            dataInput={serviceLine}
+                        />
+                        <div className="messages">
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedServiceLine.idServiceLine && !errorMessage &&
+                                <p className="message-home">please enter service details and press confirm to create a
+                                    new
+                                    service</p>}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="serviceline-form-buttons">
@@ -267,12 +274,6 @@ function CreateServicePage() {
                         buttonIcon={deleteIcon}
                     />
                 </div>
-            </div>
-            <div className="messages">
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedServiceLine.idServiceLine && !errorMessage &&
-                    <p className="message-home">please enter service details and press confirm to create a new
-                        service</p>}
             </div>
         </div>
     );

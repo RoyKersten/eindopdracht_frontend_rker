@@ -11,19 +11,25 @@ function DisplayCustomerPage() {
 
     const {id} = useParams()
     const [errorMessage, setErrorMessage] = useState("");
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/customers/${id}`);
-    const [object, setObject] = useState({idCustomer: '', firstName: '', lastName: '', phoneNumber: '', email: ''});
+    const [formState, setFormState] = useState(
+        {
+            idCustomer: '',
+            firstName: '',
+            lastName: '',
+            phoneNumber: '',
+            email: ''
+        });
 
     useEffect(() => {
         async function getCustomerById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/customers/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-                setObject(data);
+                setFormState(data);
             } catch (e) {
                 if (e.response.status.toString() === "403") {
                     setErrorMessage("customer could not be displayed, you are not authorized!")
@@ -34,53 +40,53 @@ function DisplayCustomerPage() {
         }
 
         getCustomerById();
-    }, [endpoint]);
+    }, [id]);
 
     return (
         <div className="customer-form-container">
             <form className="customer-form">
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="customer ID"
                                 label="Customer ID"
                                 inputType="text"
-                                value={object.idCustomer}
+                                value={formState.idCustomer}
                                 readOnly={true}
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 ame="firstname"
                                 label="Firstname"
                                 inputType="text"
-                                value={object.firstName}
+                                value={formState.firstName}
                                 readOnly={true}
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="lastname"
                                 label="Lastname"
                                 inputType="text"
-                                value={object.lastName}
+                                value={formState.lastName}
                                 readOnly={true}
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="phonenumber"
                                 label="Telephone Number"
                                 inputType="text"
-                                value={object.phoneNumber}
+                                value={formState.phoneNumber}
                                 readOnly={true}
                     />
                 </section>
                 <section>
-                    <InputField className="form-input-component"
+                    <InputField className="customer-form-input-component"
                                 name="email"
                                 label="Email Address"
                                 inputType="text"
-                                value={object.email}
+                                value={formState.email}
                                 readOnly={true}
                     />
                 </section>

@@ -1,19 +1,20 @@
 /*car home: determine container/space between header and footer*/
 .car-home-container {
     padding-top: 90px;
-    height: calc(100vh - 90px - 75px);
+    padding-bottom: 75px;
     width: 100%;
 }
 
 /*car home: position filters Customer ID and Lastname*/
 .car-home-filter {
     margin-left: 80px;
+    white-space: nowrap;
 }
 
 .car-home-filter section {
     display: inline-block;
     margin-left: 20px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 /*car home: position transaction window and buttons: display, create, change and delete*/
@@ -27,12 +28,28 @@
 .car-home-display-container {
     margin-left: 100px;
     margin-top: 20px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
-    height: 500px;
+    min-height: calc(100vh - 90px - 50px - 75px - 75px);
     width: 100%;
     border: 1px solid black;
     overflow: auto;
 }
+
+/*align transaction table and messages*/
+.transaction-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: calc(100vh - 90px - 50px - 75px - 75px);
+}
+
+
+/*set table width for headers in transaction window, border-spacing 0*/
+.car-home-container-table {
+    top: 0;
+    width: 100%;
+    border-spacing: 0;
+}
+
 
 /*car home: position buttons: display, create, change and delete*/
 .car-home-buttons {
@@ -40,28 +57,23 @@
     flex-direction: column;
     justify-content: space-between;
     margin-top: 20px;
-    margin-left: 100px;
+    margin-left: 40px;
     margin-right: 100px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
+    min-height: calc(100vh - 90px - 50px - 75px - 75px);
 }
 
-/*set table width for headers in transaction window, border-spacing 0*/
-.car-home-container-table {
-    overflow: hidden;
-    top: 0;
-    width: 100%;
-    border-spacing: 0;
+/*for screens wider than 1200px margin between transactiontable and buttons is 70px*/
+@media screen and (min-width: 1200px) {
+    .car-home-buttons {
+        margin-left: 70px;
+    }
 }
 
-/*fix header at top of transaction window */
-th {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    text-align: left;
-    border-bottom: 1px solid black;
+/*for screens wider than 1600px margin between transactiontable and buttons is 100px*/
+@media screen and (min-width: 1600px) {
+    .car-home-buttons {
+        margin-left: 100px;
+    }
 }
 
-tr {
-    height: 15px;
-}
+

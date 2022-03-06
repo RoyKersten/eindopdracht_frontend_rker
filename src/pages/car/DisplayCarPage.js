@@ -11,11 +11,8 @@ import axios from "axios";
 function DisplayCarPage() {
 
     const {id} = useParams()
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/cars/${id}`);
-    const [endpointCarPaper, setEndpointCarPaper] = useState(`http://localhost:8080/cars/${id}/carpaper`);
     const [errorMessage, setErrorMessage] = useState("");
     const [message, setMessage] = useState("");
-    const [carPaper, setCarPaper] = useState(undefined)
 
     const [object, setObject] = useState({
         idCar: '',
@@ -31,17 +28,13 @@ function DisplayCarPage() {
     useEffect(() => {
         async function getCarById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/cars/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
                 setObject(data);
-                if (carPaper) {
-                    await getCarPaper();
-                    setCarPaper(false);
-                }
             } catch (e) {
                 if (e.response.status.toString() === "403") {
                     setErrorMessage("car details could not be retrieved, you are not authorized!")
@@ -52,12 +45,12 @@ function DisplayCarPage() {
         }
 
         getCarById().then();
-    }, [endpoint, carPaper]);
+    }, [id]);
 
 
     async function getCarPaper() {
         try {
-            const carPaper = await axios.get(endpointCarPaper, {
+            await axios.get(`http://localhost:8080/cars/${id}/carpaper`, {
                 responseType: 'blob',
                 headers: {
                     "Content-type": "multipart/form-data",
@@ -124,7 +117,7 @@ function DisplayCarPage() {
                 </div>
                 <section className="car-form-input-section3">
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="brand"
                                     label="Brand"
                                     inputType="text"
@@ -133,7 +126,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="model"
                                     label="Model"
                                     inputType="text"
@@ -142,7 +135,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="year-of-construction"
                                     label="yearOfConstruction"
                                     inputType="text"
@@ -151,7 +144,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="apk-experiation-date"
                                     label="APK experiation Date"
                                     inputType="text"
@@ -160,7 +153,7 @@ function DisplayCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="car-paper-check"
                                     label="Car paper available ?"
                                     inputType="text"

@@ -4,8 +4,7 @@ import Button from "../button/Button";
 import backIcon from "../../images/icons/back.png";
 import {useHistory} from "react-router-dom";
 
-function Footer({parentToChild}) {
-
+function Footer() {
     const history = useHistory();
 
     function pageBack() {
@@ -14,8 +13,6 @@ function Footer({parentToChild}) {
 
     return (
         <footer className="footer-container">
-            <h1 className="footer-text">{parentToChild}</h1>
-
             <Button
                 buttonName="footer-back-button"
                 buttonDescription="BACK"

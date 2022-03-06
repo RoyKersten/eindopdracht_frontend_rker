@@ -16,7 +16,6 @@ function ChangeCarPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [message, setMessage] = useState("");
     const [endpointCarPaper, setEndpointCarPaper] = useState(`http://localhost:8080/cars/${id}/carpaper`);
-    const [endpoint, setEndpoint] = useState(`http://localhost:8080/cars/${id}`);    //initial endpoint used to fetch all customers from database
     const [pdfAvailable, setPdfAvailable] = useState(false);
     const [pdfReadyForUpload, setPdfReadyForUpload] = useState(false);
     const [formState, setFormState] = useState({
@@ -33,7 +32,7 @@ function ChangeCarPage() {
     useEffect(() => {
         async function getCarById() {
             try {
-                const {data} = await axios.get(endpoint, {
+                const {data} = await axios.get(`http://localhost:8080/cars/${id}`, {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -50,13 +49,13 @@ function ChangeCarPage() {
         }
 
         getCarById();
-    }, [endpoint]);
+    }, [id]);
 
 
     //Add a car to the database
     async function changeCar() {
         try {
-            const {data} = await axios.put(endpoint, formState, {
+            const {data} = await axios.put(`http://localhost:8080/cars/${id}`, formState, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -82,7 +81,7 @@ function ChangeCarPage() {
     //Get CarPaper from database
     async function getCarPaper() {
         try {
-            const carPaper = await axios.get(endpointCarPaper, {
+            await axios.get(endpointCarPaper, {
                 responseType: 'blob',
                 headers: {
                     "Content-type": "multipart/form-data",
@@ -97,7 +96,6 @@ function ChangeCarPage() {
                     link.click();
                     window.URL.revokeObjectURL(url);    //let the browser know not to keep the reference to the file any longer.
                 });
-
         } catch (e) {
             console.error(e);
             setMessage("carPaper not available, please first upload carpaper")
@@ -195,7 +193,6 @@ function ChangeCarPage() {
 
     return (
         <div className="car-form-container">
-
             <form className="car-form">
                 <div className="car-form-div-box">
                     <section className="car-form-input-section1">
@@ -249,7 +246,7 @@ function ChangeCarPage() {
 
                 <section className="car-form-input-section3">
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="brand"
                                     label="Brand"
                                     inputType="text"
@@ -260,7 +257,7 @@ function ChangeCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="model"
                                     label="Model"
                                     inputType="text"
@@ -270,7 +267,7 @@ function ChangeCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="yearOfConstruction"
                                     label="Year Of Construction"
                                     inputType="text"
@@ -280,7 +277,7 @@ function ChangeCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     name="experiationDateInspection"
                                     label="APK experiation Date"
                                     inputType="text"
@@ -290,7 +287,7 @@ function ChangeCarPage() {
                         />
                     </section>
                     <section>
-                        <InputField className="form-input-component"
+                        <InputField className="car-form-input-component"
                                     id="file-field"
                                     name="file"
                                     label="Select carpaper file for Upload"
@@ -326,13 +323,6 @@ function ChangeCarPage() {
                             />
                         </div>
                     </section>
-                    <div className="messages">
-                        {errorMessage && !message && <p className="message-error">{errorMessage}</p>}
-                        {message && !errorMessage && <p className="message-error">{message}</p>}
-                        {!pdfReadyForUpload && !message && !errorMessage &&
-                            <p className="message-error">please update car details and press confirm or choose carpaper
-                                file and press upload </p>}
-                    </div>
                     <Button
                         buttonName="confirm-button"
                         buttonDescription="CONFIRM"
@@ -344,6 +334,13 @@ function ChangeCarPage() {
                         disabled={false}
                         buttonIcon={confirmIcon}
                     />
+                </div>
+                <div className="messages">
+                    {errorMessage && !message && <p className="message-error">{errorMessage}</p>}
+                    {message && !errorMessage && <p className="message-error">{message}</p>}
+                    {!pdfReadyForUpload && !message && !errorMessage &&
+                        <p className="message-error">please update car details and press confirm or choose carpaper
+                            file and press upload </p>}
                 </div>
             </form>
         </div>

@@ -4,8 +4,9 @@
     justify-content: center;
     align-items: center;
     padding-top: 90px;
-    height: calc(100vh - 90px - 75px);
+    padding-bottom: 75px;
     width: 100%;
+    overflow: auto;
 }
 
 .user-roles-form {
@@ -13,6 +14,7 @@
     width: fit-content;
     flex-direction: column;
     border: 1px solid black;
+    margin-top: 20px;
 }
 
 .user-roles-form section {
@@ -21,13 +23,13 @@
 }
 
 .user-roles-input-component {
-    width: 250px;
+    width: 200px;
     height: 20px;
     border: 1px solid black;
 }
 
 .user-roles-input-component:read-only {
-    width: 250px;
+    width: 200px;
     height: 20px;
     background-color: #C4C4C4;
     border: 1px solid black;
@@ -42,7 +44,7 @@
 
 .user-roles-checkbox section {
     width: 100%;
-    margin: 10px 0;
+    margin: 3px 0;
 }
 
 .user-roles-checkbox section div {
@@ -59,6 +61,38 @@
 .user-roles-checkbox label {
     margin-left: 20px;
 }
+
+
+@media screen and (min-width: 1200px) {
+    .user-roles-checkbox section {
+        margin: 5px 0;
+    }
+
+
+    .user-roles-input-component {
+        width: 225px;
+    }
+
+    .user-roles-input-component:read-only {
+        width: 225px;
+    }
+}
+
+
+@media screen and (min-width: 1600px) {
+    .user-roles-checkbox section {
+        margin: 10px 0;
+    }
+
+    .user-roles-input-component {
+        width: 250px;
+    }
+
+    .user-roles-input-component:read-only {
+        width: 250px;
+    }
+}
+
 
 
 

@@ -21,8 +21,8 @@
     position: absolute;
     top: 40%;
     left: 65%;
-    height: 200px;
-    width: 300px;
+    height: 150px;
+    width: 250px;
     background-color: #fff;
     border: solid black 2px;
 }
@@ -31,17 +31,17 @@
 /* Style the button and place it in the middle of the container/image */
 .login-fields {
     display: flex;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     color: black;
-    font-size: 16px;
+    font-size: 12px;
     border: solid black 1px;
 }
 
 .message-login {
     position: absolute;
     left: auto;
-    bottom: 0;
+    bottom: 5px;
     color: red;
     animation: fadeIn 1s linear;
 }
@@ -55,4 +55,34 @@
     100% {
         opacity: 1
     }
+}
+
+
+@media screen and (min-width: 1200px) {
+    .login-form {
+        height: 175px;
+        width: 275px;
+    }
+
+    /* Style the button and place it in the middle of the container/image */
+    .login-fields {
+        margin-top: 3px;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .login-form {
+        height: 200px;
+        width: 300px;
+    }
+
+    /* Style the button and place it in the middle of the container/image */
+    .login-fields {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
 }

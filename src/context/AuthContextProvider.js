@@ -39,6 +39,7 @@ function AuthContextProvider({children}) {
                 status: "token is valid"
             });
             getUserRolesByUsername(decodedToken.sub)              //check if user has admin role, if yes, access to admin environment via dropdown menu should be active
+            history.push("/home");                          //open homepage
         }
         //3. in case token is not valid open loginPage, new login required.
         else if (!isTokenValid(token)) {
@@ -48,7 +49,7 @@ function AuthContextProvider({children}) {
             });
             history.push('/')
         }
-    }, []);
+    }, [history]);
 
     function isTokenValid(token) {
         const decodedToken = jwt_decode(token)
@@ -59,8 +60,7 @@ function AuthContextProvider({children}) {
     }
 
 
-    function login(bearer) {
-        localStorage.setItem('token', bearer);                         //local storage to store bearer token
+    function login() {
         const token = localStorage.getItem('token');              //get token from local storage
         const decodedToken = jwt_decode(token);                        //decode bearer token to get username
         setAuthState({
@@ -107,12 +107,11 @@ function AuthContextProvider({children}) {
         }
     }
 
-
     const dataContext = {
         ...authState,
         login: login,
         logout: logout,
-        isTokenValid: isTokenValid
+        isTokenValid: isTokenValid,
     };
 
     return (
