@@ -67,6 +67,7 @@ function LoginPage() {
                                 inputType="password"                   //encrypt password when typing
                                 value={formState.password}
                                 readOnly={false}
+                                autoComplete="off"
                                 changeHandler={handleChange}
                     />
                 </section>

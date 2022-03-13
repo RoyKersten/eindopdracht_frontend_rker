@@ -14,6 +14,7 @@ function InputField({
                         placeholder,
                         list,
                         onSelection,
+                        autoComplete,
                         checked
                     }) {
     return (
@@ -32,6 +33,7 @@ function InputField({
                     onKeyPress={onKeyPress}         //used for filters
                     readOnly={readOnly}
                     list={list}
+                    autoComplete={autoComplete}
                     checked={checked}
                 />
             </div>
