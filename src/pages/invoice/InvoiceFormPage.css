@@ -15,7 +15,7 @@
 }
 
 .invoice-form section {
-    margin: 20px;
+    margin: 5px;
 }
 
 .invoice-form-section1 {
@@ -36,13 +36,13 @@
 }
 
 .invoice-form-input-component-section1 {
-    width: 250px;
+    width: 175px;
     height: 20px;
     border: 1px solid black;
 }
 
 .invoice-form-input-component-section1:read-only {
-    width: 250px;
+    width: 175px;
     height: 20px;
     background-color: #C4C4C4;
     border: 1px solid black;
@@ -50,27 +50,91 @@
 
 
 .invoice-form-input-component-section2 {
-    width: 250px;
+    width: 175px;
     height: 20px;
     border: 1px solid black;
 }
 
 .invoice-form-input-component-section2:read-only {
-    width: 250px;
+    width: 175px;
     height: 20px;
     background-color: #C4C4C4;
     border: 1px solid black;
 }
 
 .invoice-form-input-component-section3 {
-    width: 500px;
+    width: 450px;
     height: 20px;
     border: 1px solid black;
 }
 
 .invoice-form-input-component-section3:read-only {
-    width: 500px;
+    width: 450px;
     height: 20px;
     background-color: #C4C4C4;
     border: 1px solid black;
+}
+
+
+/*for screens wider than 1200px */
+@media screen and (min-width: 1200px) {
+    .invoice-form section {
+        margin: 10px;
+    }
+
+    .invoice-form-input-component-section1 {
+        width: 200px;
+    }
+
+    .invoice-form-input-component-section1:read-only {
+        width: 200px;
+    }
+
+
+    .invoice-form-input-component-section2 {
+        width: 200px;
+    }
+
+    .invoice-form-input-component-section2:read-only {
+        width: 200px;
+    }
+
+    .invoice-form-input-component-section3 {
+        width: 500px;
+    }
+
+    .invoice-form-input-component-section3:read-only {
+        width: 500px;
+    }
+}
+
+/*for screens wider than 1600px*/
+@media screen and (min-width: 1600px) {
+    .invoice-form section {
+        margin: 20px;
+    }
+
+    .invoice-form-input-component-section1 {
+        width: 250px;
+    }
+
+    .invoice-form-input-component-section1:read-only {
+        width: 250px;
+    }
+
+    .invoice-form-input-component-section2 {
+        width: 250px;
+    }
+
+    .invoice-form-input-component-section2:read-only {
+        width: 250px;
+    }
+
+    .invoice-form-input-component-section3 {
+        width: 450px;
+    }
+
+    .invoice-form-input-component-section3:read-only {
+        width: 450px;
+    }
 }

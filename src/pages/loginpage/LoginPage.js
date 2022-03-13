@@ -25,7 +25,6 @@ function LoginPage() {
             login();
         } catch (e) {
             setErrorMessage("username/password not correct !")
-            console.error(e);
         }
     }
 

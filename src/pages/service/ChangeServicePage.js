@@ -279,21 +279,22 @@ function ChangeServicePage() {
             <div className="serviceline-form-transaction-container">
                 <div className="serviceline-form-display-container">
                     <div className="transaction-table">
-                    <TransactionTable
-                        selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="service-home-container-table"
-                        headerContainerClassName="service-home-table-header"
-                        headerClassName="service-home-table-header"
-                        dataInput={serviceLine}
-                    />
-                    <div className="messages">
-                        {loading && <p className="message-home">Data Loading, please wait...</p>}
-                        {errorMessage && <p className="message-home">{errorMessage}</p>}
-                        {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
-                            <p className="message-home">please change service and press confirm or create, delete or change a
-                                serviceline</p>}
+                        <TransactionTable
+                            selectObject={(selectedServiceLine) => setSelectedServiceLine(selectedServiceLine)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="service-home-container-table"
+                            headerContainerClassName="service-home-table-header"
+                            headerClassName="service-home-table-header"
+                            dataInput={serviceLine}
+                        />
+                        <div className="messages">
+                            {loading && <p className="message-home">Data Loading, please wait...</p>}
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedServiceLine.idServiceLine && !loading && !errorMessage &&
+                                <p className="message-home">please change service and press confirm or create, delete or
+                                    change a
+                                    serviceline</p>}
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div className="serviceline-form-buttons">
                     <Button

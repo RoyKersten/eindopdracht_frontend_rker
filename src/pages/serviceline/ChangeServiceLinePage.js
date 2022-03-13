@@ -15,8 +15,9 @@ function ChangeServiceLinePage() {
     //Only a few properties are required to post a serviceLine, backend will create rest of properties automatically which you will find back in formState
     const [postServiceLine, setPostServiceLine] = useState({
         service: {idService: '', '@type': ''},
-        item: {idItem: '', '@type': ''},
+        item: {idItem: '2', '@type': ''},
         qty: '',
+        price: '',
     });
 
     const [formState, setFormState] = useState({
@@ -65,7 +66,8 @@ function ChangeServiceLinePage() {
             setPostServiceLine({
                 service: {idService: formState.service.idService, '@type': formState.service["@type"]},
                 item: {idItem: formState.item.idItem, '@type': formState.item["@type"]},
-                qty: formState.qty
+                qty: formState.qty,
+                price: formState.price,
             });
         }
 
@@ -211,12 +213,10 @@ function ChangeServiceLinePage() {
                                             changeHandler={handleChangeNestedObject}
                                 />
                             </section>
-
                             <datalist id="itemTypeList">
                                 <option key={1} value="part">part</option>
                                 <option key={2} value="activity">activity</option>
                             </datalist>
-
                         </div>
                     </div>
 
@@ -245,7 +245,8 @@ function ChangeServiceLinePage() {
                                     label="Item Price"
                                     inputType="text"
                                     value={formState.price}
-                                    readOnly={true}
+                                    readOnly={formState.item.idItem !== '2'}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>

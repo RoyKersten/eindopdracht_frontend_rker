@@ -7,7 +7,6 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
     //1. SelectObject => after selection of row the data will be sent to parent / page CustomerPage
     let key = [];
     let value = [];
-
     const [header, setHeader] = useState(key);
     const [data, setData] = useState(value);
     const [nestedObjectId, setNestedObjectId] = useState(["", ""]);                      //takes ID of the nested object to display in the transaction table
@@ -85,7 +84,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
         }
     }
 
-    //tabIndex={k} in line 88 ensures row will be highligthed after selection with focus in CSS
+    //tabIndex={k} in line 100 ensures row will be highlighted after selection with focus in CSS
     return (
         <table className={tableContainerClassName}>
             <thead className={headerContainerClassName}>
@@ -106,7 +105,7 @@ function TransactionTable({tableContainerClassName, headerContainerClassName, da
                 </tr>
             ))}
             </tbody>
-         </table>
+        </table>
     );
 }
 

@@ -27,7 +27,7 @@ function ChangeUserPasswordPage() {
                     Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-            setErrorMessage("user successfully updated!");
+            setErrorMessage("password successfully updated!");
             console.log(formState);
         } catch (e) {
             console.error(e);

@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Welkom bij de applicatie die ontwikkeld is voor autogarage kersten 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+De volgende onderwerpen zullen in deze readme worden behandeld:
+- Introductie van de applicatie
+- Beschrijving van de casus
+- De applicatie opstarten
+- Standaard inlog accounts
+- Een impressie van de applicatie
 
-## Available Scripts
+# Introductie
+Deze applicatie is ontwikkeld als eindopdracht voor de opleiding Full-Stack Developer, leerlijn frontend van Novi Hogeschool en onderdeel van de bachelor opleiding Software Development.
 
-In the project directory, you can run:
+# Beschrijving van de casus
+**De eindopdracht is ontwikkeld op basis van onderstaande casus:**
 
-### `npm start`
+In de garage komen klanten hun auto afleveren voor een reparatie. Een administratief medewerker voegt de klant en de auto toe aan het systeem, wanneer de klant en of de auto voor het eerst bij de garage komen. De medewerker plant vervolgens een moment in om de auto te keuren. Tijdens deze registratie kunnen de autopapieren in pdf-formaat toegevoegd worden.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Een monteur keurt vervolgens de auto en voegt de gevonden tekortkomingen toe aan de auto in het systeem. Nadat de auto gekeurd is, neemt de monteur contact op met de klant. Gaat de klant akkoord met de reparatie, dan maakt de monteur een afspraak om de auto te repareren.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Gaat de klant niet akkoord met de reparatie dan zet de monteur dat in het systeem, maakt hij de bon op voor de keuring, à 45 euro, en kan de klant de auto komen ophalen en wordt de reparatie op 'niet uitvoeren' gezet.
 
-### `npm test`
+Wanneer de klant akkoord gaat, voegt de monteur toe wat afgesproken is en gaat hij de auto repareren. Elk onderdeel dat gebruikt wordt, wordt toegevoegd aan de reparatie. Ook wordt elke handeling gedocumenteerd. Vervangt de monteur bijvoorbeeld de remschijf dan wordt het onderdeel remschijf aan de reparatie toegevoegd en wordt de handeling remschijf vervangen aan de reparatie toegevoegd.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Al deze onderdelen en handelingen staan al, inclusief prijs, in het systeem. De monteur kan deze opgeslagen handelingen en onderdelen selecteren. Omdat een monteur soms iets specifieks moet doen, kan de monteur ook een 'overige' handeling en prijs toevoegen.
 
-### `npm run build`
+Wanneer de reparatie voltooid is, wordt de reparatie op voltooid gezet en kan de klant opgebeld worden. De klant wordt opgebeld door een administratief medewerker. Deze medewerker kan een lijst opvragen met te bellen klanten waarvan de reparatie voltooid is of de status 'niet uitvoeren' is.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Wanneer de klant de auto komt ophalen zal een kassamedewerker de bon laten genereren door het systeem. De bon bevat de keuring + bedrag, de handelingen + bedrag en de onderdelen + bedrag. Bij alle bedragen moet het BTW tarief nog berekend worden voordat de bedragen op de bon getoond worden. Wanneer de klant betaald heeft, wordt de status op betaald gezet.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Daarnaast is er een backoffice medewerker die onderdelen (naam, prijs, voorraad) kan toevoegen aan het systeem, voorraden kan aanpassen en handelingen (naam, prijs) kan toevoegen aan het systeem. Alle prijzen in het systeem zijn exclusief BTW. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#De applicatie opstarten
+Bij deze applicatie hoort een installatie handleiding welke stap voor stap uitlegd welke applicaties geinstalleerd moeten worden en welke handelingen verricht moeten worden om de applicatie op te starten.
 
-### `npm run eject`
+Daarnaast heeft deze front-end applicatie een eigen ontwikkelde backend applicatie welke geinstalleerd en gekoppeld aan een databse dient te worden, ook hiervan is een uitgebreide installatie handleiding beschikbaar.
+De link naar de backend applicatie op github: 
+https://github.com/RoyKersten/autogarage_backend_update_rker
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Mocht je beide installatiehandleidingen hebben gelezen en stap voor stap de installties hebben uitgevoerd dan kan deze frontend applicatie (vanuit bijvoorbeeld Webstorm) opgestart worden.
+-   Type in de terminal van Webstorm **npm install**
+-   Type in de terminal van Webstorm **npm start**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Als alles goed is gegaan zal de applicatie nu draaien op addres **localhost:3000** en verschijnt onderstaande pagina om in te loggen.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![](src/images/readme/login-page-readme.png)
 
-## Learn More
+#Standaard inlog accounts
+In de installatie handleiding is een overzicht weergegeven van aangemaakte gebruikers met bijbehorende wachtwoorden.
+Deze standaard gebruikers kunnen worden gebruikt om de applicatie te gebruiken of om het aantal gebruikers uit te breiden met de admin rol.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#Een impressie van de applicatie
+De homepage met alle modules:
+![](src/images/readme/homepage-readme.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+Overzicht van alle klanten met makkelijke zoek functies:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![](src/images/readme/customer-readme.png)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Registratie van auto's op basis van RDW gegevens:
 
-### Making a Progressive Web App
+![](src/images/readme/car-readme.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Voorraad administratie:
 
-### Advanced Configuration
+![](src/images/readme/item-readme.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+Service registratie tot in detail:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+![](src/images/readme/serviceline-readme.png)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Facturatie van keuringen en reparaties:
+
+![](src/images/readme/invoice-readme.png)
+
+
+Rapportage over de service status:
+
+![](src/images/readme/reporting-readme.png)
+
+
+Managen van gebruikers en autorisaties:
+
+![](src/images/readme/authorization-readme.png)
+
+
+
+

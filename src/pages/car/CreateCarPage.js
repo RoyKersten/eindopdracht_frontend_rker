@@ -120,11 +120,7 @@ function CreateCarPage() {
                 customer: {idCustomer: formState.customer.idCustomer}
             });
         } catch (e) {
-            if (e.response.status.toString() === "403") {
-                setErrorMessage("car details could not be retrieved from RDW, you are not authorized!")
-            } else if (e.response.status.toString() !== "403") {
-                setErrorMessage("car details could not be retrieved from RDW!")
-            }
+            setErrorMessage("car details could not be retrieved from RDW!")
         }
     }
 
@@ -222,6 +218,7 @@ function CreateCarPage() {
                                     label="Brand"
                                     inputType="text"
                                     value={formState.brand}
+                                    placeholder="brand"
                                     readOnly={false}
                                     changeHandler={handleChange}
                         />
@@ -232,6 +229,7 @@ function CreateCarPage() {
                                     label="Model"
                                     inputType="text"
                                     value={formState.model}
+                                    placeholder="model"
                                     readOnly={false}
                                     changeHandler={handleChange}
                         />
@@ -242,6 +240,7 @@ function CreateCarPage() {
                                     label="Year Of Construction"
                                     inputType="text"
                                     value={formState.yearOfConstruction}
+                                    placeholder="2021"
                                     readOnly={false}
                                     changeHandler={handleChange}
                         />
@@ -252,6 +251,7 @@ function CreateCarPage() {
                                     label="APK experiation Date"
                                     inputType="text"
                                     value={formState.experiationDateInspection}
+                                    placeholder="20220801"
                                     readOnly={false}
                                     changeHandler={handleChange}
                         />

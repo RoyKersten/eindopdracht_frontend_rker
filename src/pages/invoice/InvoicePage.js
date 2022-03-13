@@ -56,7 +56,7 @@ function InvoicePage() {
 
 
     async function deleteInvoiceById() {
-        let text = "invoice will be deleted permanently in case no invoice is connected, are you sure?";
+        let text = "invoice will be deleted permanently in case invoice status is OPEN, are you sure?";
         if (window.confirm(text) === true) {
             setError(false);
             try {
@@ -208,22 +208,34 @@ function InvoicePage() {
             </div>
             <div className="invoice-home-transaction-container">
                 <div className="invoice-home-display-container">
-                    <TransactionTable
-                        selectObject={(selectedInvoice) => setSelectedInvoice(selectedInvoice)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="invoice-home-container-table"
-                        headerContainerClassName="invoice-home-table-header"
-                        headerClassName="invoice-home-table-header"
-                        dataInput={invoice}
-                    />
-                </div>
+                    <div className="transaction-table">
+                        <TransactionTable
+                            selectObject={(selectedInvoice) => setSelectedInvoice(selectedInvoice)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="invoice-home-container-table"
+                            headerContainerClassName="invoice-home-table-header"
+                            headerClassName="invoice-home-table-header"
+                            dataInput={invoice}
+                        />
+                        <div className="messages">
+                            {loading && <p className="message-home">Data Loading, please wait...</p>}
+                            {error && <p className="message-home">Error occurred</p>}
+                            {errorMessage && <p className="message-home">{errorMessage}</p>}
+                            {!selectedInvoice.idInvoice && !loading && !errorMessage && !error &&
+                                <p className="message-home">please select invoice or select Invoice Type to switch
+                                    between repair
+                                    invoices and inspection invoices</p>}
+                        </div>
 
+                    </div>
+
+                </div>
                 <div className="invoice-home-buttons">
                     <Button
                         buttonName="transaction-home-button"
                         buttonDescription="DISPLAY"
                         buttonType="button"
                         pathName={"/invoices/display/" + invoiceType + "/" + selectedInvoice.idInvoice}
-                        disabled={selectedInvoice.idIvoice === ''}
+                        disabled={selectedInvoice.idInvoice === ''}
                         buttonIcon={displayIcon}
                     />
                     <Button
@@ -252,14 +264,6 @@ function InvoicePage() {
                         buttonIcon={deleteIcon}
                     />
                 </div>
-            </div>
-            <div className="messages">
-                {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
-                {errorMessage && <p className="message-home">{errorMessage}</p>}
-                {!selectedInvoice.idInvoice && !loading && !errorMessage && !error &&
-                    <p className="message-home">please select invoice or select Invoice Type to switch between repair
-                        invoices and inspection invoices</p>}
             </div>
         </div>
     );

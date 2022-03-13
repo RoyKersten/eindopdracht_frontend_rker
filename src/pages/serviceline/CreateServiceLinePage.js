@@ -18,6 +18,7 @@ function CreateServiceLinePage() {
         service: {idService: '', '@type': ''},
         item: {idItem: '', '@type': ''},
         qty: '',
+        price: ''
     });
 
     //All properties of serviceline are required to ensure complete serviceline details can be displayed after creation
@@ -78,7 +79,8 @@ function CreateServiceLinePage() {
             setPostServiceLine({
                 service: {idService: formState.service.idService, '@type': formState.service["@type"]},
                 item: {idItem: formState.item.idItem, '@type': formState.item["@type"]},
-                qty: formState.qty
+                qty: formState.qty,
+                price: formState.price
             });
         }
 
@@ -284,7 +286,8 @@ function CreateServiceLinePage() {
                                     label="Item Price"
                                     inputType="text"
                                     value={formState.price}
-                                    readOnly={true}
+                                    readOnly={formState.item.idItem !== '2'}
+                                    changeHandler={handleChange}
                         />
                     </section>
                     <section>

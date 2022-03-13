@@ -5,8 +5,6 @@
     width: 100%;
 }
 
-
-/*MARGIN-LEFT VOOR FILTERS AANPASSEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 /*invoice home: starting position filters Invoice ID (80px + 20px)*/
 .invoice-home-filter {
     margin-left: 80px;
@@ -16,7 +14,7 @@
 .invoice-home-filter section {
     display: inline-block;
     margin-left: 20px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 /*invoice home: position transaction window and buttons: display, create, change and delete*/
@@ -30,11 +28,25 @@
 .invoice-home-display-container {
     margin-left: 100px;
     margin-top: 20px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
-    height: 500px;
+    min-height: calc(100vh - 90px - 50px - 75px - 75px);
     width: 100%;
     border: 1px solid black;
     overflow: auto;
+}
+
+/*align transaction table and messages*/
+.transaction-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: calc(100vh - 90px - 50px - 75px - 75px);
+}
+
+/*set table width for headers in transaction window, border-spacing 0*/
+.invoice-home-container-table {
+    top: 0;
+    width: 100%;
+    border-spacing: 0;
 }
 
 /*invoice home: position buttons: display, create, change and delete*/
@@ -45,22 +57,6 @@
     margin-top: 20px;
     margin-left: 100px;
     margin-right: 100px;
-    min-height: calc(100vh - 90px - 50px - 20px - 75px - 75px);
+    min-height: calc(100vh - 90px - 50px - 75px - 75px);
 }
 
-/*set table width for headers in transaction window, border-spacing 0*/
-.invoice-home-container-table {
-    overflow: hidden;
-    top: 0;
-    width: 100%;
-    border-spacing: 0;
-}
-
-/*fix header at top of transaction window */
-th {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    text-align: left;
-    border-bottom: 1px solid black;
-}

@@ -32,6 +32,7 @@ function CreateInvoicePage() {
     });
 
     async function addInvoice() {
+        console.log(postInvoice);
         try {
             const {data} = await axios.post(endpoint, postInvoice, {
                 headers: {

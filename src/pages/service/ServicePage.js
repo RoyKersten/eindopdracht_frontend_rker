@@ -193,22 +193,23 @@ function ServicePage() {
             <div className="service-home-transaction-container">
                 <div className="service-home-display-container">
                     <div className="transaction-table">
-                    <TransactionTable
-                        selectObject={(selectedService) => setSelectedService(selectedService)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="service-home-container-table"
-                        headerContainerClassName="service-home-table-header"
-                        headerClassName="service-home-table-header"
-                        dataInput={service}
-                    />
+                        <TransactionTable
+                            selectObject={(selectedService) => setSelectedService(selectedService)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="service-home-container-table"
+                            headerContainerClassName="service-home-table-header"
+                            headerClassName="service-home-table-header"
+                            dataInput={service}
+                        />
                         <div className="messages">
                             {loading && <p className="message-home">Data Loading, please wait...</p>}
                             {error && <p className="message-home">Error occurred</p>}
                             {errorMessage && <p className="message-home">{errorMessage}</p>}
                             {!selectedService.idService && !loading && !errorMessage && !error &&
-                                <p className="message-home">please select service or select Service Type to switch between repairs
+                                <p className="message-home">please select service or select Service Type to switch
+                                    between repairs
                                     and inspections</p>}
                         </div>
-                </div>
+                    </div>
                 </div>
                 <div className="service-home-buttons">
                     <Button

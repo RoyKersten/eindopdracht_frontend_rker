@@ -52,7 +52,7 @@ function ChangeCarPage() {
     }, [id]);
 
 
-    //Add a car to the database
+    //Change car details and put to the database
     async function changeCar() {
         try {
             const {data} = await axios.put(`http://localhost:8080/cars/${id}`, formState, {

@@ -103,7 +103,9 @@ function AuthContextProvider({children}) {
                 }
             }
         } catch (e) {
-            console.error("user has no admin_role, no access to admin environment");
+            if (e.response.status.toString() === "403") {
+                console.error("message 403: user has no admin_role, no access to admin environment");
+            }
         }
     }
 

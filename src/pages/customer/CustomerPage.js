@@ -131,13 +131,13 @@ function CustomerPage() {
             <div className="customer-home-transaction-container">
                 <div className="customer-home-display-container">
                     <div className="transaction-table">
-                    <TransactionTable
-                        selectObject={(selectedCustomer) => setSelectedCustomer(selectedCustomer)}                             //2 Retrieve data from child/component TransactionTable
-                        tableContainerClassName="customer-home-container-table"
-                        headerContainerClassName="customer-home-table-header"
-                        headerClassName="customer-home-table-header"
-                        dataInput={customer}
-                    />
+                        <TransactionTable
+                            selectObject={(selectedCustomer) => setSelectedCustomer(selectedCustomer)}                             //2 Retrieve data from child/component TransactionTable
+                            tableContainerClassName="customer-home-container-table"
+                            headerContainerClassName="customer-home-table-header"
+                            headerClassName="customer-home-table-header"
+                            dataInput={customer}
+                        />
                         <div className="messages">
                             {loading && <p className="message-home">Data Loading, please wait...</p>}
                             {error && <p className="message-home">Error occurred</p>}
