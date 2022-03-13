@@ -15,7 +15,6 @@ function CustomerPage() {
     const [customer, setCustomers] = useState([]);
     const [sourceData, setSourceData] = useState([]);
     const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState({idCustomer: ''});
@@ -29,8 +28,6 @@ function CustomerPage() {
     useEffect(() => {
         async function getCustomers() {
             toggleLoading(true);
-            setError(false);
-
             try {
                 const {data} = await axios.get(`http://localhost:8080/customers`, {
                     headers: {
@@ -42,7 +39,11 @@ function CustomerPage() {
                 setCustomers(data);
 
             } catch (error) {
-                setError(true);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("customers could not be loaded, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -54,7 +55,6 @@ function CustomerPage() {
     async function deleteCustomerById() {
         let text = "customer (and connected cars) will be deleted permanently in case no inspection or repair is connected, are you sure?";
         if (window.confirm(text) === true) {
-            setError(false);
             try {
                 const {data} = await axios.delete("http://localhost:8080/customers/" + selectedCustomer.idCustomer, {
                     headers: {
@@ -140,9 +140,8 @@ function CustomerPage() {
                         />
                         <div className="messages">
                             {loading && <p className="message-home">Data Loading, please wait...</p>}
-                            {error && <p className="message-home">Error occurred</p>}
                             {errorMessage && <p className="message-home">{errorMessage}</p>}
-                            {!selectedCustomer.idCustomer && !loading && !errorMessage && !error &&
+                            {!selectedCustomer.idCustomer && !loading && !errorMessage &&
                                 <p className="message-home">Please select a customer</p>}
                         </div>
                     </div>

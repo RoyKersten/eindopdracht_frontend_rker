@@ -15,7 +15,6 @@ function ItemPage() {
     const [itemType, setItemType] = useState("parts");
     const [sourceData, setSourceData] = useState([]);
     const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
     const [selectedItem, setSelectedItem] = useState({idItem: ''});
@@ -31,7 +30,7 @@ function ItemPage() {
     useEffect(() => {
         async function getItem() {
             toggleLoading(true);
-            setError(false);
+
             try {
                 const {data} = await axios.get(`http://localhost:8080/items/${itemType}`, {
                     headers: {
@@ -43,7 +42,11 @@ function ItemPage() {
                 setItem(data);
 
             } catch (error) {
-                setError(true);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("items could not be loaded, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -55,7 +58,7 @@ function ItemPage() {
     async function deleteItemById() {
         let text = "item will be deleted permanently in case no inspection or repair is connected, are you sure?";
         if (window.confirm(text) === true) {
-            setError(false);
+
             try {
                 const {data} = await axios.delete(`http://localhost:8080/items/${itemType}/${selectedItem.idItem}`, {
                     headers: {
@@ -180,9 +183,8 @@ function ItemPage() {
                         />
                         <div className="messages">
                             {loading && <p className="message-home">Data Loading, please wait...</p>}
-                            {error && <p className="message-home">Error occurred</p>}
                             {errorMessage && <p className="message-home">{errorMessage}</p>}
-                            {!selectedItem.idItem && !loading && !errorMessage && !error &&
+                            {!selectedItem.idItem && !loading && !errorMessage &&
                                 <p className="message-home">Please select an item</p>}
                         </div>
                     </div>

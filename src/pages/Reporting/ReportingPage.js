@@ -9,7 +9,7 @@ function ReportingPage() {
     let serviceType = "inspections";
     const [callList, setCallList] = useState([]);
     const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [selectedLine, setSelectedLine] = useState("");
     const [formState, setFormState] = useState({
         callList: 'inspections',
@@ -20,7 +20,6 @@ function ReportingPage() {
     useEffect(() => {
         async function getServiceByStatus() {
             toggleLoading(true);
-            setError(false);
 
             try {
                 const {data} = await axios.get(endpoint, {
@@ -31,7 +30,11 @@ function ReportingPage() {
                 });
                 setCallList(data);
             } catch (error) {
-                setError(true);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("calllist could not be loaded, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -85,7 +88,7 @@ function ReportingPage() {
             </div>
             <div className="messages">
                 {loading && <p className="message-home">Data Loading, please wait...</p>}
-                {error && <p className="message-home">Error occurred</p>}
+                {errorMessage && <p className="message-home">{errorMessage}</p>}
             </div>
 
         </div>

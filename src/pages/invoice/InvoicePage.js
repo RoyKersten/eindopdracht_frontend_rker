@@ -16,7 +16,6 @@ function InvoicePage() {
     const [invoiceType, setInvoiceType] = useState("inspections");
     const [sourceData, setSourceData] = useState([]);
     const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
     const [selectedInvoice, setSelectedInvoice] = useState({idInvoice: ''});
@@ -33,7 +32,6 @@ function InvoicePage() {
     useEffect(() => {
         async function getInvoice() {
             toggleLoading(true);
-            setError(false);
             try {
                 const {data} = await axios.get(`http://localhost:8080/invoices/${invoiceType}`, {
                     headers: {
@@ -45,7 +43,11 @@ function InvoicePage() {
                 setInvoice(data);
 
             } catch (error) {
-                setError(true);
+                if (error.response.status.toString() === "403") {
+                    setErrorMessage("invoices could not be loaded, you are not authorized!")
+                } else if (error.response.status.toString() !== "403") {
+                    setErrorMessage(error.response.data);
+                }
             }
             toggleLoading(false);
         }
@@ -58,7 +60,6 @@ function InvoicePage() {
     async function deleteInvoiceById() {
         let text = "invoice will be deleted permanently in case invoice status is OPEN, are you sure?";
         if (window.confirm(text) === true) {
-            setError(false);
             try {
                 const {data} = await axios.delete(`http://localhost:8080/invoices/${invoiceType}/${selectedInvoice.idInvoice}`, {
                     headers: {
@@ -218,9 +219,8 @@ function InvoicePage() {
                         />
                         <div className="messages">
                             {loading && <p className="message-home">Data Loading, please wait...</p>}
-                            {error && <p className="message-home">Error occurred</p>}
                             {errorMessage && <p className="message-home">{errorMessage}</p>}
-                            {!selectedInvoice.idInvoice && !loading && !errorMessage && !error &&
+                            {!selectedInvoice.idInvoice && !loading && !errorMessage &&
                                 <p className="message-home">please select invoice or select Invoice Type to switch
                                     between repair
                                     invoices and inspection invoices</p>}
