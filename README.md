@@ -51,6 +51,7 @@ Deze standaard gebruikers kunnen worden gebruikt om de applicatie te gebruiken o
 
 # Een impressie van de applicatie
 De homepage met alle modules:
+
 ![](src/images/readme/homepage-readme.png)
 
 
@@ -59,8 +60,8 @@ Overzicht van alle klanten met makkelijke zoek functies:
 ![](src/images/readme/customer-readme.png)
 
 
-De mogelijkheid om op basis van het kenteken autogegevens op te halen via een API koppeling met het opendata systeem van het RDW en
-het uploaden van de autopapieren in pdf formaat.
+De mogelijkheid om op basis van het kenteken autogegevens op te halen via een API koppeling met het opendata systeem van het RDW.
+Upload functionaliteit voor de autopapieren in pdf formaat.
 
 ![](src/images/readme/car-readme.png)
 
