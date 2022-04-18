@@ -59,31 +59,33 @@ Overzicht van alle klanten met makkelijke zoek functies:
 ![](src/images/readme/customer-readme.png)
 
 
-Registratie en ophalen van autogegevens op basis van een koppeling naar de RDW database middels API:
+De mogelijkheid om op basis van het kenteken autogegevens op te halen via een API koppeling met het opendata systeem van het RDW en
+het uploaden van de autopapieren in pdf formaat.
 
 ![](src/images/readme/car-readme.png)
 
-Voorraad administratie:
+Voorraad administratie tot in detail met automatische bijwerking van verbruikte hoeveelheden tijdens reparaties:
 
 ![](src/images/readme/item-readme.png)
 
 
-Service registratie tot in detail:
+Service registratie tot in detail met automatische controle van beschikbare hoeveelheden en toegepaste prijzen uit de voorraad administratie:
 
 ![](src/images/readme/serviceline-readme.png)
 
 
-Facturatie van keuringen en reparaties:
+Facturatie van keuringen en reparaties met automatsiche calculatie van de de verbruikte onderdelen en uitgevoerde activiteiten uitgesplitst op de factuur:
 
 ![](src/images/readme/invoice-readme.png)
 
 
-Rapportage over de service status:
+Rapportage over de service status, eenvoudig inzicht in de status van een service en met welke klanten contact opgenomen dient te worden:
 
 ![](src/images/readme/reporting-readme.png)
 
 
-Managen van gebruikers en autorisaties:
+Managen van gebruikers en autorisaties, stel autorisaties per gebruiker eenvoudig in en bepaal wat een gebruiker wel of niet mag uitvoeren.
+Deze applicatie maakt gebruik van een JWT token met een ingestelde geldigheidsduur van 2 uur nadat een gebruiker succesvol is ingelogd.
 
 ![](src/images/readme/authorization-readme.png)
 
