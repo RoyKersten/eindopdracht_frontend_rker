@@ -29,7 +29,7 @@ Wanneer de klant de auto komt ophalen zal een kassamedewerker de bon laten gener
 
 Daarnaast is er een backoffice medewerker die onderdelen (naam, prijs, voorraad) kan toevoegen aan het systeem, voorraden kan aanpassen en handelingen (naam, prijs) kan toevoegen aan het systeem. Alle prijzen in het systeem zijn exclusief BTW. 
 
-#De applicatie opstarten
+# De applicatie opstarten
 Bij deze applicatie hoort een installatie handleiding welke stap voor stap uitlegd welke applicaties geinstalleerd moeten worden en welke handelingen verricht moeten worden om de applicatie op te starten.
 
 Daarnaast heeft deze front-end applicatie een eigen ontwikkelde backend applicatie welke geinstalleerd en gekoppeld aan een databse dient te worden, ook hiervan is een uitgebreide installatie handleiding beschikbaar.
@@ -45,11 +45,11 @@ Als alles goed is gegaan zal de applicatie nu draaien op addres **localhost:3000
 
 ![](src/images/readme/login-page-readme.png)
 
-#Standaard inlog accounts
+# Standaard inlog accounts
 In de installatie handleiding is een overzicht weergegeven van aangemaakte gebruikers met bijbehorende wachtwoorden.
 Deze standaard gebruikers kunnen worden gebruikt om de applicatie te gebruiken of om het aantal gebruikers uit te breiden met de admin rol.
 
-#Een impressie van de applicatie
+# Een impressie van de applicatie
 De homepage met alle modules:
 ![](src/images/readme/homepage-readme.png)
 
