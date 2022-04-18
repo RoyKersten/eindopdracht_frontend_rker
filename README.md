@@ -1,4 +1,4 @@
-# Welkom bij de applicatie die ontwikkeld is voor autogarage kersten 
+# Welkom bij de web applicatie die ontwikkeld is voor autogarage kersten 
 
 De volgende onderwerpen zullen in deze readme worden behandeld:
 - Introductie van de applicatie
@@ -47,7 +47,7 @@ Als alles goed is gegaan zal de applicatie nu draaien op addres **localhost:3000
 
 # Standaard inlog accounts
 In de installatie handleiding is een overzicht weergegeven van aangemaakte gebruikers met bijbehorende wachtwoorden.
-Deze standaard gebruikers kunnen worden gebruikt om de applicatie te gebruiken of om het aantal gebruikers uit te breiden met de admin rol.
+Deze standaard gebruikers kunnen worden gebruikt om de applicatie te gebruiken of men kan nieuwe gebruikers met specifieke autorisatie rollen aanmaken middels de admin rol.
 
 # Een impressie van de applicatie
 De homepage met alle modules:
@@ -59,7 +59,7 @@ Overzicht van alle klanten met makkelijke zoek functies:
 ![](src/images/readme/customer-readme.png)
 
 
-Registratie van auto's op basis van RDW gegevens:
+Registratie en ophalen van autogegevens op basis van een koppeling naar de RDW database middels API:
 
 ![](src/images/readme/car-readme.png)
 
