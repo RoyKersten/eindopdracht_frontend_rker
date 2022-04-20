@@ -8,7 +8,7 @@ De volgende onderwerpen zullen in deze readme worden behandeld:
 - Een impressie van de applicatie
 
 # Introductie
-Deze applicatie is ontwikkeld als eindopdracht voor de opleiding Full-Stack Developer, leerlijn frontend van Novi Hogeschool en onderdeel van de bachelor opleiding Software Development. 
+Deze applicatie is ontwikkeld als eindopdracht voor de opleiding Full-Stack Developer, leerlijn front-end van Novi Hogeschool en onderdeel van de bachelor opleiding Software Development. 
 
 Deze front-end applicatie is geschreven in HTML, CSS, JavaScript met React als library.
 Installatie handleidingen en andere documentatie zijn niet meegeleverd op github maar kunnen desgevraagd worden aangeleverd.
@@ -35,7 +35,7 @@ Daarnaast is er een backoffice medewerker die onderdelen (naam, prijs, voorraad)
 # De applicatie opstarten
 Bij deze applicatie hoort een installatie handleiding welke stap voor stap uitlegd welke applicaties geinstalleerd moeten worden en welke handelingen verricht moeten worden om de applicatie op te starten.
 
-Daarnaast heeft deze front-end applicatie een eigen ontwikkelde backend applicatie welke geinstalleerd en gekoppeld aan een databse dient te worden, ook hiervan is een uitgebreide installatie handleiding beschikbaar.
+Daarnaast heeft deze front-end applicatie een eigen ontwikkelde backend applicatie welke geinstalleerd en gekoppeld aan een database dient te worden, ook hiervan is een uitgebreide installatie handleiding beschikbaar.
 De link naar de backend applicatie op github: 
 https://github.com/RoyKersten/autogarage_backend_update_rker
 
