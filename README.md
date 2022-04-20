@@ -8,7 +8,10 @@ De volgende onderwerpen zullen in deze readme worden behandeld:
 - Een impressie van de applicatie
 
 # Introductie
-Deze applicatie is ontwikkeld als eindopdracht voor de opleiding Full-Stack Developer, leerlijn frontend van Novi Hogeschool en onderdeel van de bachelor opleiding Software Development.
+Deze applicatie is ontwikkeld als eindopdracht voor de opleiding Full-Stack Developer, leerlijn frontend van Novi Hogeschool en onderdeel van de bachelor opleiding Software Development. 
+
+Deze front-end applicatie is geschreven in HTML, CSS, JavaScript met React als library.
+Installatie handleidingen en andere documentatie zijn niet meegeleverd op github maar kunnen desgevraagd worden aangeleverd.
 
 # Beschrijving van de casus
 **De eindopdracht is ontwikkeld op basis van onderstaande casus:**
