@@ -1,4 +1,4 @@
-# Welkom bij de web applicatie die ontwikkeld is voor autogarage kersten 
+# Welkom bij de front-end web applicatie die ontwikkeld is voor autogarage kersten 
 
 De volgende onderwerpen zullen in deze readme worden behandeld:
 - Introductie van de applicatie
